@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="mycom" type="color">#FC2C38</item>
+    <item name="mycomDark" type="color">#d72833</item>
+    <item name="lGrey" type="color">#ebebeb</item>
+    <item name="card_text" type="color">#585858</item>
+    <color name="card_pressed">#334a54df</color>
+</resources>

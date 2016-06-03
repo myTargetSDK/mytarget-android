@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">myTarget Demo</string>
+    <string name="banners_320x50">Banners 320x50</string>
+    <string name="interstitial_ads">Interstitial Ads</string>
+    <string name="interstitial_image">Image</string>
+    <string name="interstitial_promo">Promo</string>
+    <string name="interstitial_video">Promo video</string>
+    <string name="native_ads">Native Ads</string>
+    <string name="content_stream">Content Stream</string>
+    <string name="news_feed">News Feed</string>
+    <string name="chat_list">Chat List</string>
+    <string name="content_wall">Content Wall</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_reload">Reload</string>
+    <string name="dialog_instead_activity">Dialog instead Activity</string>
+    <string name="instream_ads">InStream ads</string>
+    <string name="title_activity_instream_ad">InStream video ad</string>
+    <string name="close_ad">Skip ad</string>
+    <string name="available_in">You can close ad in: %1$s sec.</string>
+    <string name="title_activity_banners">Banner Ads</string>
+
+    <string name="standard_banner">Standard banner</string>
+    <string name="native_banner">Native banner</string>
+    <string name="resin_banner">Resin banner</string>
+    <string name="rezin">Resin</string>
+    <string name="banners_320x50_desc">Standard 320x50 banners</string>
+    <string name="interstitial_ads_desc">Fullscreen banners</string>
+    <string name="native_ads_desc">Advertisement inside app\'s content</string>
+    <string name="instream_ads_desc">Advertisement inside video stream</string>
+    <string name="standard_banner_desc">Just web frame with advertisement</string>
+    <string name="native_banner_desc">Banner with native android look</string>
+    <string name="interstitial_promo_desc">Fullscreen promo advertisement</string>
+    <string name="interstitial_image_desc">Fullscreen image banner</string>
+    <string name="interstitial_video_desc">Fullscreen advertisement with video element</string>
+    <string name="visit_advertiser">Visit advertiser</string>
+    <string name="custom_title">Ad unit</string>
+    <string name="custom_description">Insert your slot id and ad type</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_ad_title">Ad unit. Insert your slot id and ad type</string>
+    <string name="no_ad">No ad for this type</string>
+    <string name="custom_ad">(Custom ad)</string>
+    <string name="wrong_slot">Wrong slot ID</string>
+    <string name="content_stream_video">Content stream video</string>
+    <string name="content_wall_video">Content wall video</string>
+
+
+    <string-array name="advertisement_types">
+        <item>Banner 320x50</item>
+        <item>Interstitial Ad</item>
+        <item>Native ad</item>
+        <item>InStream ad</item>
+    </string-array>
+</resources>

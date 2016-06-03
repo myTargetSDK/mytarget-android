@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
+
+    <Button
+        android:id="@+id/btn_visit_advertizer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/button_background_onvideo"
+        android:textColor="@android:color/white"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="@string/visit_advertiser"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:id="@+id/tv_can_close_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/button_background_onvideo"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+
+        />
+
+
+    <Button
+        android:id="@+id/btn_instream_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/button_background_onvideo"
+        android:drawableRight="@drawable/ic_skip_ad"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="@string/close_ad"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

@@ -1,2 +1,5 @@
-# mytarget-android
-android myTarget sdk
+# android myTarget sdk sample app
+An app demonstrate using of myTarget ads library.
+
+
+
