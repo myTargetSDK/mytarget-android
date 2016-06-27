@@ -17,5 +17,5 @@ An app demonstrate using of myTarget ads library.
 
 To use library in your app, add gradle dependency
 ```
-compile 'com.my.target:mytarget-sdk:4.5.1'
+compile 'com.my.target:mytarget-sdk:4.5.3'
 ```
