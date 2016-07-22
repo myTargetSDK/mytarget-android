@@ -11,7 +11,7 @@ After you integrate the myTarget SDK, thousands of myTarget customers will becom
 ## Integrate
 
 **Installation**
- - **[JCenter]([bintray-link])**
+ - **[JCenter][bintray-link]**
 
    Add the following line to your build.gradle file:
    ```groovy
