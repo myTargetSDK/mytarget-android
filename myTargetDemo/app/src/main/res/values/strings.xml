@@ -5,6 +5,7 @@
     <string name="interstitial_image">Image</string>
     <string name="interstitial_promo">Promo</string>
     <string name="interstitial_video">Promo video</string>
+    <string name="interstitial_video_style">Video</string>
     <string name="native_ads">Native Ads</string>
     <string name="content_stream">Content Stream</string>
     <string name="news_feed">News Feed</string>
@@ -32,6 +33,7 @@
     <string name="interstitial_promo_desc">Fullscreen promo advertisement</string>
     <string name="interstitial_image_desc">Fullscreen image banner</string>
     <string name="interstitial_video_desc">Fullscreen advertisement with video element</string>
+    <string name="interstitial_video_style_desc">Fullscreen video advertisement</string>
     <string name="visit_advertiser">Visit advertiser</string>
     <string name="custom_title">Ad unit</string>
     <string name="custom_description">Insert your slot id and ad type</string>

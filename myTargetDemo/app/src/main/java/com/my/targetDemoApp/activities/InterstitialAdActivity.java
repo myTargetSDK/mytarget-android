@@ -40,6 +40,7 @@ public class InterstitialAdActivity extends AdActivity implements View.OnClickLi
 	private static final int PROMO_AD = 0;
 	private static final int VIDEO_AD = 1;
 	private static final int IMAGE_AD = 2;
+	private static final int VIDEO_AD_STYLE = 3;
 
 	private RecyclerView recyclerView;
 	private CheckBox checkBox;
@@ -127,9 +128,18 @@ public class InterstitialAdActivity extends AdActivity implements View.OnClickLi
 			imageAd.setDescription(getString(R.string.interstitial_image_desc));
 			interstitialAds.add(IMAGE_AD, new InterstitialAd(DefaultSlots.SLOT_IMAGE_AD, this));
 
+			AdvertisingType videoStyleAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE,
+					DefaultSlots.SLOT_PROMO_VIDEO_STYLE_AD);
+			videoStyleAd.setName(getResources().getString(R.string.interstitial_video_style));
+			videoStyleAd.setImageResource(R.drawable.img_fullscreen_promo_style);
+			videoStyleAd.setDescription(getString(R.string.interstitial_video_style_desc));
+			interstitialAds.add(VIDEO_AD_STYLE,
+					new InterstitialAd(DefaultSlots.SLOT_PROMO_VIDEO_STYLE_AD, this));
+
 			typeList.add(PROMO_AD, promoAd);
 			typeList.add(VIDEO_AD, videoAd);
 			typeList.add(IMAGE_AD, imageAd);
+			typeList.add(VIDEO_AD_STYLE, videoStyleAd);
 		}
 
 		adapter = new InterstitialListAdapter(typeList);

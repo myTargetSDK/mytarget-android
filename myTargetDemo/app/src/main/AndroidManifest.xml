@@ -44,10 +44,6 @@
                 android:value="com.my.targetDemoApp.MainActivity" />
         </activity>
         <activity
-            android:name="com.my.target.ads.MyTargetActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            />
-        <activity
             android:name="com.my.targetDemoApp.activities.InstreamAdActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_instream_ad"

@@ -9,4 +9,5 @@ public class DefaultSlots
 	public static final int SLOT_PROMO_VIDEO_AD = 10138;
 	public static final int CONTENT_STREAM = 6590;
 	public static final int NATIVE_VIDEO = 30150;
+	public static final int SLOT_PROMO_VIDEO_STYLE_AD = 38837;
 }
