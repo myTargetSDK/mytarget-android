@@ -32,7 +32,7 @@ Android 2.3
 [license-svg]: https://img.shields.io/badge/license-LGPL-lightgrey.svg
 [license-link]: https://github.com/myTargetSDK/mytarget-android/blob/master/LICENSE
 
-[bintray-svg]: https://img.shields.io/bintray/v/mytarget/maven/mytarget-sdk.svg
+[bintray-svg]: https://api.bintray.com/packages/mytarget/maven/mytarget-sdk/images/download.svg
 [bintray-link]: https://bintray.com/mytarget/maven/mytarget-sdk/_latestVersion
 
 [platforms-svg]: https://img.shields.io/badge/platform-Android-lightgrey.svg
