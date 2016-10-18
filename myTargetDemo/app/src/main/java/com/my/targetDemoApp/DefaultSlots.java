@@ -2,7 +2,7 @@ package com.my.targetDemoApp;
 
 public class DefaultSlots
 {
-	public static final int SLOT_STANDARD_BANNER = 14170;
+	public static final int SLOT_STANDARD_BANNER = 7250;
 	public static final int SLOT_INSTREAM = 9525;
 	public static final int SLOT_PROMO_AD = 6896;
 	public static final int SLOT_IMAGE_AD = 6481;
