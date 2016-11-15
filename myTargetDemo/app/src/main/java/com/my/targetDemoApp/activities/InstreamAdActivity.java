@@ -5,157 +5,167 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.MediaController;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.my.target.ads.MyTargetVideoView;
+import com.my.target.ads.instream.InstreamAd;
 import com.my.targetDemoApp.R;
 
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public class InstreamAdActivity extends AdActivity implements
-                                                   MyTargetVideoView.MyTargetVideoViewListener,
-                                                   InstreamAdController.SkipListener,
-                                                   InstreamAdController.AdClickListener
+public class InstreamAdActivity extends AdActivity
+		implements InstreamAd.InstreamAdListener, InstreamAdController.SkipListener,
+		           InstreamAdController.AdClickListener
+
 {
-	public static final String LINK_TO_MAIN_VIDEO = "http://r.mradx.net/img/8D/548043.mp4";
+	public static final String SECTION_PREROLL = "preroll";
+	public static final String SECTION_POSTROLL = "postroll";
+	public static final String SECTION_MIDROLL = "midroll";
 
-	private MyTargetVideoView myTargetVideoView;
+	@Nullable
+	private InstreamAd instreamAd;
+
+	private Button loadButton;
+	private Button playButton;
+	private TextView statusText;
 	private ProgressBar progressBar;
-	private VideoView mainVideoView;
-	private MyTargetVideoView.BannerInfo bannerInfo;
+	private VideoView videoView;
+	private FrameLayout videoFrame;
 	private InstreamAdController instreamAdController;
-	private RelativeLayout videoContainer;
+	private int currentPosition;
+	private InstreamAd.InstreamAdBanner instreamAdBanner;
 	private Toolbar toolbar;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	private CopyOnWriteArrayList<Float> midrollPositions = new CopyOnWriteArrayList<>();
+	private Runnable progressCheck = new Runnable()
 	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_instream_ad);
-
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-
-		if (getSupportActionBar() != null)
+		@Override
+		public void run()
 		{
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			getSupportActionBar().setDisplayShowHomeEnabled(true);
-		}
-
-		videoContainer = (RelativeLayout) findViewById(R.id.rl_container);
-
-		progressBar = (ProgressBar) findViewById(R.id.pb_instream);
-		mainVideoView = (VideoView) findViewById(R.id.vv_kino);
-		mainVideoView.setOnPreparedListener(startAfterPreparedListener);
-		mainVideoView.setOnCompletionListener(completeonListener);
-		mainVideoView.setOnErrorListener(onErrorListener);
-
-		initAds();
-
-	}
-
-	@Override
-	void reloadAd()
-	{
-		if (myTargetVideoView != null && myTargetVideoView.getParent() != null)
-		{
-			((ViewGroup) myTargetVideoView.getParent()).removeView(myTargetVideoView);
-			myTargetVideoView.setListener(null);
-			myTargetVideoView.destroy();
-			myTargetVideoView = null;
-			initAds();
-		}
-	}
-
-	private MediaPlayer.OnPreparedListener startAfterPreparedListener =
-			new MediaPlayer.OnPreparedListener()
+			if (videoView.isPlaying())
 			{
-				@Override
-				public void onPrepared(MediaPlayer mp)
+				int prog = videoView.getCurrentPosition();
+
+				for (Float midrollPosition : midrollPositions)
 				{
-					mainVideoView.start();
+					if (((float) prog / 1000) >= midrollPosition)
+					{
+						startMidroll(midrollPosition);
+						midrollPositions.remove(midrollPosition);
+					}
 				}
-			};
 
-	private MediaPlayer.OnCompletionListener completeonListener = new MediaPlayer.OnCompletionListener()
-	{
-		@Override
-		public void onCompletion(MediaPlayer mp)
-		{
-			mainVideoView.setVisibility(View.GONE);
-			myTargetVideoView.startPostroll();
+				instreamAdController.setProgress(prog);
+			}
+
+			instreamAdController.postDelayed(progressCheck, 500);
 		}
 	};
+	private boolean muted;
 
-	private MediaPlayer.OnErrorListener onErrorListener = new MediaPlayer.OnErrorListener()
+	private void setStatus(String s)
 	{
-		@Override
-		public boolean onError(MediaPlayer mp, int what, int extra)
+		s = " " + s;
+		statusText.setText(s);
+	}
+
+	private void setupProgressBar()
+	{
+		midrollPositions.clear();
+		if (instreamAd != null)
 		{
-			return true;
+			for (float v : instreamAd.getMidPoints())
+			{
+				midrollPositions.add(v);
+			}
+			instreamAdController.setupMidrolls(instreamAd.getMidPoints());
+			instreamAdController.requestLayout();
 		}
-	};
+	}
 
-	private void initAds()
+	public void btnLoadAd(View view)
 	{
-		myTargetVideoView = new MyTargetVideoView(getApplicationContext());
-		myTargetVideoView.setListener(this);
-		videoContainer.addView(myTargetVideoView);
+		loadButton.setVisibility(View.GONE);
+		progressBar.setVisibility(View.VISIBLE);
+		instreamAd = new InstreamAd(slotId, null, this);
+		instreamAd.setListener(this);
+		instreamAd.useDefaultPlayer();
+		instreamAd.load();
+		setStatus("loading ad... ");
+	}
 
-		instreamAdController = new InstreamAdController(getApplicationContext());
+	public void startVideo(View view)
+	{
+		if (instreamAd == null) return;
+		videoView = new VideoView(this);
+		FrameLayout.LayoutParams videoPlayerParams = new FrameLayout.LayoutParams(ViewGroup
+				.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		videoPlayerParams.gravity = Gravity.CENTER;
+		videoFrame.addView(videoView, videoPlayerParams);
+		playButton.setVisibility(View.GONE);
+
+		FrameLayout.LayoutParams adPlayerParams = new FrameLayout.LayoutParams
+				(ViewGroup.LayoutParams.MATCH_PARENT,
+						ViewGroup.LayoutParams.WRAP_CONTENT);
+		adPlayerParams.gravity = Gravity.CENTER;
+
+		View adPlayerView = instreamAd.getPlayer().getView();
+		if (adPlayerView.getParent() == null)
+			videoFrame.addView(adPlayerView, adPlayerParams);
+
 		instreamAdController.setSkipListener(this);
 		instreamAdController.setAdClickListener(this);
-		instreamAdController.setAnchorView(videoContainer);
+		instreamAdController.setAnchorView(videoFrame);
+		instreamAdController.setVisibility(View.VISIBLE);
+
+		startPreroll();
+	}
+
+	@Override
+	public void onLoad(InstreamAd instreamAd)
+	{
+		loadButton.setVisibility(View.GONE);
+		playButton.setVisibility(View.VISIBLE);
+		progressBar.setVisibility(View.GONE);
+		setStatus("ads loaded, ready to play");
+	}
+
+	@Override
+	public void onNoAd(String reason, InstreamAd instreamAd)
+	{
+		progressBar.setVisibility(View.GONE);
+		loadButton.setVisibility(View.VISIBLE);
+		setStatus("No ad. Reason: " + reason);
+	}
+
+	@Override
+	public void onError(String reason, InstreamAd ad)
+	{
+		setStatus("error, reason: " + reason);
+	}
+
+	@Override
+	public void onBannerStart(InstreamAd ad, InstreamAd.InstreamAdBanner instreamAdBanner)
+	{
+		this.instreamAdBanner = instreamAdBanner;
 		instreamAdController.show();
-
-		MediaController mediaController = new MediaController(this);
-		mediaController.setAnchorView(mainVideoView);
-
-		mainVideoView.setVideoURI(Uri.parse(LINK_TO_MAIN_VIDEO));
-		mainVideoView.setMediaController(mediaController);
-		mainVideoView.setVisibility(View.GONE);
-
-		progressBar.setVisibility(View.VISIBLE);
-
-
-		myTargetVideoView.init(slotId);
-		myTargetVideoView.load();
-	}
-
-	@Override
-	public void onLoad(MyTargetVideoView myTargetVideoView)
-	{
-		myTargetVideoView.startPreroll();
-	}
-
-	@Override
-	public void onNoAd(String s, MyTargetVideoView myTargetVideoView)
-	{
-		if (progressBar != null)
-			progressBar.setVisibility(View.GONE);
-		Toast.makeText(InstreamAdActivity.this, getString(R.string.no_ad), Toast.LENGTH_LONG).show();
-	}
-
-	@Override
-	public void onStartBanner(MyTargetVideoView myTargetVideoView, MyTargetVideoView.BannerInfo bannerInfo)
-	{
-		if (progressBar != null)
-			progressBar.setVisibility(View.GONE);
-
-		this.bannerInfo = bannerInfo;
-		instreamAdController.setControlsPosition(bannerInfo.videoWidth, bannerInfo.videoHeight);
+		instreamAdController.setControlsPosition(instreamAdBanner.videoWidth,
+				instreamAdBanner.videoHeight);
 		instreamAdController.showVisit();
-		if (bannerInfo.allowClose)
+		if (instreamAdBanner.allowClose)
 		{
-			if (bannerInfo.allowCloseDelay == 0)
+			if (instreamAdBanner.allowCloseDelay == 0)
 			{
 				instreamAdController.showClose();
 			}
@@ -166,109 +176,194 @@ public class InstreamAdActivity extends AdActivity implements
 		}
 	}
 
-	@Override
-	public void onCompleteBanner(MyTargetVideoView myTargetVideoView,
-	                             MyTargetVideoView.BannerInfo bannerInfo, String status)
+	public void switchVolume(View view)
 	{
-		instreamAdController.hideVisit();
-		instreamAdController.hideTimeToClose();
-		instreamAdController.hideClose();
-		if (progressBar != null)
-			progressBar.setVisibility(View.GONE);
-
-	}
-
-	@Override
-	public void onComplete(String s, MyTargetVideoView myTargetVideoView, String status)
-	{
-		Toast.makeText(InstreamAdActivity.this, "Complete", Toast.LENGTH_SHORT).show();
-		playMainVideo();
-	}
-
-	@Override
-	public void onError(String s, MyTargetVideoView myTargetVideoView)
-	{
-		if (progressBar != null)
-			progressBar.setVisibility(View.GONE);
-	}
-
-	@Override
-	public void onTimeLeftChange(float timeLeft, float duration, MyTargetVideoView myTargetVideoView)
-	{
-		float timeElapsed = duration - timeLeft;
-
-		if (bannerInfo != null && bannerInfo.allowClose)
+		if (muted)
 		{
-			if (bannerInfo.allowCloseDelay > 0)
+			muted = false;
+			view.setBackgroundResource(R.drawable.ic_volume_on);
+			if (instreamAd != null)
 			{
-				if (bannerInfo.allowCloseDelay < timeElapsed)
-				{
-					instreamAdController.showClose();
-				} else
-				{
-					instreamAdController.hideClose();
-					instreamAdController.showTimeToClose((int) (bannerInfo.allowCloseDelay - timeElapsed + 1));
-				}
+				instreamAd.setVolume(1);
+			}
+		} else
+		{
+			muted = true;
+			view.setBackgroundResource(R.drawable.ic_volume_off);
+			if (instreamAd != null)
+			{
+				instreamAd.setVolume(0);
 			}
 		}
-	}
-
-	@Override
-	public void onSuspenseBanner(MyTargetVideoView myTargetVideoView, MyTargetVideoView.BannerInfo bannerInfo)
-	{
-		if (progressBar != null)
-			progressBar.setVisibility(View.VISIBLE);
-	}
-
-	@Override
-	public void onResumptionBanner(MyTargetVideoView myTargetVideoView, MyTargetVideoView.BannerInfo bannerInfo)
-	{
-		if (progressBar != null)
-			progressBar.setVisibility(View.GONE);
 	}
 
 	@Override
 	protected void onPause()
 	{
 		super.onPause();
-		myTargetVideoView.pause();
+		if (instreamAd != null)
+		{
+			instreamAd.getPlayer().pauseAdVideo();
+		}
 	}
 
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		myTargetVideoView.resume();
-	}
-
-	@Override
-	protected void onStop()
-	{
-		super.onStop();
-		myTargetVideoView.stop();
+		if (instreamAd != null)
+		{
+			instreamAd.getPlayer().resumeAdVideo();
+		}
 	}
 
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		myTargetVideoView.destroy();
+		if (instreamAd != null)
+		{
+			instreamAd.getPlayer().destroy();
+		}
 	}
 
-	private void playMainVideo()
+	@Override
+	public void onBannerComplete(InstreamAd ad, InstreamAd.InstreamAdBanner instreamAdBanner)
 	{
-		if (!mainVideoView.isPlaying())
+		instreamAdController.hideVisit();
+		instreamAdController.hideTimeToClose();
+		instreamAdController.hideClose();
+	}
+
+	@Override
+	public void onBannerTimeLeftChange(float timeLeft, float duration, InstreamAd ad)
+	{
+		float timeElapsed = duration - timeLeft;
+
+		if (instreamAdBanner != null && instreamAdBanner.allowClose)
 		{
-			mainVideoView.setVisibility(View.VISIBLE);
-			mainVideoView.start();
+			if (instreamAdBanner.allowCloseDelay > 0)
+			{
+				if (instreamAdBanner.allowCloseDelay < timeElapsed)
+				{
+					instreamAdController.showClose();
+				} else
+				{
+					instreamAdController.hideClose();
+					instreamAdController.showTimeToClose((int) (
+							instreamAdBanner.allowCloseDelay - timeElapsed + 1));
+				}
+			}
 		}
+	}
+
+	@Override
+	public void onComplete(String section, InstreamAd ad)
+	{
+		hideAd();
+		toast("Complete " + section);
+		switch (section)
+		{
+			case SECTION_PREROLL:
+				hideAd();
+				playVideo();
+				break;
+			case SECTION_MIDROLL:
+				hideAd();
+				videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+				{
+					@Override
+					public void onPrepared(MediaPlayer mp)
+					{
+						mp.start();
+						mp.seekTo(currentPosition);
+						setStatus("playing video");
+					}
+				});
+				break;
+			case SECTION_POSTROLL:
+				playButton.setVisibility(View.VISIBLE);
+				videoView.suspend();
+				videoView.setVisibility(View.GONE);
+				instreamAdController.hideSeekBar();
+				instreamAdController.hideVisit();
+				instreamAdController.hideTimeToClose();
+				instreamAdController.hideClose();
+				if (instreamAd != null)
+				{
+					instreamAd.getPlayer().getView().setVisibility(View.GONE);
+				}
+				break;
+		}
+	}
+
+	@Override
+	public void onSkipClicked()
+	{
+		if (instreamAd != null)
+		{
+			instreamAd.skipBanner();
+		}
+	}
+
+	@Override
+	public void onAdClicked()
+	{
+		if (instreamAd != null)
+		{
+			instreamAd.handleClick();
+		}
+	}
+
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case android.R.id.home:
+				finish();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	void reloadAd()
+	{
+
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_instream);
+
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		if (getSupportActionBar() != null)
+		{
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setDisplayShowHomeEnabled(true);
+		}
+
+		loadButton = (Button) findViewById(R.id.btn_load);
+		playButton = (Button) findViewById(R.id.btn_play);
+		statusText = (TextView) findViewById(R.id.tv_status);
+		progressBar = (ProgressBar) findViewById(R.id.pb_main);
+		videoFrame = (FrameLayout) findViewById(R.id.video_frame);
+		instreamAdController = new InstreamAdController(this);
+		instreamAdController.setVisibility(View.GONE);
+
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig)
 	{
 		super.onConfigurationChanged(newConfig);
-
 		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) //To fullscreen
 		{
 			toolbar.setVisibility(View.GONE);
@@ -281,10 +376,10 @@ public class InstreamAdActivity extends AdActivity implements
 			{
 				getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			}
-			myTargetVideoView.fullscreen(true);
-
-			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) videoContainer.getLayoutParams();
-			videoContainer.setLayoutParams(params);
+			if (instreamAd != null)
+			{
+				instreamAd.setFullscreen(true);
+			}
 		} else
 		{
 			toolbar.setVisibility(View.VISIBLE);
@@ -297,26 +392,110 @@ public class InstreamAdActivity extends AdActivity implements
 			{
 				getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			}
-			myTargetVideoView.fullscreen(false);
-			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) videoContainer.getLayoutParams();
-			videoContainer.setLayoutParams(params);
+			if (instreamAd != null)
+			{
+				instreamAd.setFullscreen(false);
+			}
 		}
 	}
 
-	@Override
-	public void onSkipClicked()
+	private void startPreroll()
 	{
-		myTargetVideoView.closedByUser();
-		instreamAdController.hideClose();
-		instreamAdController.hideTimeToClose();
-		instreamAdController.hideVisit();
-		Toast.makeText(InstreamAdActivity.this, "Closed by user", Toast.LENGTH_SHORT).show();
-		playMainVideo();
+		showAd();
+		setStatus("playing preroll");
+		if (instreamAd != null)
+		{
+			instreamAd.startPreroll();
+		}
+	}
+
+	private void toast(String s)
+	{
+		Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+	}
+
+	private void hideAd()
+	{
+		if (instreamAd != null)
+		{
+			instreamAd.getPlayer().getView().setVisibility(View.GONE);
+		}
+		videoView.setVisibility(View.VISIBLE);
+		instreamAdController.showSeekBar();
+	}
+
+	private void showAd()
+	{
+		if (instreamAd != null)
+		{
+			instreamAd.getPlayer().getView().setVisibility(View.VISIBLE);
+		}
+		videoView.setVisibility(View.GONE);
+		instreamAdController.hideSeekBar();
+	}
+
+	private void playVideo()
+	{
+		setStatus("playing video");
+
+		videoView.setVideoURI(
+				Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.mytarget));
+		progressBar.setVisibility(View.VISIBLE);
+
+		videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+		{
+			@Override
+			public void onPrepared(MediaPlayer mediaPlayer)
+			{
+				progressBar.setVisibility(View.GONE);
+				instreamAdController.setMax(videoView.getDuration());
+				if (instreamAd != null)
+				{
+					instreamAd.configureMidpoints(videoView.getDuration() / 1000);
+				}
+				setupProgressBar();
+				instreamAdController.postDelayed(progressCheck, 1000);
+				mediaPlayer.start();
+			}
+		});
+		videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+		{
+			@Override
+			public void onCompletion(MediaPlayer mediaPlayer)
+			{
+				videoView.suspend();
+				startPostroll();
+			}
+		});
+		videoView.start();
 	}
 
 	@Override
-	public void onAdClicked()
+	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		myTargetVideoView.handleClick();
+		return true;
+	}
+
+	private void startMidroll(Float midrollPosition)
+	{
+		setStatus("playing midroll");
+		currentPosition = videoView.getCurrentPosition();
+		videoView.pause();
+		showAd();
+		if (instreamAd != null)
+		{
+			instreamAd.startMidroll(midrollPosition);
+		}
+	}
+
+	private void startPostroll()
+	{
+		showAd();
+		if (instreamAd != null)
+		{
+			instreamAd.startPostroll();
+			setStatus("playing postroll");
+		}
 	}
 }
+

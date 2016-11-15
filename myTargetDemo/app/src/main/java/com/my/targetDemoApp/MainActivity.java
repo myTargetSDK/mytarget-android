@@ -69,10 +69,17 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 		nativeAd.setImageResource(R.drawable.img_native);
 		nativeAd.setDescription(getString(R.string.native_ads_desc));
 
+		AdvertisingType instreamAd = new AdvertisingType(AdTypes.AD_TYPE_INSTREAM,
+				DefaultSlots.MIDROLL);
+		instreamAd.setName(getString(R.string.instream_ads));
+		instreamAd.setImageResource(R.drawable.img_instream);
+		instreamAd.setDescription(getString(R.string.instream_ads_desc));
+
 		typeList = new ArrayList<>();
 		typeList.add(defaultAd);
 		typeList.add(interstitialAd);
 		typeList.add(nativeAd);
+		typeList.add(instreamAd);
 
 		typeList.addAll(getSavedTypes());
 

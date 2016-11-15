@@ -17,7 +17,7 @@
     <string name="instream_ads">InStream ads</string>
     <string name="title_activity_instream_ad">InStream video ad</string>
     <string name="close_ad">Skip ad</string>
-    <string name="available_in">You can close ad in: %1$s sec.</string>
+    <string name="available_in">You can skip banner in: %1$s sec.</string>
     <string name="title_activity_banners">Banner Ads</string>
 
     <string name="standard_banner">Standard banner</string>
@@ -45,6 +45,14 @@
     <string name="wrong_slot">Wrong slot ID</string>
     <string name="content_stream_video">Content stream video</string>
     <string name="content_wall_video">Content wall video</string>
+    <string name="set_volume">Set volume</string>
+    <string name="set_quality">Set quality</string>
+    <string name="set_midroll_positions">Set midroll positions</string>
+    <string name="load_ad">Load ad</string>
+    <string name="start_playing">Start playing</string>
+    <string name="status">Status:</string>
+    <string name="ad_not_loaded_yet">ad not loaded yet</string>
+    <string name="points">points</string>
 
 
     <string-array name="advertisement_types">
