@@ -5,4 +5,5 @@
     <item name="lGrey" type="color">#ebebeb</item>
     <item name="card_text" type="color">#585858</item>
     <color name="card_pressed">#334a54df</color>
+    <color name="bottom_icon">#000000</color>
 </resources>

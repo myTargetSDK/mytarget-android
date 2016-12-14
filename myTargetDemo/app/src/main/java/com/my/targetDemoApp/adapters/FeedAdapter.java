@@ -41,6 +41,7 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 		int CONTENT_STREAM_VIDEO = 3;
 		int CHAT_LIST = 4;
 		int NEWS_FEED = 5;
+		int NATIVE_SLIDER = 6;
 	}
 
 	private int feedType;
@@ -139,6 +140,7 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 				break;
 			case Type.CONTENT_STREAM:
 			case Type.CONTENT_STREAM_VIDEO:
+			case Type.NATIVE_SLIDER:
 				ContentStreamAdView contentStreamView = NativeViewsFactory.getContentStreamView(nativeAd.getBanner(), context);
 				params = (RelativeLayout.LayoutParams) contentStreamView.getCtaButtonView().getLayoutParams();
 				params.height = getPx(30);

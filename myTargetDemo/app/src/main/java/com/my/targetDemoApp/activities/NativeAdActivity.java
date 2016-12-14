@@ -1,56 +1,24 @@
 package com.my.targetDemoApp.activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
-import com.example.android.common.view.SlidingTabLayout;
-import com.my.targetDemoApp.AdTypes;
-import com.my.targetDemoApp.DefaultSlots;
 import com.my.targetDemoApp.R;
-import com.my.targetDemoApp.adapters.FeedAdapter;
-import com.my.targetDemoApp.fragments.FeedFragment;
-import com.my.targetDemoApp.models.AdvertisingType;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created with IntelliJ IDEA.
- * User: Timur Voloshin
- * Date: 4/10/15
- * Time: 19:42
- */
 
 public class NativeAdActivity extends AdActivity
+		implements BottomNavigationView.OnNavigationItemSelectedListener
 {
-	/**Static members**/
+	private static final String TAG_STATIC_FRAGMENT = "fragment_static";
+	private static final String TAG_VIDEO_FRAGMENT = "fragment_video";
+	private static final String TAG_SLIDER_FRAGMENT = "fragment_slider";
+	private FragmentManager fragmentManager;
 
-	/**Static getters and setters**/
-
-	/**Static methods**/
-
-	/**
-	 * Members*
-	 */
-	PagerAdapter pagerAdapter;
-	ViewPager viewPager;
-	private List<AdvertisingType> typeList;
-	private SlidingTabLayout tabLayout;
-
-	/**Getters and setters**/
-
-	/**
-	 * Constructor*
-	 */
-
-	/**
-	 * Methods*
-	 */
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -64,96 +32,60 @@ public class NativeAdActivity extends AdActivity
 			getSupportActionBar().setDisplayShowHomeEnabled(true);
 		}
 
-		tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-		tabLayout.setDividerColors(Color.TRANSPARENT);
-		tabLayout.setSelectedIndicatorColors(Color.WHITE);
-		typeList = new ArrayList<>();
+		BottomNavigationView bottomNavigationView = (BottomNavigationView)
+				findViewById(R.id.bottom_navigation);
 
-		initAds();
-	}
+		bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-	private void initAds()
-	{
-		int slot = slotId == 0 ? DefaultSlots.CONTENT_STREAM : slotId;
-
-		AdvertisingType contentStream = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, slot);
-		contentStream.setName(getResources().getString(R.string.content_stream));
-		contentStream.setType(FeedAdapter.Type.CONTENT_STREAM);
-
-		AdvertisingType newsFeed = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, slot);
-		newsFeed.setName(getResources().getString(R.string.news_feed));
-		newsFeed.setType(FeedAdapter.Type.NEWS_FEED);
-
-		AdvertisingType chatList = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, slot);
-		chatList.setName(getResources().getString(R.string.chat_list));
-		chatList.setType(FeedAdapter.Type.CHAT_LIST);
-
-		AdvertisingType contentWall = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, slot);
-		contentWall.setName(getResources().getString(R.string.content_wall));
-		contentWall.setType(FeedAdapter.Type.CONTENT_WALL);
-
-		slot = slotId == 0 ? DefaultSlots.NATIVE_VIDEO : slotId;
-
-		AdvertisingType contentStreamVideo = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, slot);
-		contentStreamVideo.setName(getResources().getString(R.string.content_stream_video));
-		contentStreamVideo.setType(FeedAdapter.Type.CONTENT_STREAM_VIDEO);
-
-		AdvertisingType contentWallVideo = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, slot);
-		contentWallVideo.setName(getResources().getString(R.string.content_wall_video));
-		contentWallVideo.setType(FeedAdapter.Type.CONTENT_WALL_VIDEO);
-
-		typeList.add(contentStream);
-		typeList.add(newsFeed);
-		typeList.add(chatList);
-		typeList.add(contentWall);
-		typeList.add(contentStreamVideo);
-		typeList.add(contentWallVideo);
-
-		pagerAdapter = new PagerAdapter(getSupportFragmentManager(), typeList);
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		viewPager.setAdapter(pagerAdapter);
-
-		tabLayout.setViewPager(viewPager);
+		fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		NativeAdFragment nativeAdFragment =
+				NativeAdFragment.newInstance(slotId, R.id.action_native_static);
+		fragmentTransaction.add(R.id.fragment_container, nativeAdFragment);
+		fragmentTransaction.commit();
 	}
 
 	@Override
 	void reloadAd()
 	{
-		typeList.clear();
-		pagerAdapter.notifyDataSetChanged();
-		initAds();
+		for (Fragment fragment : getSupportFragmentManager().getFragments())
+		{
+			if (fragment != null && fragment instanceof NativeAdFragment)
+				((NativeAdFragment) fragment).reloadAd();
+		}
 	}
 
-	private static class PagerAdapter extends FragmentStatePagerAdapter
+	@Override
+	public boolean onNavigationItemSelected(@NonNull MenuItem item)
 	{
-		private List<AdvertisingType> advertisingTypes;
-
-		public PagerAdapter(FragmentManager fm, List<AdvertisingType> advertisingTypes)
+		Fragment fragment;
+		String tag = null;
+		switch (item.getItemId())
 		{
-			super(fm);
-			this.advertisingTypes = advertisingTypes;
+			case R.id.action_native_static:
+			default:
+				tag = TAG_STATIC_FRAGMENT;
+				break;
+			case R.id.action_native_video:
+				tag = TAG_VIDEO_FRAGMENT;
+				break;
+			case R.id.action_native_slider:
+				tag = TAG_SLIDER_FRAGMENT;
+				break;
 		}
-
-		@Override
-		public android.support.v4.app.Fragment getItem(int i)
+		fragment = fragmentManager.findFragmentByTag(tag);
+		if (fragment != null)
 		{
-			Fragment fragment = new FeedFragment();
-			Bundle args = new Bundle();
-			args.putParcelable(FeedFragment.ARG_KEY, advertisingTypes.get(i));
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		@Override
-		public int getCount()
+			fragmentManager.beginTransaction()
+					.replace(R.id.fragment_container, fragment, tag)
+					.commit();
+		} else
 		{
-			return advertisingTypes.size();
+			fragment = NativeAdFragment.newInstance(slotId, item.getItemId());
+			fragmentManager.beginTransaction()
+					.add(R.id.fragment_container, fragment, tag)
+					.commit();
 		}
-
-		@Override
-		public CharSequence getPageTitle(int position)
-		{
-			return advertisingTypes.get(position).getName();
-		}
+		return true;
 	}
 }

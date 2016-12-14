@@ -53,6 +53,7 @@
     <string name="status">Status:</string>
     <string name="ad_not_loaded_yet">ad not loaded yet</string>
     <string name="points">points</string>
+    <string name="native_slider">Content Stream carousel</string>
 
 
     <string-array name="advertisement_types">
@@ -61,4 +62,9 @@
         <item>Native ad</item>
         <item>InStream ad</item>
     </string-array>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_native_static">Static</string>
+    <string name="action_native_video">Video</string>
+    <string name="action_native_slider">Carousel</string>
 </resources>
