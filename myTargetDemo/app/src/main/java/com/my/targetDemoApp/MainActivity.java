@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 	private void initGrid()
 	{
 
-		AdvertisingType defaultAd = new AdvertisingType(AdTypes.AD_TYPE_320X50, DefaultSlots.SLOT_STANDARD_BANNER);
-		defaultAd.setName(getString(R.string.banners_320x50));
+		AdvertisingType defaultAd = new AdvertisingType(AdTypes.AD_TYPE_320X50, 0);
+		defaultAd.setName(getString(R.string.standard_banners));
 		defaultAd.setImageResource(R.drawable.img_banners);
-		defaultAd.setDescription(getString(R.string.banners_320x50_desc));
+		defaultAd.setDescription(getString(R.string.standard_banners_desc));
 
 		AdvertisingType interstitialAd = new AdvertisingType(AdTypes.AD_TYPE_FULLSCREEN, 0);
 		interstitialAd.setName(getString(R.string.interstitial_ads));

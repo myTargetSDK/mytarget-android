@@ -28,9 +28,9 @@
                 android:value="com.my.targetDemoApp.MainActivity" />
         </activity>
         <activity
-            android:name="com.my.targetDemoApp.activities.BannerAdActivity"
+            android:name="com.my.targetDemoApp.activities.StandardBannerAdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:label="@string/banners_320x50"
+            android:label="@string/standard_banners"
             android:parentActivityName="com.my.targetDemoApp.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

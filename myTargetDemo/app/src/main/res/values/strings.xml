@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">myTarget Demo</string>
-    <string name="banners_320x50">Banners 320x50</string>
+    <string name="standard_banners">Banners</string>
     <string name="interstitial_ads">Interstitial Ads</string>
     <string name="interstitial_image">Image</string>
     <string name="interstitial_promo">Promo</string>
@@ -20,11 +20,11 @@
     <string name="available_in">You can skip banner in: %1$s sec.</string>
     <string name="title_activity_banners">Banner Ads</string>
 
-    <string name="standard_banner">Standard banner</string>
+    <string name="standard_banner_320x50">320x50</string>
     <string name="native_banner">Native banner</string>
     <string name="resin_banner">Resin banner</string>
     <string name="rezin">Resin</string>
-    <string name="banners_320x50_desc">Standard 320x50 banners</string>
+    <string name="standard_banners_desc">320x50 and 300x250 banners</string>
     <string name="interstitial_ads_desc">Fullscreen banners</string>
     <string name="native_ads_desc">Advertisement inside app\'s content</string>
     <string name="instream_ads_desc">Advertisement inside video stream</string>
@@ -57,7 +57,7 @@
 
 
     <string-array name="advertisement_types">
-        <item>Banner 320x50</item>
+        <item>Banner</item>
         <item>Interstitial Ad</item>
         <item>Native ad</item>
         <item>InStream ad</item>
@@ -67,4 +67,5 @@
     <string name="action_native_static">Static</string>
     <string name="action_native_video">Video</string>
     <string name="action_native_slider">Carousel</string>
+    <string name="standard_banner_300x250">300x250</string>
 </resources>

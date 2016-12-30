@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.my.targetDemoApp.R;
+import com.my.targetDemoApp.fragments.NativeAdFragment;
 
 public class NativeAdActivity extends AdActivity
 		implements BottomNavigationView.OnNavigationItemSelectedListener
