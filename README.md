@@ -17,7 +17,7 @@ After you integrate the myTarget SDK, thousands of myTarget customers will becom
    ```groovy
    dependencies {
        //... other dependences
-       compile 'com.my.target:mytarget-sdk:4.5.+'
+       compile 'com.my.target:mytarget-sdk:4.6.+'
    }
    ```
 
