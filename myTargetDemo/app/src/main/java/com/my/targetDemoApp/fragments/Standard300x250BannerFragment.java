@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.my.target.Tracer;
 import com.my.target.ads.MyTargetView;
 import com.my.targetDemoApp.DefaultSlots;
 import com.my.targetDemoApp.R;
@@ -25,7 +24,6 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 
 	public static Standard300x250BannerFragment newInstance(int slotId)
 	{
-
 		Standard300x250BannerFragment fragment = new Standard300x250BannerFragment();
 		Bundle args = new Bundle();
 		args.putInt(SLOT_ID, slotId);
@@ -139,7 +137,6 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 	private void initAd()
 	{
 		adView = new MyTargetView(getActivity());
-		Tracer.enabled = true;
 		adView.init(slotId, MyTargetView.AdSize.BANNER_300x250);
 		adView.setListener(adListener);
 		adView.load();

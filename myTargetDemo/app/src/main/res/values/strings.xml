@@ -57,7 +57,8 @@
 
 
     <string-array name="advertisement_types">
-        <item>Banner</item>
+        <item>Banner 320x50</item>
+        <item>Banner 300x250</item>
         <item>Interstitial Ad</item>
         <item>Native ad</item>
         <item>InStream ad</item>

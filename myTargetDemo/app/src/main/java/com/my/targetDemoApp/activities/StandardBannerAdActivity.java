@@ -31,7 +31,6 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 	ViewPager viewPager;
 	private SlidingTabLayout tabLayout;
 	private List<AdvertisingType> typeList;
-	private PagerAdapter pagerAdapter;
 	@Nullable
 	private Standard320x50BannerFragment fragment320x50;
 	@Nullable
@@ -89,30 +88,48 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 
 	private void initAds()
 	{
-		int slotId320x50 = slotId == 0 ? DefaultSlots.SLOT_STANDARD_BANNER_320x50 : slotId;
-		AdvertisingType standard320x50 = new AdvertisingType(AdTypes.AD_TYPE_320X50,
-				slotId320x50);
-		standard320x50.setName(getResources().getString(R.string.standard_banner_320x50));
+		boolean has320 = true;
+		boolean has300 = true;
 
-		fragment320x50 = Standard320x50BannerFragment.newInstance(slotId320x50);
+		if (slotId != 0)
+			if (adType == AdTypes.AD_TYPE_320X50)
+				has300 = false;
+			else
+				has320 = false;
 
-		int slotId300x250 = slotId == 0 ? DefaultSlots.SLOT_STANDARD_BANNER_300x250 : slotId;
-		AdvertisingType standard300x250 = new AdvertisingType(AdTypes.AD_TYPE_300X250,
-				slotId300x250);
-		standard300x250.setName(getResources().getString(R.string.standard_banner_300x250));
+		if (has320)
+		{
+			int slotId320x50 = slotId == 0 ? DefaultSlots.SLOT_STANDARD_BANNER_320x50 : slotId;
+			AdvertisingType standard320x50 = new AdvertisingType(AdTypes.AD_TYPE_320X50,
+					slotId320x50);
+			standard320x50.setName(getResources().getString(R.string.standard_banner_320x50));
 
-		fragment300x250 = Standard300x250BannerFragment.newInstance(slotId300x250);
+			fragment320x50 = Standard320x50BannerFragment.newInstance(slotId320x50);
 
-		typeList.add(standard320x50);
-		typeList.add(standard300x250);
+			typeList.add(standard320x50);
+		}
 
-		pagerAdapter = new PagerAdapter(getSupportFragmentManager(), typeList);
+		if (has300)
+		{
+			int slotId300x250 = slotId == 0 ? DefaultSlots.SLOT_STANDARD_BANNER_300x250 : slotId;
+			AdvertisingType standard300x250 = new AdvertisingType(AdTypes.AD_TYPE_300X250,
+					slotId300x250);
+			standard300x250.setName(getResources().getString(R.string.standard_banner_300x250));
+
+			fragment300x250 = Standard300x250BannerFragment.newInstance(slotId300x250);
+
+			typeList.add(standard300x250);
+		}
+		if (has320)
+			fragment320x50.show();
+		else
+			fragment300x250.show();
+
+		PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), typeList);
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.addOnPageChangeListener(this);
 
 		tabLayout.setViewPager(viewPager);
-
-		fragment320x50.show();
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import com.my.targetDemoApp.utils.ActivityUtils;
 public abstract class AdActivity extends AppCompatActivity
 {
 	protected int slotId;
+	protected int adType;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -24,6 +25,7 @@ public abstract class AdActivity extends AppCompatActivity
 			if (advertisingType != null)
 			{
 				slotId = advertisingType.getSlotId();
+				adType = advertisingType.getAdType();
 			}
 		}
 	}

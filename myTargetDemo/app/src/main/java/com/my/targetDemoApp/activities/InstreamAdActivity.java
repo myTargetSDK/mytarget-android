@@ -98,7 +98,7 @@ public class InstreamAdActivity extends AdActivity
 	{
 		loadButton.setVisibility(View.GONE);
 		progressBar.setVisibility(View.VISIBLE);
-		instreamAd = new InstreamAd(slotId, null, this);
+		instreamAd = new InstreamAd(slotId, this);
 		instreamAd.setListener(this);
 		instreamAd.useDefaultPlayer();
 		instreamAd.load();
