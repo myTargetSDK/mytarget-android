@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.my.target.ads.instream.InstreamAd;
 import com.my.targetDemoApp.fragments.PlusDialogFragment;
 import com.my.targetDemoApp.models.AdvertisingType;
 import com.my.targetDemoApp.utils.ActivityUtils;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		InstreamAd.setDebugMode(true);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);

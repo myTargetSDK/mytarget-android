@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.my.target.ads.MyTargetView;
 import com.my.targetDemoApp.R;
-
+import com.my.targetDemoApp.utils.Tools;
 
 /**
  * Created with IntelliJ IDEA.
@@ -65,7 +65,7 @@ public class BannerAdActivity extends AdActivity
 	private void initAd()
 	{
 		adView = new MyTargetView(this);
-
+		Tools.fillCustomParamsUserData(adView.getCustomParams());
 		adView.init(slotId);
 		adView.setListener(adListener);
 

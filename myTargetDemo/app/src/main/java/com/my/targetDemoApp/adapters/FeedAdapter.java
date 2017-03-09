@@ -19,7 +19,7 @@ import com.my.target.nativeads.views.ContentWallAdView;
 import com.my.target.nativeads.views.NewsFeedAdView;
 import com.my.targetDemoApp.R;
 import com.my.targetDemoApp.models.AdvertisingType;
-
+import com.my.targetDemoApp.utils.Tools;
 
 /**
  * Created with IntelliJ IDEA.
@@ -61,6 +61,7 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 	private void initAd()
 	{
 		nativeAd = new NativeAd(slotId, context);
+		Tools.fillCustomParamsUserData(nativeAd.getCustomParams());
 		nativeAd.setListener(this);
 		nativeAd.load();
 	}

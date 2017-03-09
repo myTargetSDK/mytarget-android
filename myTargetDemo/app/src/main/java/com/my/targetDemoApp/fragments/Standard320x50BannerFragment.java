@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.my.target.ads.MyTargetView;
 import com.my.targetDemoApp.DefaultSlots;
 import com.my.targetDemoApp.R;
+import com.my.targetDemoApp.utils.Tools;
 
 public class Standard320x50BannerFragment extends Fragment implements StandardAdFragment
 {
@@ -141,8 +142,8 @@ public class Standard320x50BannerFragment extends Fragment implements StandardAd
 	private void initAd()
 	{
 		adView = new MyTargetView(getActivity());
-
 		adView.init(slotId);
+		Tools.fillCustomParamsUserData(adView.getCustomParams());
 		adView.setListener(adListener);
 
 		float density = getResources().getDisplayMetrics().density;

@@ -22,6 +22,7 @@ import android.widget.VideoView;
 
 import com.my.target.ads.instream.InstreamAd;
 import com.my.targetDemoApp.R;
+import com.my.targetDemoApp.utils.Tools;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -99,6 +100,7 @@ public class InstreamAdActivity extends AdActivity
 		loadButton.setVisibility(View.GONE);
 		progressBar.setVisibility(View.VISIBLE);
 		instreamAd = new InstreamAd(slotId, this);
+		Tools.fillCustomParamsUserData(instreamAd.getCustomParams());
 		instreamAd.setListener(this);
 		instreamAd.useDefaultPlayer();
 		instreamAd.load();

@@ -23,6 +23,7 @@ import com.my.targetDemoApp.DefaultSlots;
 import com.my.targetDemoApp.R;
 import com.my.targetDemoApp.models.AdvertisingType;
 import com.my.targetDemoApp.utils.MaterialColors;
+import com.my.targetDemoApp.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +107,9 @@ public class InterstitialAdActivity extends AdActivity implements View.OnClickLi
 			fullscreenAd.setImageResource(R.drawable.img_fullscreen_promo);
 			fullscreenAd.setDescription(getString(R.string.interstitial_promo_desc));
 
-			interstitialAds.add(new InterstitialAd(slotId, this));
+			InterstitialAd interstitialAd = new InterstitialAd(slotId, this);
+			Tools.fillCustomParamsUserData(interstitialAd.getCustomParams());
+			interstitialAds.add(interstitialAd);
 			typeList.add(fullscreenAd);
 		} else
 		{
@@ -114,27 +117,38 @@ public class InterstitialAdActivity extends AdActivity implements View.OnClickLi
 			promoAd.setName(getResources().getString(R.string.interstitial_promo));
 			promoAd.setImageResource(R.drawable.img_fullscreen_promo);
 			promoAd.setDescription(getString(R.string.interstitial_promo_desc));
-			interstitialAds.add(PROMO_AD, new InterstitialAd(DefaultSlots.SLOT_PROMO_AD, this));
+			InterstitialAd interstitialAd = new InterstitialAd(DefaultSlots.SLOT_PROMO_AD, this);
+			Tools.fillCustomParamsUserData(interstitialAd.getCustomParams());
+			interstitialAds.add(PROMO_AD, interstitialAd);
 
 			AdvertisingType videoAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, DefaultSlots.SLOT_PROMO_VIDEO_AD);
 			videoAd.setName(getResources().getString(R.string.interstitial_video));
 			videoAd.setImageResource(R.drawable.img_fullscreen_video);
 			videoAd.setDescription(getString(R.string.interstitial_video_desc));
-			interstitialAds.add(VIDEO_AD, new InterstitialAd(DefaultSlots.SLOT_PROMO_VIDEO_AD, this));
+			InterstitialAd interstitialVideoAd =
+					new InterstitialAd(DefaultSlots.SLOT_PROMO_VIDEO_AD, this);
+			Tools.fillCustomParamsUserData(interstitialVideoAd.getCustomParams());
+			interstitialAds.add(VIDEO_AD, interstitialVideoAd);
 
 			AdvertisingType imageAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, DefaultSlots.SLOT_IMAGE_AD);
 			imageAd.setName(getResources().getString(R.string.interstitial_image));
 			imageAd.setImageResource(R.drawable.img_fullscreen_image);
 			imageAd.setDescription(getString(R.string.interstitial_image_desc));
-			interstitialAds.add(IMAGE_AD, new InterstitialAd(DefaultSlots.SLOT_IMAGE_AD, this));
+			InterstitialAd interstitialImageAd =
+					new InterstitialAd(DefaultSlots.SLOT_IMAGE_AD, this);
+			Tools.fillCustomParamsUserData(interstitialImageAd.getCustomParams());
+			interstitialAds.add(IMAGE_AD, interstitialImageAd);
 
 			AdvertisingType videoStyleAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE,
 					DefaultSlots.SLOT_PROMO_VIDEO_STYLE_AD);
 			videoStyleAd.setName(getResources().getString(R.string.interstitial_video_style));
 			videoStyleAd.setImageResource(R.drawable.img_fullscreen_promo_style);
 			videoStyleAd.setDescription(getString(R.string.interstitial_video_style_desc));
-			interstitialAds.add(VIDEO_AD_STYLE,
-					new InterstitialAd(DefaultSlots.SLOT_PROMO_VIDEO_STYLE_AD, this));
+
+			InterstitialAd interstitialVideoStyleAd =
+					new InterstitialAd(DefaultSlots.SLOT_PROMO_VIDEO_STYLE_AD, this);
+			Tools.fillCustomParamsUserData(interstitialVideoStyleAd.getCustomParams());
+			interstitialAds.add(VIDEO_AD_STYLE, interstitialVideoStyleAd);
 
 			typeList.add(PROMO_AD, promoAd);
 			typeList.add(VIDEO_AD, videoAd);

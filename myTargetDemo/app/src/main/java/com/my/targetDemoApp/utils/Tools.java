@@ -1,5 +1,7 @@
 package com.my.targetDemoApp.utils;
 
+import com.my.target.ads.CustomParams;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,5 +113,11 @@ public class Tools
 			list.add(str.substring(start, i));
 		}
 		return list.toArray(new String[list.size()]);
+	}
+
+	public static void fillCustomParamsUserData(CustomParams customParams)
+	{
+		customParams.setGender(CustomParams.Gender.FEMALE);
+		customParams.setAge(100);
 	}
 }

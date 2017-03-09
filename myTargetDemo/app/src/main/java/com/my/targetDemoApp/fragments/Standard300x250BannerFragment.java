@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.my.target.ads.MyTargetView;
 import com.my.targetDemoApp.DefaultSlots;
 import com.my.targetDemoApp.R;
+import com.my.targetDemoApp.utils.Tools;
 
 public class Standard300x250BannerFragment extends Fragment implements StandardAdFragment
 {
@@ -138,6 +139,7 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 	{
 		adView = new MyTargetView(getActivity());
 		adView.init(slotId, MyTargetView.AdSize.BANNER_300x250);
+		Tools.fillCustomParamsUserData(adView.getCustomParams());
 		adView.setListener(adListener);
 		adView.load();
 	}
