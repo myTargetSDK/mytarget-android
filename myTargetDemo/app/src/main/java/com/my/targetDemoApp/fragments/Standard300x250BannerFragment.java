@@ -192,7 +192,7 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 		@Override
 		public int getItemViewType(int position)
 		{
-			if (position == 2)
+			if (position == 1)
 			{
 				return 1;
 			}

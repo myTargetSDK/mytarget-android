@@ -118,6 +118,6 @@ public class Tools
 	public static void fillCustomParamsUserData(CustomParams customParams)
 	{
 		customParams.setGender(CustomParams.Gender.FEMALE);
-		customParams.setAge(100);
+		customParams.setAge(25);
 	}
 }

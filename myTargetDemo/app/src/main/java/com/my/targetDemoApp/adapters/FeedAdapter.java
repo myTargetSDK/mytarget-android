@@ -189,6 +189,12 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 
 	}
 
+	@Override
+	public void onShow(NativeAd ad)
+	{
+		Log.d("FeedAdapter", "onShow() called with: ad = [" + ad + "]");
+	}
+
 	private int getPx(int dp)
 	{
 		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
