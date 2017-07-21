@@ -55,18 +55,19 @@
     <string name="points">points</string>
     <string name="native_slider">Content Stream carousel</string>
 
-
-    <string-array name="advertisement_types">
-        <item>Banner 320x50</item>
-        <item>Banner 300x250</item>
-        <item>Interstitial Ad</item>
-        <item>Native ad</item>
-        <item>InStream ad</item>
-    </string-array>
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_native_static">Static</string>
     <string name="action_native_video">Video</string>
     <string name="action_native_slider">Carousel</string>
     <string name="standard_banner_300x250">300x250</string>
+    <string name="standard_banner_728x90">728x90</string>
+
+    <string name="adtype_banner_320x50">Banner 320x50</string>
+    <string name="adtype_banner_300x250">Banner 300x250</string>
+    <string name="adtype_banner_728x90">Banner 728x90</string>
+    <string name="adtype_interstitial">Interstitial ad</string>
+    <string name="adtype_native">Native ad</string>
+    <string name="adtype_instream">Instream ad</string>
+    <string name="adtype_unknown">Unknown</string>
+    <string name="adtype_banner_728x90_dis">Banner 728x90 (tablets only)</string>
 </resources>

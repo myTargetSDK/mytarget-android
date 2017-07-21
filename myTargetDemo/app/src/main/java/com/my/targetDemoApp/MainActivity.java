@@ -193,8 +193,7 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 				{
 					viewHolder.slotId.setVisibility(View.VISIBLE);
 					viewHolder.imageView.setVisibility(View.GONE);
-					viewHolder.nameLabel.setText(getResources()
-							.getStringArray(R.array.advertisement_types)[type.getAdType()]);
+					viewHolder.nameLabel.setText(AdTypes.getAdTypeName(type.getAdType()));
 					viewHolder.slotId.setText(String.valueOf(type.getSlotId()));
 					viewHolder.removeButton.setVisibility(View.VISIBLE);
 					viewHolder.cardFrame.setBackgroundColor(Color.LTGRAY);

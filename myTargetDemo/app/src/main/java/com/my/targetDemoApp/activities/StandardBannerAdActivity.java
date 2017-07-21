@@ -14,6 +14,7 @@ import com.my.targetDemoApp.DefaultSlots;
 import com.my.targetDemoApp.R;
 import com.my.targetDemoApp.fragments.Standard300x250BannerFragment;
 import com.my.targetDemoApp.fragments.Standard320x50BannerFragment;
+import com.my.targetDemoApp.fragments.Standard728x90BannerFragment;
 import com.my.targetDemoApp.models.AdvertisingType;
 
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 	private Standard320x50BannerFragment fragment320x50;
 	@Nullable
 	private Standard300x250BannerFragment fragment300x250;
+	@Nullable
+	private Standard728x90BannerFragment fragment728x90;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -73,10 +76,17 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 		{
 			if (fragment320x50 != null) fragment320x50.show();
 			if (fragment300x250 != null) fragment300x250.hide();
+			if (fragment728x90 != null) fragment728x90.hide();
 		} else if (position == 1)
 		{
 			if (fragment300x250 != null) fragment300x250.show();
 			if (fragment320x50 != null) fragment320x50.hide();
+			if (fragment728x90 != null) fragment728x90.hide();
+		} else if (position == 2)
+		{
+			if (fragment300x250 != null) fragment300x250.hide();
+			if (fragment320x50 != null) fragment320x50.hide();
+			if (fragment728x90 != null) fragment728x90.show();
 		}
 	}
 
@@ -88,16 +98,7 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 
 	private void initAds()
 	{
-		boolean has320 = true;
-		boolean has300 = true;
-
-		if (slotId != 0)
-			if (adType == AdTypes.AD_TYPE_320X50)
-				has300 = false;
-			else
-				has320 = false;
-
-		if (has320)
+		if (slotId == 0 || adType == AdTypes.AD_TYPE_320X50)
 		{
 			int slotId320x50 = slotId == 0 ? DefaultSlots.SLOT_STANDARD_BANNER_320x50 : slotId;
 			AdvertisingType standard320x50 = new AdvertisingType(AdTypes.AD_TYPE_320X50,
@@ -107,9 +108,14 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 			fragment320x50 = Standard320x50BannerFragment.newInstance(slotId320x50);
 
 			typeList.add(standard320x50);
+
+			if (fragment320x50 != null)
+			{
+				fragment320x50.show();
+			}
 		}
 
-		if (has300)
+		if (slotId == 0 || adType == AdTypes.AD_TYPE_300X250)
 		{
 			int slotId300x250 = slotId == 0 ? DefaultSlots.SLOT_STANDARD_BANNER_300x250 : slotId;
 			AdvertisingType standard300x250 = new AdvertisingType(AdTypes.AD_TYPE_300X250,
@@ -119,11 +125,26 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 			fragment300x250 = Standard300x250BannerFragment.newInstance(slotId300x250);
 
 			typeList.add(standard300x250);
+			if (fragment300x250 != null)
+			{
+				fragment300x250.show();
+			}
 		}
-		if (has320)
-			fragment320x50.show();
-		else
-			fragment300x250.show();
+
+		if (slotId == 0 || adType == AdTypes.AD_TYPE_728X90)
+		{
+			int slotId728x90 = slotId == 0 ? DefaultSlots.SLOT_STANDARD_BANNER_728x90 : slotId;
+			AdvertisingType standard728x90 = new AdvertisingType(AdTypes.AD_TYPE_728X90, slotId728x90);
+			standard728x90.setName(getResources().getString(R.string.standard_banner_728x90));
+
+			fragment728x90 = Standard728x90BannerFragment.newInstance(slotId728x90);
+
+			typeList.add(standard728x90);
+			if (fragment728x90 != null)
+			{
+				fragment728x90.show();
+			}
+		}
 
 		PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), typeList);
 		viewPager.setAdapter(pagerAdapter);
@@ -137,6 +158,7 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 	{
 		if (fragment300x250 != null) fragment300x250.reloadAd();
 		if (fragment320x50 != null) fragment320x50.reloadAd();
+		if (fragment728x90 != null) fragment728x90.reloadAd();
 	}
 
 	@Override
@@ -144,6 +166,7 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 	{
 		if (fragment300x250 != null) fragment300x250.pause();
 		if (fragment320x50 != null) fragment320x50.pause();
+		if (fragment728x90 != null) fragment728x90.pause();
 		super.onPause();
 	}
 
@@ -154,6 +177,7 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 
 		if (fragment300x250 != null) fragment300x250.resume();
 		if (fragment320x50 != null) fragment320x50.resume();
+		if (fragment728x90 != null) fragment728x90.resume();
 	}
 
 	@Override
@@ -161,6 +185,7 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 	{
 		if (fragment300x250 != null) fragment300x250.destroy();
 		if (fragment320x50 != null) fragment320x50.destroy();
+		if (fragment728x90 != null) fragment728x90.destroy();
 		super.onDestroy();
 	}
 
@@ -186,6 +211,9 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 			if (advertisingTypes.get(i).getAdType() == AdTypes.AD_TYPE_300X250)
 			{
 				return fragment300x250;
+			} else if (advertisingTypes.get(i).getAdType() == AdTypes.AD_TYPE_728X90)
+			{
+				return fragment728x90;
 			} else
 			{
 				return fragment320x50;

@@ -13,4 +13,5 @@ public class DefaultSlots
 	public static final int MIDROLL = 3133;
 	public static final int NATIVE_SLIDER = 54923;
 	public static final int SLOT_STANDARD_BANNER_300x250 = 64526;
+	public static final int SLOT_STANDARD_BANNER_728x90 = 81624;
 }

@@ -8,20 +8,20 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Spinner;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.my.targetDemoApp.AdTypes;
 import com.my.targetDemoApp.R;
 
 public class PlusDialogFragment extends DialogFragment
 {
 
 	private SaveTypeListener saveTypeListener;
-	private Spinner spinner;
 	private EditText editText;
+	private RadioGroup radioGroup;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
@@ -38,13 +38,8 @@ public class PlusDialogFragment extends DialogFragment
 		View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_dialog, dialogLayout,
 				false);
 
-		spinner = (Spinner) v.findViewById(R.id.spinner);
 		editText = (EditText) v.findViewById(R.id.editText);
-
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-				R.array.advertisement_types, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
+		radioGroup = (RadioGroup) v.findViewById(R.id.radiogroup);
 
 		dialogLayout.addView(v);
 
@@ -66,7 +61,31 @@ public class PlusDialogFragment extends DialogFragment
 				try
 				{
 					int slotId = Integer.parseInt(editText.getText().toString());
-					saveTypeListener.onSaveType(spinner.getSelectedItemPosition(), slotId);
+					int checkedAdType;
+					switch (radioGroup.getCheckedRadioButtonId())
+					{
+						case R.id.adtype_banner_320x50:
+						default:
+							checkedAdType = AdTypes.AD_TYPE_320X50;
+							break;
+						case R.id.adtype_banner_300x250:
+							checkedAdType = AdTypes.AD_TYPE_300X250;
+							break;
+						case R.id.adtype_banner_728x90:
+							checkedAdType = AdTypes.AD_TYPE_728X90;
+							break;
+						case R.id.adtype_interstitial:
+							checkedAdType = AdTypes.AD_TYPE_FULLSCREEN;
+							break;
+						case R.id.adtype_instream:
+							checkedAdType = AdTypes.AD_TYPE_INSTREAM;
+							break;
+						case R.id.adtype_native:
+							checkedAdType = AdTypes.AD_TYPE_NATIVE;
+							break;
+					}
+
+					saveTypeListener.onSaveType(checkedAdType, slotId);
 				} catch (NumberFormatException e)
 				{
 					Toast.makeText(getActivity(), getString(R.string.wrong_slot), Toast.LENGTH_SHORT).show();
