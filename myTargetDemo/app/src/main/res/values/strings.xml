@@ -70,4 +70,5 @@
     <string name="adtype_instream">Instream ad</string>
     <string name="adtype_unknown">Unknown</string>
     <string name="adtype_banner_728x90_dis">Banner 728x90 (tablets only)</string>
+    <string name="loading">loading</string>
 </resources>

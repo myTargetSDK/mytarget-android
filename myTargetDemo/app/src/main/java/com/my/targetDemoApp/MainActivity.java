@@ -1,9 +1,11 @@
 package com.my.targetDemoApp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,23 +21,29 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.my.target.ads.InterstitialAd;
+import com.my.target.ads.InterstitialAd.InterstitialAdListener;
 import com.my.target.ads.instream.InstreamAd;
 import com.my.targetDemoApp.fragments.PlusDialogFragment;
 import com.my.targetDemoApp.models.AdvertisingType;
-import com.my.targetDemoApp.utils.ActivityUtils;
 import com.my.targetDemoApp.utils.MaterialColors;
+import com.my.targetDemoApp.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.my.targetDemoApp.AdTypes.AD_TYPE_FULLSCREEN;
+
 public class MainActivity extends AppCompatActivity implements PlusDialogFragment.SaveTypeListener
 {
+	public static final String AD_TYPE_TAG = "adtype";
 	private static final String KEY_STRING_SET = "saved_ads_set";
 	private RecyclerView recyclerView;
 	private SharedPreferences sharedPreferences;
 	private MainAdapter adapter;
+	private View loadingView;
 	private ArrayList<AdvertisingType> typeList;
 
 	@Override
@@ -50,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		recyclerView = (RecyclerView) findViewById(R.id.main_grid);
+		loadingView = findViewById(R.id.loading_view_main);
 		initGrid();
 	}
 
@@ -61,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 		defaultAd.setImageResource(R.drawable.img_banners);
 		defaultAd.setDescription(getString(R.string.standard_banners_desc));
 
-		AdvertisingType interstitialAd = new AdvertisingType(AdTypes.AD_TYPE_FULLSCREEN, 0);
+		AdvertisingType interstitialAd = new AdvertisingType(AD_TYPE_FULLSCREEN, 0);
 		interstitialAd.setName(getString(R.string.interstitial_ads));
 		interstitialAd.setImageResource(R.drawable.img_interstitials);
 		interstitialAd.setDescription(getString(R.string.interstitial_ads_desc));
@@ -224,12 +233,12 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 
 		class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 		{
-			ImageView imageView;
-			TextView nameLabel;
-			TextView descriptionLabel;
-			FrameLayout cardFrame;
-			TextView slotId;
-			ImageView removeButton;
+			final ImageView imageView;
+			final TextView nameLabel;
+			final TextView descriptionLabel;
+			final FrameLayout cardFrame;
+			final TextView slotId;
+			final ImageView removeButton;
 
 			public ViewHolder(View itemView)
 			{
@@ -265,10 +274,77 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 				{
 					if (advertisingTypes.size() > position && advertisingTypes.get(position) != null)
 					{
-						ActivityUtils.startNewActivity(MainActivity.this, advertisingTypes.get(position));
+						AdvertisingType advertisingType = advertisingTypes.get(position);
+						if (advertisingType.getAdType() == AD_TYPE_FULLSCREEN && advertisingType.getSlotId() != 0)
+						{
+							loadAndShowCustomInterstitial(advertisingType);
+						}
+						else
+						{
+							Intent intent = new Intent(MainActivity.this, AdTypes.getActivityByType(advertisingType.getAdType()));
+							intent.putExtra(AD_TYPE_TAG, advertisingType);
+							startActivity(intent);
+						}
 					}
 				}
 			}
 		}
+	}
+
+	private void loadAndShowCustomInterstitial(final AdvertisingType advertisingType)
+	{
+		if (loadingView != null)
+		{
+			loadingView.setVisibility(View.VISIBLE);
+		}
+		final InterstitialAd interstitialAd = new InterstitialAd(advertisingType.getSlotId(), this);
+		Tools.fillCustomParamsUserData(interstitialAd.getCustomParams());
+		interstitialAd.setListener(new InterstitialAdListener()
+		{
+			@Override
+			public void onLoad(final InterstitialAd ad)
+			{
+				if (loadingView != null)
+				{
+					loadingView.setVisibility(View.GONE);
+				}
+				interstitialAd.show();
+			}
+
+			@Override
+			public void onNoAd(final String s, final InterstitialAd ad)
+			{
+				if (loadingView != null)
+				{
+					loadingView.setVisibility(View.GONE);
+				}
+				Snackbar.make(recyclerView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onClick(final InterstitialAd ad)
+			{
+
+			}
+
+			@Override
+			public void onDismiss(final InterstitialAd ad)
+			{
+
+			}
+
+			@Override
+			public void onVideoCompleted(final InterstitialAd ad)
+			{
+
+			}
+
+			@Override
+			public void onDisplay(final InterstitialAd ad)
+			{
+
+			}
+		});
+		interstitialAd.load();
 	}
 }

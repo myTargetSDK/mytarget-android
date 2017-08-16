@@ -3,6 +3,7 @@ package com.my.targetDemoApp.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.my.target.ads.MyTargetView;
 import com.my.targetDemoApp.DefaultSlots;
@@ -53,8 +53,7 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 		public void onNoAd(String s, MyTargetView myTargetView)
 		{
 			progressBar.setVisibility(View.GONE);
-			Toast.makeText(getActivity(), getString(R.string.no_ad), Toast.LENGTH_LONG)
-					.show();
+			Snackbar.make(myTargetView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
 		}
 
 		@Override

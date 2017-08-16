@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.my.targetDemoApp.MainActivity;
 import com.my.targetDemoApp.R;
 import com.my.targetDemoApp.models.AdvertisingType;
-import com.my.targetDemoApp.utils.ActivityUtils;
 
 public abstract class AdActivity extends AppCompatActivity
 {
@@ -21,7 +21,7 @@ public abstract class AdActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		if (getIntent() != null)
 		{
-			AdvertisingType advertisingType = getIntent().getParcelableExtra(ActivityUtils.AD_TYPE_TAG);
+			AdvertisingType advertisingType = getIntent().getParcelableExtra(MainActivity.AD_TYPE_TAG);
 			if (advertisingType != null)
 			{
 				slotId = advertisingType.getSlotId();

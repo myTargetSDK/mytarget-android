@@ -2,6 +2,7 @@ package com.my.targetDemoApp.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.my.target.ads.MyTargetView;
 import com.my.targetDemoApp.R;
@@ -93,7 +93,7 @@ public class BannerAdActivity extends AdActivity
 		public void onNoAd(String s, MyTargetView myTargetView)
 		{
 			progressBar.setVisibility(View.GONE);
-			Toast.makeText(BannerAdActivity.this, getString(R.string.no_ad), Toast.LENGTH_LONG).show();
+			Snackbar.make(myTargetView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
 		}
 
 		@Override

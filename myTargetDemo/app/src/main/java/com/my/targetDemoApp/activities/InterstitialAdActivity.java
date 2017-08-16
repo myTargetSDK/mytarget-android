@@ -2,6 +2,7 @@ package com.my.targetDemoApp.activities;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.my.target.ads.InterstitialAd;
 import com.my.targetDemoApp.AdTypes;
@@ -100,61 +100,47 @@ public class InterstitialAdActivity extends AdActivity implements View.OnClickLi
 	{
 		typeList = new ArrayList<>();
 
-		if (slotId != 0)
-		{
-			AdvertisingType fullscreenAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, slotId);
-			fullscreenAd.setName(getResources().getString(R.string.interstitial_promo));
-			fullscreenAd.setImageResource(R.drawable.img_fullscreen_promo);
-			fullscreenAd.setDescription(getString(R.string.interstitial_promo_desc));
+		AdvertisingType promoAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, DefaultSlots.SLOT_PROMO_AD);
+		promoAd.setName(getResources().getString(R.string.interstitial_promo));
+		promoAd.setImageResource(R.drawable.img_fullscreen_promo);
+		promoAd.setDescription(getString(R.string.interstitial_promo_desc));
+		InterstitialAd interstitialAd = new InterstitialAd(DefaultSlots.SLOT_PROMO_AD, this);
+		Tools.fillCustomParamsUserData(interstitialAd.getCustomParams());
+		interstitialAds.add(PROMO_AD, interstitialAd);
 
-			InterstitialAd interstitialAd = new InterstitialAd(slotId, this);
-			Tools.fillCustomParamsUserData(interstitialAd.getCustomParams());
-			interstitialAds.add(interstitialAd);
-			typeList.add(fullscreenAd);
-		} else
-		{
-			AdvertisingType promoAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, DefaultSlots.SLOT_PROMO_AD);
-			promoAd.setName(getResources().getString(R.string.interstitial_promo));
-			promoAd.setImageResource(R.drawable.img_fullscreen_promo);
-			promoAd.setDescription(getString(R.string.interstitial_promo_desc));
-			InterstitialAd interstitialAd = new InterstitialAd(DefaultSlots.SLOT_PROMO_AD, this);
-			Tools.fillCustomParamsUserData(interstitialAd.getCustomParams());
-			interstitialAds.add(PROMO_AD, interstitialAd);
+		AdvertisingType videoAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, DefaultSlots.SLOT_PROMO_VIDEO_AD);
+		videoAd.setName(getResources().getString(R.string.interstitial_video));
+		videoAd.setImageResource(R.drawable.img_fullscreen_video);
+		videoAd.setDescription(getString(R.string.interstitial_video_desc));
+		InterstitialAd interstitialVideoAd =
+				new InterstitialAd(DefaultSlots.SLOT_PROMO_VIDEO_AD, this);
+		Tools.fillCustomParamsUserData(interstitialVideoAd.getCustomParams());
+		interstitialAds.add(VIDEO_AD, interstitialVideoAd);
 
-			AdvertisingType videoAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, DefaultSlots.SLOT_PROMO_VIDEO_AD);
-			videoAd.setName(getResources().getString(R.string.interstitial_video));
-			videoAd.setImageResource(R.drawable.img_fullscreen_video);
-			videoAd.setDescription(getString(R.string.interstitial_video_desc));
-			InterstitialAd interstitialVideoAd =
-					new InterstitialAd(DefaultSlots.SLOT_PROMO_VIDEO_AD, this);
-			Tools.fillCustomParamsUserData(interstitialVideoAd.getCustomParams());
-			interstitialAds.add(VIDEO_AD, interstitialVideoAd);
+		AdvertisingType imageAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, DefaultSlots.SLOT_IMAGE_AD);
+		imageAd.setName(getResources().getString(R.string.interstitial_image));
+		imageAd.setImageResource(R.drawable.img_fullscreen_image);
+		imageAd.setDescription(getString(R.string.interstitial_image_desc));
+		InterstitialAd interstitialImageAd =
+				new InterstitialAd(DefaultSlots.SLOT_IMAGE_AD, this);
+		Tools.fillCustomParamsUserData(interstitialImageAd.getCustomParams());
+		interstitialAds.add(IMAGE_AD, interstitialImageAd);
 
-			AdvertisingType imageAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE, DefaultSlots.SLOT_IMAGE_AD);
-			imageAd.setName(getResources().getString(R.string.interstitial_image));
-			imageAd.setImageResource(R.drawable.img_fullscreen_image);
-			imageAd.setDescription(getString(R.string.interstitial_image_desc));
-			InterstitialAd interstitialImageAd =
-					new InterstitialAd(DefaultSlots.SLOT_IMAGE_AD, this);
-			Tools.fillCustomParamsUserData(interstitialImageAd.getCustomParams());
-			interstitialAds.add(IMAGE_AD, interstitialImageAd);
+		AdvertisingType videoStyleAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE,
+														   DefaultSlots.SLOT_PROMO_VIDEO_STYLE_AD);
+		videoStyleAd.setName(getResources().getString(R.string.interstitial_video_style));
+		videoStyleAd.setImageResource(R.drawable.img_fullscreen_promo_style);
+		videoStyleAd.setDescription(getString(R.string.interstitial_video_style_desc));
 
-			AdvertisingType videoStyleAd = new AdvertisingType(AdTypes.AD_TYPE_NATIVE,
-					DefaultSlots.SLOT_PROMO_VIDEO_STYLE_AD);
-			videoStyleAd.setName(getResources().getString(R.string.interstitial_video_style));
-			videoStyleAd.setImageResource(R.drawable.img_fullscreen_promo_style);
-			videoStyleAd.setDescription(getString(R.string.interstitial_video_style_desc));
+		InterstitialAd interstitialVideoStyleAd =
+				new InterstitialAd(DefaultSlots.SLOT_PROMO_VIDEO_STYLE_AD, this);
+		Tools.fillCustomParamsUserData(interstitialVideoStyleAd.getCustomParams());
+		interstitialAds.add(VIDEO_AD_STYLE, interstitialVideoStyleAd);
 
-			InterstitialAd interstitialVideoStyleAd =
-					new InterstitialAd(DefaultSlots.SLOT_PROMO_VIDEO_STYLE_AD, this);
-			Tools.fillCustomParamsUserData(interstitialVideoStyleAd.getCustomParams());
-			interstitialAds.add(VIDEO_AD_STYLE, interstitialVideoStyleAd);
-
-			typeList.add(PROMO_AD, promoAd);
-			typeList.add(VIDEO_AD, videoAd);
-			typeList.add(IMAGE_AD, imageAd);
-			typeList.add(VIDEO_AD_STYLE, videoStyleAd);
-		}
+		typeList.add(PROMO_AD, promoAd);
+		typeList.add(VIDEO_AD, videoAd);
+		typeList.add(IMAGE_AD, imageAd);
+		typeList.add(VIDEO_AD_STYLE, videoStyleAd);
 
 		adapter = new InterstitialListAdapter(typeList);
 
@@ -163,10 +149,10 @@ public class InterstitialAdActivity extends AdActivity implements View.OnClickLi
 		recyclerView.setLayoutManager(gridLayoutManager);
 		recyclerView.setAdapter(adapter);
 
-		for (InterstitialAd interstitialAd : interstitialAds)
+		for (InterstitialAd ad : interstitialAds)
 		{
-			interstitialAd.setListener(adListener);
-			interstitialAd.load();
+			ad.setListener(adListener);
+			ad.load();
 		}
 	}
 
@@ -185,7 +171,7 @@ public class InterstitialAdActivity extends AdActivity implements View.OnClickLi
 		public void onNoAd(String s, InterstitialAd interstitialAd)
 		{
 			Log.d("InterstitialAdActivity", "Ad load error: " + s);
-			Toast.makeText(InterstitialAdActivity.this, getString(R.string.no_ad), Toast.LENGTH_LONG).show();
+			Snackbar.make(recyclerView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
 
 		}
 

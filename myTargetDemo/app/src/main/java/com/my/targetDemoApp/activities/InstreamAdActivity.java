@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,7 +18,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.my.target.ads.instream.InstreamAd;
@@ -413,7 +413,7 @@ public class InstreamAdActivity extends AdActivity
 
 	private void toast(String s)
 	{
-		Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+		Snackbar.make(videoFrame, s, Snackbar.LENGTH_LONG).show();
 	}
 
 	private void hideAd()
