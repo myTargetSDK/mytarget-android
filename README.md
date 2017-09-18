@@ -27,7 +27,7 @@ Demo-app with examples of integration available in [myTargetDemo folder](https:/
 
 ## Requirements
 
-Android 2.3
+Android 4.0
 
 [license-svg]: https://img.shields.io/badge/license-LGPL-lightgrey.svg
 [license-link]: https://github.com/myTargetSDK/mytarget-android/blob/master/LICENSE
