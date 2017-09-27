@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.formats.NativeAdOptions;
@@ -12,8 +13,6 @@ import com.google.android.gms.ads.mediation.NativeAdMapper;
 import com.google.android.gms.ads.mediation.NativeMediationAdRequest;
 import com.google.android.gms.ads.mediation.customevent.CustomEventNative;
 import com.google.android.gms.ads.mediation.customevent.CustomEventNativeListener;
-import com.my.target.core.Tracer;
-import com.my.target.core.enums.SDKKeys;
 import com.my.target.nativeads.NativeAd;
 import com.my.target.nativeads.banners.NavigationType;
 
@@ -24,6 +23,7 @@ import java.util.GregorianCalendar;
 
 public class MyTargetAdmobCustomEventNative implements CustomEventNative
 {
+	private static final String TAG = "MyTargetAdmobNative";
 	private static final String SLOT_ID_KEY = "slotId";
 
 	@Nullable
@@ -36,7 +36,7 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 		{
 			if (resources == null || ad == null || ad.getBanner() == null)
 			{
-				Tracer.d("MyTargetAdmobCustomEventNative failed to load, resources or ad null");
+				Log.d(TAG, "MyTargetAdmobCustomEventNative failed to load, resources or ad null");
 				if (customEventNativeListener != null)
 				{
 					customEventNativeListener.onAdFailedToLoad(AdRequest.ERROR_CODE_INTERNAL_ERROR);
@@ -50,7 +50,7 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 
 			if (nativeAdMapper == null)
 			{
-				Tracer.d("MyTargetAdmobCustomEventNative failed to load, unable to create ad mapper");
+				Log.d(TAG, "MyTargetAdmobCustomEventNative failed to load, unable to create ad mapper");
 				if (customEventNativeListener != null)
 				{
 					customEventNativeListener.onAdFailedToLoad(AdRequest.ERROR_CODE_INTERNAL_ERROR);
@@ -67,7 +67,7 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 		@Override
 		public void onNoAd(String reason, NativeAd ad)
 		{
-			Tracer.d("no ad, reason: " + reason);
+			Log.d(TAG, "no ad, reason: " + reason);
 			if (customEventNativeListener != null)
 			{
 				customEventNativeListener.onAdFailedToLoad(AdRequest.ERROR_CODE_NO_FILL);
@@ -77,7 +77,7 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 		@Override
 		public void onClick(NativeAd ad)
 		{
-			Tracer.d("native ad clicked");
+			Log.d(TAG, "native ad clicked");
 			if (customEventNativeListener != null)
 			{
 				customEventNativeListener.onAdClicked();
@@ -87,7 +87,7 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 		@Override
 		public void onShow(NativeAd ad)
 		{
-			Tracer.d("native ad show");
+			Log.d(TAG, "native ad show");
 			if (customEventNativeListener != null)
 			{
 				customEventNativeListener.onAdImpression();
@@ -102,7 +102,7 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 		{
 			if (!isAppInstallAdRequested)
 			{
-				Tracer.d("MyTargetAdmobCustomEventNative failed to load: got banner with type " + navigationType +
+				Log.d(TAG, "MyTargetAdmobCustomEventNative failed to load: got banner with type " + navigationType +
 						" but not allowed in AdMob request");
 				if (customEventNativeListener != null)
 				{
@@ -115,7 +115,7 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 		{
 			if (!isContentAdRequested)
 			{
-				Tracer.d("MyTargetAdmobCustomEventNative failed to load: got banner with type " + navigationType +
+				Log.d(TAG, "MyTargetAdmobCustomEventNative failed to load: got banner with type " + navigationType +
 						" but not allowed in AdMob request");
 				if (customEventNativeListener != null)
 				{
@@ -134,15 +134,15 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 
 	@Override
 	public void requestNativeAd(@Nullable Context context,
-	                            @Nullable CustomEventNativeListener customEventNativeListener,
-	                            @Nullable String serverParameter,
-	                            @Nullable NativeMediationAdRequest nativeMediationAdRequest,
-	                            @Nullable
-	                            Bundle customEventExtras)
+								@Nullable CustomEventNativeListener customEventNativeListener,
+								@Nullable String serverParameter,
+								@Nullable NativeMediationAdRequest nativeMediationAdRequest,
+								@Nullable
+										Bundle customEventExtras)
 	{
 		if (context == null)
 		{
-			Tracer.d("unable to request native ad, context is null");
+			Log.d(TAG, "unable to request native ad, context is null");
 			if (customEventNativeListener != null)
 			{
 				customEventNativeListener.onAdFailedToLoad(AdRequest.ERROR_CODE_INTERNAL_ERROR);
@@ -173,7 +173,7 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 			slotId = json.getInt(SLOT_ID_KEY);
 		} catch (Exception e)
 		{
-			Tracer.i("Unable to get slotId from parameter json. Probably Admob mediation misconfiguration.");
+			Log.i(TAG, "Unable to get slotId from parameter json. Probably Admob mediation misconfiguration.");
 			if (customEventNativeListener != null)
 			{
 				customEventNativeListener.onAdFailedToLoad(AdRequest.ERROR_CODE_INTERNAL_ERROR);
@@ -203,7 +203,7 @@ public class MyTargetAdmobCustomEventNative implements CustomEventNative
 			}
 		}
 
-		nativeAd.getCustomParams().setCustomParam(SDKKeys.MEDIATION, SDKKeys.ADMOB);
+		nativeAd.getCustomParams().setCustomParam("mediation", "1");
 		nativeAd.setListener(nativeAdListener);
 		nativeAd.load();
 	}

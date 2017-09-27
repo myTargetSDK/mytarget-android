@@ -3,6 +3,7 @@ package com.my.target.ads.mediation;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -10,8 +11,6 @@ import com.google.android.gms.ads.mediation.MediationAdRequest;
 import com.google.android.gms.ads.mediation.customevent.CustomEventInterstitial;
 import com.google.android.gms.ads.mediation.customevent.CustomEventInterstitialListener;
 import com.my.target.ads.InterstitialAd;
-import com.my.target.core.Tracer;
-import com.my.target.core.enums.SDKKeys;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,84 +19,85 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class MyTargetAdmobCustomEventInterstitial extends AdListener implements
-                                                                     CustomEventInterstitial
+																	 CustomEventInterstitial
 {
+	private static final String TAG = "MyTargetAdmobEvent";
 	private static final String SLOT_ID_KEY = "slotId";
 	@Nullable
 	private CustomEventInterstitialListener interstitialListener;
 	private final InterstitialAd.InterstitialAdListener interstitialAdListener =
 			new InterstitialAd.InterstitialAdListener()
-	{
-		@Override
-		public void onLoad(InterstitialAd ad)
-		{
-			Tracer.d("admob mediation interstitial loaded");
-			if (interstitialListener != null)
 			{
-				interstitialListener.onAdLoaded();
-			}
-		}
+				@Override
+				public void onLoad(InterstitialAd ad)
+				{
+					Log.d(TAG, "admob mediation interstitial loaded");
+					if (interstitialListener != null)
+					{
+						interstitialListener.onAdLoaded();
+					}
+				}
 
-		@Override
-		public void onNoAd(String reason, InterstitialAd ad)
-		{
-			Tracer.d("admob mediation interstitial failed to load: " + reason);
+				@Override
+				public void onNoAd(String reason, InterstitialAd ad)
+				{
+					Log.d(TAG,"admob mediation interstitial failed to load: " + reason);
 
-			if (interstitialListener != null)
-			{
-				interstitialListener.onAdFailedToLoad(AdRequest.ERROR_CODE_NO_FILL);
-			}
-		}
+					if (interstitialListener != null)
+					{
+						interstitialListener.onAdFailedToLoad(AdRequest.ERROR_CODE_NO_FILL);
+					}
+				}
 
-		@Override
-		public void onClick(InterstitialAd ad)
-		{
-			Tracer.d("admob mediation interstitial clicked");
+				@Override
+				public void onClick(InterstitialAd ad)
+				{
+					Log.d(TAG,"admob mediation interstitial clicked");
 
-			if (interstitialListener != null)
-			{
-				interstitialListener.onAdClicked();
-			}
-		}
+					if (interstitialListener != null)
+					{
+						interstitialListener.onAdClicked();
+					}
+				}
 
-		@Override
-		public void onDismiss(InterstitialAd ad)
-		{
-			Tracer.d("admob mediation interstitial dismissed");
+				@Override
+				public void onDismiss(InterstitialAd ad)
+				{
+					Log.d(TAG,"admob mediation interstitial dismissed");
 
-			if (interstitialListener != null)
-			{
-				interstitialListener.onAdClosed();
-			}
-		}
+					if (interstitialListener != null)
+					{
+						interstitialListener.onAdClosed();
+					}
+				}
 
-		@Override
-		public void onVideoCompleted(InterstitialAd ad)
-		{
-			//stub
-		}
+				@Override
+				public void onVideoCompleted(InterstitialAd ad)
+				{
+					//stub
+				}
 
-		@Override
-		public void onDisplay(InterstitialAd ad)
-		{
-			Tracer.d("admob mediation interstitial displayed");
+				@Override
+				public void onDisplay(InterstitialAd ad)
+				{
+					Log.d(TAG,"admob mediation interstitial displayed");
 
-			if (interstitialListener != null)
-			{
-				interstitialListener.onAdOpened();
-			}
-		}
-	};
+					if (interstitialListener != null)
+					{
+						interstitialListener.onAdOpened();
+					}
+				}
+			};
 	@Nullable
 	private InterstitialAd interstitial;
 
 	@Override
 	public void requestInterstitialAd(Context context,
-	                                  CustomEventInterstitialListener
-			                                  customEventInterstitialListener,
-	                                  String serverParameter,
-	                                  MediationAdRequest mediationAdRequest,
-	                                  Bundle bundle)
+									  CustomEventInterstitialListener
+											  customEventInterstitialListener,
+									  String serverParameter,
+									  MediationAdRequest mediationAdRequest,
+									  Bundle bundle)
 	{
 		this.interstitialListener = customEventInterstitialListener;
 
@@ -108,9 +108,8 @@ public class MyTargetAdmobCustomEventInterstitial extends AdListener implements
 			slotId = json.getInt(SLOT_ID_KEY);
 		} catch (JSONException e)
 		{
-			Tracer.i(
-					"Unable to get slotId from parameter json. Probably Admob mediation " +
-							"misconfiguration.");
+			Log.i(TAG, "Unable to get slotId from parameter json. Probably Admob mediation " +
+					"misconfiguration.");
 			if (interstitialListener != null)
 			{
 				interstitialListener.onAdFailedToLoad(AdRequest.ERROR_CODE_INTERNAL_ERROR);
@@ -119,7 +118,7 @@ public class MyTargetAdmobCustomEventInterstitial extends AdListener implements
 		}
 
 		interstitial = new InterstitialAd(slotId, context);
-		interstitial.getCustomParams().setCustomParam(SDKKeys.MEDIATION, SDKKeys.ADMOB);
+		interstitial.getCustomParams().setCustomParam("mediation", "1");
 		if (mediationAdRequest != null)
 		{
 			interstitial.getCustomParams().setGender(mediationAdRequest.getGender());

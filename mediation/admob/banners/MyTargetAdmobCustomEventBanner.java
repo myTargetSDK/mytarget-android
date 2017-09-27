@@ -3,6 +3,7 @@ package com.my.target.ads.mediation;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -10,8 +11,6 @@ import com.google.android.gms.ads.mediation.MediationAdRequest;
 import com.google.android.gms.ads.mediation.customevent.CustomEventBanner;
 import com.google.android.gms.ads.mediation.customevent.CustomEventBannerListener;
 import com.my.target.ads.MyTargetView;
-import com.my.target.core.Tracer;
-import com.my.target.core.enums.SDKKeys;
 
 import org.json.JSONObject;
 
@@ -21,6 +20,7 @@ import java.util.GregorianCalendar;
 public class MyTargetAdmobCustomEventBanner implements CustomEventBanner
 {
 	private static final String SLOT_ID_KEY = "slotId";
+	private static final String TAG = "MyTargetAdmobEvent";
 
 	@Nullable
 	private MyTargetView myTargetView;
@@ -33,11 +33,11 @@ public class MyTargetAdmobCustomEventBanner implements CustomEventBanner
 
 	@Override
 	public void requestBannerAd(Context context,
-	                            CustomEventBannerListener customEventBannerListener,
-	                            String s,
-	                            AdSize adSize,
-	                            MediationAdRequest mediationAdRequest,
-	                            Bundle bundle)
+								CustomEventBannerListener customEventBannerListener,
+								String s,
+								AdSize adSize,
+								MediationAdRequest mediationAdRequest,
+								Bundle bundle)
 	{
 		int slotId;
 		try
@@ -46,7 +46,7 @@ public class MyTargetAdmobCustomEventBanner implements CustomEventBanner
 			slotId = json.getInt(SLOT_ID_KEY);
 		} catch (Exception e)
 		{
-			Tracer.i("Unable to get slotId from parameter json. Probably Admob mediation misconfiguration.");
+			Log.i(TAG, "Unable to get slotId from parameter json. Probably Admob mediation misconfiguration.");
 			if (customEventBannerListener != null)
 			{
 				customEventBannerListener.onAdFailedToLoad(AdRequest.ERROR_CODE_INTERNAL_ERROR);
@@ -57,32 +57,32 @@ public class MyTargetAdmobCustomEventBanner implements CustomEventBanner
 		if (AdSize.MEDIUM_RECTANGLE.equals(adSize))
 		{
 			load(customEventBannerListener,
-					mediationAdRequest,
-					slotId,
-					MyTargetView.AdSize.BANNER_300x250,
-					context);
+				 mediationAdRequest,
+				 slotId,
+				 MyTargetView.AdSize.BANNER_300x250,
+				 context);
 		} else if (AdSize.LEADERBOARD.equals(adSize))
 		{
 			load(customEventBannerListener,
-					mediationAdRequest,
-					slotId,
-					MyTargetView.AdSize.BANNER_728x90,
-					context);
+				 mediationAdRequest,
+				 slotId,
+				 MyTargetView.AdSize.BANNER_728x90,
+				 context);
 		} else
 		{
 			load(customEventBannerListener,
-					mediationAdRequest,
-					slotId,
-					MyTargetView.AdSize.BANNER_320x50,
-					context);
+				 mediationAdRequest,
+				 slotId,
+				 MyTargetView.AdSize.BANNER_320x50,
+				 context);
 		}
 	}
 
 	private void load(CustomEventBannerListener customEventBannerListener,
-	                  MediationAdRequest mediationAdRequest,
-	                  int slotId,
-	                  int adSize,
-	                  Context context)
+					  MediationAdRequest mediationAdRequest,
+					  int slotId,
+					  int adSize,
+					  Context context)
 	{
 		bannerListener = customEventBannerListener;
 		if (myTargetView == null)
@@ -111,7 +111,7 @@ public class MyTargetAdmobCustomEventBanner implements CustomEventBanner
 				}
 			}
 
-			myTargetView.getCustomParams().setCustomParam(SDKKeys.MEDIATION, SDKKeys.ADMOB);
+			myTargetView.getCustomParams().setCustomParam("mediation", "1");
 			myTargetView.setListener(myTargetViewListener);
 		}
 		myTargetView.load();

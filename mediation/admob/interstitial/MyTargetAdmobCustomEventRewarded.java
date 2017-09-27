@@ -3,6 +3,7 @@ package com.my.target.ads.mediation;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -11,8 +12,6 @@ import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.mediation.MediationRewardedVideoAdAdapter;
 import com.google.android.gms.ads.reward.mediation.MediationRewardedVideoAdListener;
 import com.my.target.ads.InterstitialAd;
-import com.my.target.core.Tracer;
-import com.my.target.core.enums.SDKKeys;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,8 +20,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class MyTargetAdmobCustomEventRewarded extends AdListener implements
-                                                                 MediationRewardedVideoAdAdapter
+																 MediationRewardedVideoAdAdapter
 {
+	private static final String TAG = "MyTargetAdmobRewarded";
 	private static final String SLOT_ID_KEY = "slotId";
 	private final RewardItem rewardItem = new RewardItem()
 	{
@@ -49,7 +49,7 @@ public class MyTargetAdmobCustomEventRewarded extends AdListener implements
 					if (mediationRewardedVideoAdListener != null)
 					{
 						mediationRewardedVideoAdListener
-								.onAdLoaded(MyTargetAdmobCustomEventRewarded.this);
+								.onAdLoaded(com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded.this);
 					}
 				}
 
@@ -59,7 +59,7 @@ public class MyTargetAdmobCustomEventRewarded extends AdListener implements
 					if (mediationRewardedVideoAdListener != null)
 					{
 						mediationRewardedVideoAdListener.onAdFailedToLoad(
-								MyTargetAdmobCustomEventRewarded.this,
+								com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded.this,
 								AdRequest.ERROR_CODE_NO_FILL);
 					}
 				}
@@ -70,7 +70,7 @@ public class MyTargetAdmobCustomEventRewarded extends AdListener implements
 					if (mediationRewardedVideoAdListener != null)
 					{
 						mediationRewardedVideoAdListener
-								.onAdClicked(MyTargetAdmobCustomEventRewarded.this);
+								.onAdClicked(com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded.this);
 					}
 				}
 
@@ -80,7 +80,7 @@ public class MyTargetAdmobCustomEventRewarded extends AdListener implements
 					if (mediationRewardedVideoAdListener != null)
 					{
 						mediationRewardedVideoAdListener
-								.onAdClosed(MyTargetAdmobCustomEventRewarded.this);
+								.onAdClosed(com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded.this);
 					}
 				}
 
@@ -90,7 +90,7 @@ public class MyTargetAdmobCustomEventRewarded extends AdListener implements
 					if (mediationRewardedVideoAdListener != null)
 					{
 						mediationRewardedVideoAdListener
-								.onRewarded(MyTargetAdmobCustomEventRewarded.this, rewardItem);
+								.onRewarded(com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded.this, rewardItem);
 					}
 				}
 
@@ -100,9 +100,9 @@ public class MyTargetAdmobCustomEventRewarded extends AdListener implements
 					if (mediationRewardedVideoAdListener != null)
 					{
 						mediationRewardedVideoAdListener.onAdOpened(
-								MyTargetAdmobCustomEventRewarded.this);
+								com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded.this);
 						mediationRewardedVideoAdListener.onVideoStarted
-								(MyTargetAdmobCustomEventRewarded.this);
+								(com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded.this);
 					}
 				}
 			};
@@ -131,11 +131,11 @@ public class MyTargetAdmobCustomEventRewarded extends AdListener implements
 
 	@Override
 	public void initialize(Context context,
-	                       MediationAdRequest mediationAdRequest,
-	                       String serverJSON,
-	                       MediationRewardedVideoAdListener mediationRewardedVideoAdListener,
-	                       Bundle serverParameters,
-	                       Bundle mediationExtras)
+						   MediationAdRequest mediationAdRequest,
+						   String serverJSON,
+						   MediationRewardedVideoAdListener mediationRewardedVideoAdListener,
+						   Bundle serverParameters,
+						   Bundle mediationExtras)
 	{
 		this.mediationRewardedVideoAdListener = mediationRewardedVideoAdListener;
 
@@ -148,17 +148,17 @@ public class MyTargetAdmobCustomEventRewarded extends AdListener implements
 			slotId = param.getInt(SLOT_ID_KEY);
 		} catch (JSONException e)
 		{
-			Tracer.i(
-					"Unable to get slotId from parameter json. Probably Admob mediation " +
-							"misconfiguration.");
+			Log.i(TAG,
+				  "Unable to get slotId from parameter json. Probably Admob mediation " +
+						  "misconfiguration.");
 			mediationRewardedVideoAdListener.onAdFailedToLoad(
-					MyTargetAdmobCustomEventRewarded.this,
+					com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded.this,
 					AdRequest.ERROR_CODE_INTERNAL_ERROR);
 			return;
 		}
 
 		interstitial = new InterstitialAd(slotId, context);
-		interstitial.getCustomParams().setCustomParam(SDKKeys.MEDIATION, SDKKeys.ADMOB);
+		interstitial.getCustomParams().setCustomParam("mediation", "1");
 
 		if (mediationAdRequest != null)
 		{
@@ -181,7 +181,7 @@ public class MyTargetAdmobCustomEventRewarded extends AdListener implements
 
 		interstitial.setListener(interstitialAdListener);
 		mediationRewardedVideoAdListener
-				.onInitializationSucceeded(MyTargetAdmobCustomEventRewarded.this);
+				.onInitializationSucceeded(com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded.this);
 	}
 
 	@Override
