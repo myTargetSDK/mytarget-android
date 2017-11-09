@@ -53,7 +53,7 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 		public void onNoAd(String s, MyTargetView myTargetView)
 		{
 			progressBar.setVisibility(View.GONE);
-			Snackbar.make(myTargetView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
+			Snackbar.make(listView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
 		}
 
 		@Override
@@ -62,6 +62,7 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 
 		}
 	};
+	private ListView listView;
 
 	@Nullable
 	@Override
@@ -72,7 +73,7 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 		View v = inflater.inflate(R.layout.fragment_banner_300x250, container, false);
 
 		progressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
-		ListView listView = (ListView) v.findViewById(R.id.list_view);
+		listView = (ListView) v.findViewById(R.id.list_view);
 		adapter = new ListAdapter(getActivity());
 		listView.setAdapter(adapter);
 		return v;
@@ -136,7 +137,12 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 
 	private void initAd()
 	{
-		adView = new MyTargetView(getActivity());
+		final Context context = getActivity();
+		if (context == null)
+		{
+			return;
+		}
+		adView = new MyTargetView(context);
 		adView.init(slotId, MyTargetView.AdSize.BANNER_300x250);
 		Tools.fillCustomParamsUserData(adView.getCustomParams());
 		adView.setListener(adListener);

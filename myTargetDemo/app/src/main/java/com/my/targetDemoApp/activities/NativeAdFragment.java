@@ -36,7 +36,7 @@ public class NativeAdFragment extends Fragment
 		return fragment;
 	}
 
-	NativeAdFragment.PagerAdapter pagerAdapter;
+	PagerAdapter pagerAdapter;
 	ViewPager viewPager;
 	private List<AdvertisingType> typeList;
 	private SlidingTabLayout tabLayout;
@@ -158,7 +158,7 @@ public class NativeAdFragment extends Fragment
 		}
 
 		@Override
-		public android.support.v4.app.Fragment getItem(int i)
+		public Fragment getItem(int i)
 		{
 			Fragment fragment = new FeedFragment();
 			Bundle args = new Bundle();

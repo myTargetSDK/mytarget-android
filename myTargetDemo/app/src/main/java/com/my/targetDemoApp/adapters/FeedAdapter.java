@@ -31,6 +31,7 @@ import com.my.targetDemoApp.utils.Tools;
 public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListener
 {
 
+	public static final String TAG = "FeedAdapter";
 	private final int slotId;
 
 	public interface Type
@@ -171,7 +172,7 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 	@Override
 	public void onLoad(NativeAd ad)
 	{
-		Log.d("FeedAdapter", "Ad loaded");
+		Log.d(TAG, "Ad loaded");
 		banner = nativeAd.getBanner();
 		notifyDataSetChanged();
 	}
@@ -180,7 +181,7 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 	public void onNoAd(String s, NativeAd ad)
 	{
 		Toast.makeText(context, context.getString(R.string.no_ad), Toast.LENGTH_LONG).show();
-		Log.d("FeedAdapter", "Ad load error: " + s);
+		Log.d(TAG, "Ad load error: " + s);
 	}
 
 	@Override
@@ -192,7 +193,25 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 	@Override
 	public void onShow(NativeAd ad)
 	{
-		Log.d("FeedAdapter", "onShow() called with: ad = [" + ad + "]");
+		Log.d(TAG, "onShow() called with: ad = [" + ad + "]");
+	}
+
+	@Override
+	public void onVideoPlay(NativeAd ad)
+	{
+		Log.d(TAG, "onVideoPlay() called with: ad = [" + ad + "]");
+	}
+
+	@Override
+	public void onVideoPause(NativeAd ad)
+	{
+		Log.d(TAG, "onVideoPause() called with: ad = [" + ad + "]");
+	}
+
+	@Override
+	public void onVideoComplete(NativeAd ad)
+	{
+		Log.d(TAG, "onVideoComplete() called with: ad = [" + ad + "]");
 	}
 
 	private int getPx(int dp)

@@ -93,7 +93,7 @@ public class BannerAdActivity extends AdActivity
 		public void onNoAd(String s, MyTargetView myTargetView)
 		{
 			progressBar.setVisibility(View.GONE);
-			Snackbar.make(myTargetView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
+			Snackbar.make(layout, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
 		}
 
 		@Override

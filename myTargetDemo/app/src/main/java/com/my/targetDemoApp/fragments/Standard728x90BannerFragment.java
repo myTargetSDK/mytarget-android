@@ -1,5 +1,6 @@
 package com.my.targetDemoApp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -52,7 +53,7 @@ public class Standard728x90BannerFragment extends Fragment implements StandardAd
 		public void onNoAd(String s, MyTargetView myTargetView)
 		{
 			progressBar.setVisibility(View.GONE);
-			Snackbar.make(myTargetView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
+			Snackbar.make(layout, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
 		}
 
 		@Override
@@ -135,7 +136,12 @@ public class Standard728x90BannerFragment extends Fragment implements StandardAd
 
 	private void initAd()
 	{
-		adView = new MyTargetView(getActivity());
+		final Context context = getActivity();
+		if (context == null)
+		{
+			return;
+		}
+		adView = new MyTargetView(context);
 		adView.init(slotId, MyTargetView.AdSize.BANNER_728x90);
 		Tools.fillCustomParamsUserData(adView.getCustomParams());
 		adView.setListener(adListener);
