@@ -71,8 +71,8 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 	public int getCount()
 	{
 		if (banner == null)
-			return 5;
-		return 6;
+			return 8;
+		return 9;
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 	@Override
 	public int getItemViewType(int position)
 	{
-		if (banner != null && position == 1)
+		if (banner != null && position == 3)
 		{
 			return 1;
 		}

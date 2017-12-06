@@ -47,6 +47,7 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 			myTargetView.setVisibility(View.VISIBLE);
 			if (visible)
 				myTargetView.start();
+			adapter.notifyDataSetChanged();
 		}
 
 		@Override
@@ -92,10 +93,7 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 	public void reloadAd()
 	{
 		adView = null;
-		if (adapter != null)
-		{
-			adapter.notifyDataSetChanged();
-		}
+		listView.setAdapter(new ListAdapter(getContext()));
 	}
 
 	@Override

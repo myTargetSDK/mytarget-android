@@ -22,7 +22,7 @@ android {
 
 
 dependencies {
-    implementation 'com.my.target:mytarget-sdk:4.6.27'
+    implementation 'com.my.target:mytarget-sdk:4.6.28'
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:cardview-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'

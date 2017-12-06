@@ -5,18 +5,21 @@
         android:id="@+id/action_native_static"
         android:icon="@drawable/ic_native_static"
         android:orderInCategory="100"
+        android:contentDescription="@string/action_native_static"
         android:title="@string/action_native_static"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_native_video"
         android:icon="@drawable/ic_native_video"
         android:orderInCategory="100"
+        android:contentDescription="@string/action_native_video"
         android:title="@string/action_native_video"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_native_slider"
         android:icon="@drawable/ic_native_slider"
         android:orderInCategory="100"
+        android:contentDescription="@string/action_native_slider"
         android:title="@string/action_native_slider"
         app:showAsAction="always"/>
 </menu>

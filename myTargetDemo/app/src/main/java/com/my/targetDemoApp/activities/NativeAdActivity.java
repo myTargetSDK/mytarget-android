@@ -8,9 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.my.targetDemoApp.R;
 import com.my.targetDemoApp.fragments.NativeAdFragment;
+
+import java.util.ArrayList;
 
 public class NativeAdActivity extends AdActivity
 		implements BottomNavigationView.OnNavigationItemSelectedListener
@@ -37,7 +40,12 @@ public class NativeAdActivity extends AdActivity
 				findViewById(R.id.bottom_navigation);
 
 		bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
+		ArrayList<View> touchables = bottomNavigationView.getTouchables();
+		for (int i = 0; i < touchables.size(); i++)
+		{
+			View view = touchables.get(i);
+			view.setContentDescription("Bottom_" + i);
+		}
 		fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		NativeAdFragment nativeAdFragment =
