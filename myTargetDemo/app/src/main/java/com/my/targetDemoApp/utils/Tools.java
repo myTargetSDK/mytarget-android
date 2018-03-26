@@ -1,6 +1,6 @@
 package com.my.targetDemoApp.utils;
 
-import com.my.target.ads.CustomParams;
+import com.my.target.common.CustomParams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ public class Tools
 	}
 
 	private static String[] splitWorker(final String str,
-	                                    final String separatorChars,
-	                                    final int max,
-	                                    final boolean preserveAllTokens)
+										final String separatorChars,
+										final int max,
+										final boolean preserveAllTokens)
 	{
 		if (str == null)
 		{
@@ -26,7 +26,7 @@ public class Tools
 		{
 			return new String[0];
 		}
-		final List<String> list = new ArrayList<String>();
+		final List<String> list = new ArrayList<>();
 		int sizePlus1 = 1;
 		int i = 0, start = 0;
 		boolean match = false;
@@ -56,7 +56,8 @@ public class Tools
 				match = true;
 				i++;
 			}
-		} else if (separatorChars.length() == 1)
+		}
+		else if (separatorChars.length() == 1)
 		{
 			// Optimise 1 character case
 			final char sep = separatorChars.charAt(0);
@@ -82,7 +83,8 @@ public class Tools
 				match = true;
 				i++;
 			}
-		} else
+		}
+		else
 		{
 			// standard case
 			while (i < len)

@@ -3,12 +3,12 @@ package com.my.targetDemoApp.activities;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
-import com.example.android.common.view.SlidingTabLayout;
 import com.my.targetDemoApp.AdTypes;
 import com.my.targetDemoApp.DefaultSlots;
 import com.my.targetDemoApp.R;
@@ -30,7 +30,7 @@ import java.util.List;
 public class StandardBannerAdActivity extends AdActivity implements ViewPager.OnPageChangeListener
 {
 	ViewPager viewPager;
-	private SlidingTabLayout tabLayout;
+	private TabLayout tabLayout;
 	private List<AdvertisingType> typeList;
 	@Nullable
 	private Standard320x50BannerFragment fragment320x50;
@@ -43,7 +43,7 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_standard);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = findViewById(R.id.toolbar);
 
 		setSupportActionBar(toolbar);
 		if (getSupportActionBar() != null)
@@ -52,13 +52,13 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 			getSupportActionBar().setDisplayShowHomeEnabled(true);
 		}
 
-		tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-		tabLayout.setDividerColors(Color.TRANSPARENT);
-		tabLayout.setSelectedIndicatorColors(Color.WHITE);
+		tabLayout = findViewById(R.id.sliding_tabs);
+//		tabLayout.setDividerColors(Color.TRANSPARENT);
+		tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
 
 		typeList = new ArrayList<>();
 
-		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager = findViewById(R.id.pager);
 
 		initAds();
 	}
@@ -150,7 +150,7 @@ public class StandardBannerAdActivity extends AdActivity implements ViewPager.On
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.addOnPageChangeListener(this);
 
-		tabLayout.setViewPager(viewPager);
+		tabLayout.setupWithViewPager(viewPager);
 	}
 
 	@Override

@@ -2,14 +2,17 @@ package com.my.targetDemoApp.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ProgressBar;
 
 import com.my.target.ads.MyTargetView;
@@ -37,33 +40,33 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 	private MyTargetView adView;
 	private int slotId;
 	private ListAdapter adapter;
+	private RecyclerView recyclerView;
+
 	private MyTargetView.MyTargetViewListener adListener = new MyTargetView.MyTargetViewListener()
 	{
 		@Override
-		public void onLoad(MyTargetView myTargetView)
+		public void onLoad(@NonNull MyTargetView myTargetView)
 		{
 			loaded = true;
 			progressBar.setVisibility(View.GONE);
 			myTargetView.setVisibility(View.VISIBLE);
 			if (visible)
 				myTargetView.start();
-			adapter.notifyDataSetChanged();
+			adapter.notifyItemChanged(1);
 		}
 
 		@Override
-		public void onNoAd(String s, MyTargetView myTargetView)
+		public void onNoAd(@NonNull String s, @NonNull MyTargetView myTargetView)
 		{
 			progressBar.setVisibility(View.GONE);
-			Snackbar.make(listView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
+			Snackbar.make(recyclerView, getString(R.string.no_ad), Snackbar.LENGTH_LONG).show();
 		}
 
 		@Override
-		public void onClick(MyTargetView myTargetView)
+		public void onClick(@NonNull MyTargetView myTargetView)
 		{
-
 		}
 	};
-	private ListView listView;
 
 	@Nullable
 	@Override
@@ -73,10 +76,11 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 	{
 		View v = inflater.inflate(R.layout.fragment_banner_300x250, container, false);
 
-		progressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
-		listView = (ListView) v.findViewById(R.id.list_view);
+		progressBar = v.findViewById(R.id.progress_bar);
+		recyclerView = v.findViewById(R.id.recycler_view);
 		adapter = new ListAdapter(getActivity());
-		listView.setAdapter(adapter);
+		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+		recyclerView.setAdapter(adapter);
 		return v;
 	}
 
@@ -86,14 +90,17 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 		super.onViewCreated(view, savedInstanceState);
 		Bundle args = getArguments();
 		slotId = args.getInt(SLOT_ID, DefaultSlots.SLOT_STANDARD_BANNER_300x250);
-		initAd();
 	}
 
 	@Override
 	public void reloadAd()
 	{
-		adView = null;
-		listView.setAdapter(new ListAdapter(getContext()));
+		if (adView != null)
+		{
+			adView.destroy();
+			adView = null;
+		}
+		createView();
 	}
 
 	@Override
@@ -133,35 +140,28 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 		pause();
 	}
 
-	private void initAd()
+	private void createView()
 	{
-		final Context context = getActivity();
-		if (context == null)
-		{
-			return;
-		}
-		adView = new MyTargetView(context);
+		adView = new MyTargetView(getContext());
 		adView.init(slotId, MyTargetView.AdSize.BANNER_300x250);
 		Tools.fillCustomParamsUserData(adView.getCustomParams());
 		adView.setListener(adListener);
+		LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		adView.setLayoutParams(layoutParams);
 		adView.load();
 	}
 
-	public class ListAdapter extends BaseAdapter
+	private static class Holder extends ViewHolder
+	{
+		Holder(View itemView)
+		{
+			super(itemView);
+		}
+	}
+
+	public class ListAdapter extends RecyclerView.Adapter<Holder>
 	{
 		private Context context;
-
-		@Override
-		public int getCount()
-		{
-			return 50;
-		}
-
-		@Override
-		public Object getItem(int position)
-		{
-			return "Object " + position;
-		}
 
 		@Override
 		public long getItemId(int position)
@@ -170,26 +170,35 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent)
+		public int getItemCount()
 		{
-			if (getItemViewType(position) == 0)
+			return 50;
+		}
+
+		@Override
+		public Holder onCreateViewHolder(ViewGroup parent, int viewType)
+		{
+
+			if (viewType == 0)
 			{
-				if (convertView == null)
+				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				if (inflater != null)
 				{
-					LayoutInflater inflater =
-							(LayoutInflater) context.getSystemService(Context
-									.LAYOUT_INFLATER_SERVICE);
-					convertView = inflater.inflate(R.layout.feed_item_text, parent, false);
+					return new Holder(inflater.inflate(R.layout.feed_item_text, parent, false));
 				}
-				return convertView;
-			} else
-			{
-				if (adView == null)
-				{
-					initAd();
-				}
-				return adView;
 			}
+			else
+			{
+				createView();
+				return new Holder(adView);
+			}
+			return null;
+		}
+
+		@Override
+		public void onBindViewHolder(Holder holder, int position)
+		{
+
 		}
 
 		@Override
@@ -202,13 +211,7 @@ public class Standard300x250BannerFragment extends Fragment implements StandardA
 			return 0;
 		}
 
-		@Override
-		public int getViewTypeCount()
-		{
-			return 2;
-		}
-
-		public ListAdapter(Context context)
+		ListAdapter(Context context)
 		{
 			this.context = context;
 		}

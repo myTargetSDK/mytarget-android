@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 import com.my.target.nativeads.NativeAd;
@@ -15,7 +16,6 @@ import com.my.target.nativeads.banners.NativePromoBanner;
 import com.my.target.nativeads.factories.NativeViewsFactory;
 import com.my.target.nativeads.views.ChatListAdView;
 import com.my.target.nativeads.views.ContentStreamAdView;
-import com.my.target.nativeads.views.ContentWallAdView;
 import com.my.target.nativeads.views.NewsFeedAdView;
 import com.my.targetDemoApp.R;
 import com.my.targetDemoApp.models.AdvertisingType;
@@ -114,8 +114,15 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 		{
 			if (getItemViewType(position) == 1)
 			{
-				convertView = getAdView();
-				nativeAd.registerView(convertView);
+				RelativeLayout relativeLayout = new RelativeLayout(context);
+				LayoutParams layoutParams = new LayoutParams(getPx(380), ViewGroup.LayoutParams.WRAP_CONTENT);
+				layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+				View adView = getAdView();
+				adView.setLayoutParams(layoutParams);
+				nativeAd.registerView(adView);
+				relativeLayout.addView(adView);
+
+				convertView = relativeLayout;
 			}
 			else
 			{
@@ -130,38 +137,28 @@ public class FeedAdapter extends BaseAdapter implements NativeAd.NativeAdListene
 	public View getAdView()
 	{
 		View view = null;
-		RelativeLayout.LayoutParams params;
 		switch (feedType)
 		{
 			case Type.CONTENT_WALL:
 			case Type.CONTENT_WALL_VIDEO:
-				ContentWallAdView contentWallView =
-						NativeViewsFactory.getContentWallView(nativeAd.getBanner(), context);
-				contentWallView.loadImages();
-				view = contentWallView;
+				view = NativeViewsFactory.getContentWallView(nativeAd, context);
 				break;
 			case Type.CONTENT_STREAM:
 			case Type.CONTENT_STREAM_VIDEO:
 			case Type.NATIVE_SLIDER:
 				ContentStreamAdView contentStreamView = NativeViewsFactory.getContentStreamView(nativeAd.getBanner(), context);
-				params = (RelativeLayout.LayoutParams) contentStreamView.getCtaButtonView().getLayoutParams();
-				params.height = getPx(30);
-				contentStreamView.getCtaButtonView().setLayoutParams(params);
 				contentStreamView.loadImages();
 				view = contentStreamView;
 				break;
 			case Type.CHAT_LIST:
 				ChatListAdView chatListView =
-						NativeViewsFactory.getChatListView(nativeAd.getBanner(), context);
+						NativeViewsFactory.getChatListView(nativeAd, context);
 				chatListView.loadImages();
 				view = chatListView;
 				break;
 			case Type.NEWS_FEED:
 				NewsFeedAdView newsFeedView =
-						NativeViewsFactory.getNewsFeedView(nativeAd.getBanner(), context);
-				params = (RelativeLayout.LayoutParams) newsFeedView.getCtaButtonView().getLayoutParams();
-				params.height = getPx(30);
-				newsFeedView.getCtaButtonView().setLayoutParams(params);
+						NativeViewsFactory.getNewsFeedView(nativeAd, context);
 				newsFeedView.loadImages();
 				view = newsFeedView;
 				break;

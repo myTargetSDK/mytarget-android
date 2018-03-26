@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.my.target.ads.InterstitialAd;
 import com.my.target.ads.InterstitialAd.InterstitialAdListener;
-import com.my.target.ads.instream.InstreamAd;
+import com.my.target.instreamads.InstreamAd;
 import com.my.targetDemoApp.fragments.PlusDialogFragment;
 import com.my.targetDemoApp.models.AdvertisingType;
 import com.my.targetDemoApp.utils.MaterialColors;
@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 		setContentView(R.layout.activity_main);
 		InstreamAd.setDebugMode(true);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		recyclerView = (RecyclerView) findViewById(R.id.main_grid);
+		recyclerView = findViewById(R.id.main_grid);
 		loadingView = findViewById(R.id.loading_view_main);
 		initGrid();
 	}
@@ -243,12 +243,12 @@ public class MainActivity extends AppCompatActivity implements PlusDialogFragmen
 			public ViewHolder(View itemView)
 			{
 				super(itemView);
-				imageView = (ImageView) itemView.findViewById(R.id.iv_card_image);
-				nameLabel = (TextView) itemView.findViewById(R.id.tv_card_title);
-				descriptionLabel = (TextView) itemView.findViewById(R.id.tv_card_description);
-				cardFrame = (FrameLayout) itemView.findViewById(R.id.card_frame);
-				slotId = (TextView) itemView.findViewById(R.id.tv_slotid);
-				removeButton = (ImageView) itemView.findViewById(R.id.iv_remove);
+				imageView = itemView.findViewById(R.id.iv_card_image);
+				nameLabel = itemView.findViewById(R.id.tv_card_title);
+				descriptionLabel = itemView.findViewById(R.id.tv_card_description);
+				cardFrame = itemView.findViewById(R.id.card_frame);
+				slotId = itemView.findViewById(R.id.tv_slotid);
+				removeButton = itemView.findViewById(R.id.iv_remove);
 
 				itemView.setOnClickListener(this);
 			}

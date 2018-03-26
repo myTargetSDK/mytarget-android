@@ -121,7 +121,7 @@ public class AdvertisingType implements Parcelable
 		this.slotId = in.readInt();
 	}
 
-	public static final Creator<AdvertisingType> CREATOR = new Creator<AdvertisingType>()
+	public static final Parcelable.Creator<AdvertisingType> CREATOR = new Parcelable.Creator<AdvertisingType>()
 	{
 		public AdvertisingType createFromParcel(Parcel source)
 		{

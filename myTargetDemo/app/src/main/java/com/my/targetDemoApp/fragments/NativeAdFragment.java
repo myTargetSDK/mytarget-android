@@ -2,6 +2,8 @@ package com.my.targetDemoApp.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.design.widget.TabLayout.Tab;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -10,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.common.view.SlidingTabLayout;
 import com.my.targetDemoApp.AdTypes;
 import com.my.targetDemoApp.DefaultSlots;
 import com.my.targetDemoApp.R;
@@ -35,10 +36,10 @@ public class NativeAdFragment extends Fragment
 		return fragment;
 	}
 
-	PagerAdapter pagerAdapter;
+	NativeAdFragment.PagerAdapter pagerAdapter;
 	ViewPager viewPager;
 	private List<AdvertisingType> typeList;
-	private SlidingTabLayout tabLayout;
+	private TabLayout tabLayout;
 	private int slotId;
 	private int fragmentType;
 
@@ -59,12 +60,11 @@ public class NativeAdFragment extends Fragment
 			fragmentType = getArguments().getInt(ARG_TYPE);
 		}
 
-		tabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
-		tabLayout.setDividerColors(Color.TRANSPARENT);
-		tabLayout.setSelectedIndicatorColors(Color.WHITE);
+		tabLayout = v.findViewById(R.id.sliding_tabs);
+		tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
 		typeList = new ArrayList<>();
 
-		viewPager = (ViewPager) v.findViewById(R.id.pager);
+		viewPager = v.findViewById(R.id.pager);
 
 		initAds();
 
@@ -116,13 +116,7 @@ public class NativeAdFragment extends Fragment
 						.content_stream_video));
 				contentStreamVideo.setType(FeedAdapter.Type.CONTENT_STREAM_VIDEO);
 
-				AdvertisingType contentWallVideo =
-						new AdvertisingType(AdTypes.AD_TYPE_NATIVE, slot);
-				contentWallVideo.setName(getResources().getString(R.string.content_wall_video));
-				contentWallVideo.setType(FeedAdapter.Type.CONTENT_WALL_VIDEO);
-
 				typeList.add(contentStreamVideo);
-				typeList.add(contentWallVideo);
 				break;
 			case R.id.action_native_slider:
 				slot = slotId == 0 ? DefaultSlots.NATIVE_SLIDER : slotId;
@@ -136,8 +130,16 @@ public class NativeAdFragment extends Fragment
 
 		pagerAdapter = new PagerAdapter(getChildFragmentManager(), typeList);
 		viewPager.setAdapter(pagerAdapter);
-
-		tabLayout.setViewPager(viewPager);
+		tabLayout.setupWithViewPager(viewPager);
+		final int tabCount = tabLayout.getTabCount();
+		for (int i = 0; i < tabCount; i++)
+		{
+			final Tab tabAt = tabLayout.getTabAt(i);
+			if (tabAt != null)
+			{
+				tabAt.setContentDescription(fragmentType + "_tab_" + i);
+			}
+		}
 	}
 
 	private static class PagerAdapter extends FragmentStatePagerAdapter
@@ -157,7 +159,7 @@ public class NativeAdFragment extends Fragment
 		}
 
 		@Override
-		public Fragment getItem(int i)
+		public android.support.v4.app.Fragment getItem(int i)
 		{
 			Fragment fragment = new FeedFragment();
 			Bundle args = new Bundle();

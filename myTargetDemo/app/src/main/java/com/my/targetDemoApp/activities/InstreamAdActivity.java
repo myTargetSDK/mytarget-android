@@ -20,7 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.my.target.ads.instream.InstreamAd;
+import com.my.target.instreamads.InstreamAd;
 import com.my.targetDemoApp.R;
 import com.my.targetDemoApp.utils.Tools;
 
@@ -28,7 +28,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class InstreamAdActivity extends AdActivity
 		implements InstreamAd.InstreamAdListener, InstreamAdController.SkipListener,
-		           InstreamAdController.AdClickListener
+				   InstreamAdController.AdClickListener
 
 {
 	public static final String SECTION_PREROLL = "preroll";

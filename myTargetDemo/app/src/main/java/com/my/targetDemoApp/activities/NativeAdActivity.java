@@ -1,5 +1,6 @@
 package com.my.targetDemoApp.activities;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.my.targetDemoApp.R;
 import com.my.targetDemoApp.fragments.NativeAdFragment;
@@ -22,22 +24,29 @@ public class NativeAdActivity extends AdActivity
 	private static final String TAG_VIDEO_FRAGMENT = "fragment_video";
 	private static final String TAG_SLIDER_FRAGMENT = "fragment_slider";
 	private FragmentManager fragmentManager;
+	private BottomNavigationView bottomNavigationView;
+	private Toolbar toolbar;
+	private ViewGroup topContainer;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_native_ads);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar = findViewById(R.id.toolbar);
+		topContainer = findViewById(R.id.top_container);
 		setSupportActionBar(toolbar);
 		if (getSupportActionBar() != null)
 		{
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setDisplayShowHomeEnabled(true);
 		}
+		bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-		BottomNavigationView bottomNavigationView = (BottomNavigationView)
-				findViewById(R.id.bottom_navigation);
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+		{
+			hideBottomView();
+		}
 
 		bottomNavigationView.setOnNavigationItemSelectedListener(this);
 		ArrayList<View> touchables = bottomNavigationView.getTouchables();
@@ -68,7 +77,7 @@ public class NativeAdActivity extends AdActivity
 	public boolean onNavigationItemSelected(@NonNull MenuItem item)
 	{
 		Fragment fragment;
-		String tag = null;
+		String tag;
 		switch (item.getItemId())
 		{
 			case R.id.action_native_static:
@@ -96,5 +105,31 @@ public class NativeAdActivity extends AdActivity
 					.commit();
 		}
 		return true;
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig)
+	{
+		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
+		{
+			hideBottomView();
+		}
+		else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
+		{
+			showBottomView();
+		}
+		super.onConfigurationChanged(newConfig);
+	}
+
+	private void showBottomView()
+	{
+		bottomNavigationView.setVisibility(View.VISIBLE);
+		toolbar.setVisibility(View.VISIBLE);
+	}
+
+	private void hideBottomView()
+	{
+		bottomNavigationView.setVisibility(View.GONE);
+		toolbar.setVisibility(View.GONE);
 	}
 }
