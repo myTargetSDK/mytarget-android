@@ -1,35 +1,52 @@
 apply plugin: 'com.android.application'
 
-android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.my.targetDemoApp"
-        minSdkVersion 14
-        targetSdkVersion 27
+        minSdkVersion 16
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
+androidExtensions {
+    experimental = true
+}
 
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        flatDir { dirs("libs") }
+    }
+}
 
 dependencies {
     if (new File("${project.projectDir}/libs/mytarget-sdk-TEST.aar").exists()) {
         implementation 'com.my.target:mytarget-sdk:TEST@aar'
     } else {
-        implementation 'com.my.target:mytarget-sdk:5.0.0'
+        implementation 'com.my.target:mytarget-sdk:5.2.2'
     }
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:cardview-v7:27.1.0'
-    implementation 'com.android.support:recyclerview-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
-    implementation 'com.google.android.gms:play-services-basement:11.4.2'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "com.android.support:design:$support_version"
+    implementation "com.android.support:cardview-v7:$support_version"
+    implementation "com.android.support:recyclerview-v7:$support_version"
+    implementation "com.android.support.constraint:constraint-layout:1.1.2"
+    implementation 'com.google.android.gms:play-services-ads-identifier:15.0.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.8.1'
 }

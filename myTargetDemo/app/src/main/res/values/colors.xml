@@ -2,8 +2,8 @@
 <resources>
     <item name="mycom" type="color">#FC2C38</item>
     <item name="mycomDark" type="color">#d72833</item>
-    <item name="lGrey" type="color">#ebebeb</item>
-    <item name="card_text" type="color">#585858</item>
-    <color name="card_pressed">#334a54df</color>
-    <color name="bottom_icon">#000000</color>
+    <color name="primary_material_light">#e62727</color>
+    <color name="accent_material_light">#0a46f9</color>
+    <color name="primary_dark_material_light">#630303</color>
+    <color name="background_material_light">#fafafa</color>
 </resources>
