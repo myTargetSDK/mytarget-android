@@ -2,14 +2,15 @@ package com.mopub;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.my.target.common.CustomParams;
-import com.my.target.core.Tracer;
 
 import java.util.Map;
 
 public class MopubCustomParamsUtils
 {
+	private static final String TAG = "MopubCustomParamsUtils";
 	private static final String EXTRA_GENDER = "mytarget_gender";
 	private static final String EXTRA_AGE = "mytarget_age";
 	private static final String EXTRA_VKID = "mytarget_vk_id";
@@ -31,7 +32,7 @@ public class MopubCustomParamsUtils
 				}
 				else
 				{
-					Tracer.e("Wrong mopub extra value: " + EXTRA_GENDER
+					Log.e(TAG,"Wrong mopub extra value: " + EXTRA_GENDER
 									 + " must be 0 (undefined) or 1 (male), or 2 (female)");
 				}
 			}
@@ -39,8 +40,8 @@ public class MopubCustomParamsUtils
 		catch (ClassCastException e)
 		{
 			String msg = "Wrong mopub extra value: " + EXTRA_GENDER + " must be integer";
-			Tracer.e(msg);
-			Tracer.d("message: " + e.getMessage());
+			Log.e(TAG,msg);
+			Log.d(TAG, "message: " + e.getMessage());
 		}
 
 		try
@@ -54,7 +55,7 @@ public class MopubCustomParamsUtils
 				}
 				else
 				{
-					Tracer.e("Wrong mopub extra value: " + EXTRA_AGE
+					Log.e(TAG,"Wrong mopub extra value: " + EXTRA_AGE
 									 + " must be > 0");
 				}
 			}
@@ -62,8 +63,8 @@ public class MopubCustomParamsUtils
 		catch (ClassCastException e)
 		{
 			String msg = "Wrong mopub extra value: " + EXTRA_AGE + " must be integer";
-			Tracer.e(msg);
-			Tracer.d("message: " + e.getMessage());
+			Log.e(TAG,msg);
+			Log.d(TAG,"message: " + e.getMessage());
 		}
 
 		try
@@ -77,7 +78,7 @@ public class MopubCustomParamsUtils
 				}
 				else
 				{
-					Tracer.e("Wrong mopub extra value: " + EXTRA_VKID
+					Log.e(TAG,"Wrong mopub extra value: " + EXTRA_VKID
 									 + " is empty");
 				}
 			}
@@ -85,8 +86,8 @@ public class MopubCustomParamsUtils
 		catch (ClassCastException e)
 		{
 			String msg = "Wrong mopub extra value: " + EXTRA_VKID + " must be String";
-			Tracer.e(msg);
-			Tracer.d("message: " + e.getMessage());
+			Log.e(TAG,msg);
+			Log.d(TAG,"message: " + e.getMessage());
 		}
 
 		try
@@ -100,7 +101,7 @@ public class MopubCustomParamsUtils
 				}
 				else
 				{
-					Tracer.e("Wrong mopub extra value: " + EXTRA_OKID
+					Log.e(TAG,"Wrong mopub extra value: " + EXTRA_OKID
 									 + " is empty");
 				}
 			}
@@ -108,8 +109,8 @@ public class MopubCustomParamsUtils
 		catch (ClassCastException e)
 		{
 			String msg = "Wrong mopub extra value: " + EXTRA_OKID + " must be String";
-			Tracer.e(msg);
-			Tracer.d("message: " + e.getMessage());
+			Log.e(TAG,msg);
+			Log.d(TAG,"message: " + e.getMessage());
 		}
 
 		return customParams;

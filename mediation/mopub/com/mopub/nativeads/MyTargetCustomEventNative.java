@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.mopub.MopubCustomParamsUtils;
-import com.my.target.core.Tracer;
+
 import com.my.target.nativeads.NativeAd;
 import com.my.target.nativeads.banners.NativePromoBanner;
 
@@ -41,7 +41,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 		}
 		else
 		{
-			Tracer.i("Unable to get slotId. Probably MoPub custom network misconfiguration.");
+			Log.w(TAG,"Unable to get slotId. Probably MoPub custom network misconfiguration.");
 			loadedAdListener.onNativeAdFailed(NativeErrorCode.INVALID_RESPONSE);
 			return;
 		}

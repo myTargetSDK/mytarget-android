@@ -22,13 +22,6 @@ public class MyTargetMopubCustomEventRewardedVideo extends CustomEventRewardedVi
 
 	@Nullable
 	@Override
-	protected CustomEventRewardedVideoListener getVideoListenerForSdk()
-	{
-		return null;
-	}
-
-	@Nullable
-	@Override
 	protected LifecycleListener getLifecycleListener()
 	{
 		return null;
@@ -56,7 +49,7 @@ public class MyTargetMopubCustomEventRewardedVideo extends CustomEventRewardedVi
 											@NonNull Map<String, String> serverExtras)
 			throws Exception
 	{
-		int slotId = 0;
+		int slotId;
 		if (serverExtras.size() == 0 || !serverExtras.containsKey(SLOT_ID_KEY))
 		{
 			Log.i(TAG,

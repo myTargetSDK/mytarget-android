@@ -3,13 +3,13 @@ package com.my.target.ads.mediation;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.mopub.MopubCustomParamsUtils;
 import com.mopub.mobileads.CustomEventBanner;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.my.target.ads.MyTargetView;
 import com.my.target.common.CustomParams;
-import com.my.target.core.Tracer;
 
 import java.util.Map;
 
@@ -18,6 +18,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 	/**
 	 * Static members*
 	 */
+	private static final String TAG = "MyTargetMopubCustomEven";
 	private static final String SLOT_ID_KEY = "slotId";
 
 	/**Static getters and setters**/
@@ -73,7 +74,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 		int slotId;
 		if (stringStringMap == null || stringStringMap.size() == 0 || !stringStringMap.containsKey(SLOT_ID_KEY))
 		{
-			Tracer.i("Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
+			Log.w(TAG, "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
 			if (customEventBannerListener != null)
 			{
 				customEventBannerListener.onBannerFailed(MoPubErrorCode.NO_FILL);
