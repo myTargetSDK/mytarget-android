@@ -38,7 +38,7 @@ dependencies {
     if (new File("${project.projectDir}/libs/mytarget-sdk-TEST.aar").exists()) {
         implementation 'com.my.target:mytarget-sdk:TEST@aar'
     } else {
-        implementation 'com.my.target:mytarget-sdk:5.2.2'
+        implementation 'com.my.target:mytarget-sdk:5.2.4'
     }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

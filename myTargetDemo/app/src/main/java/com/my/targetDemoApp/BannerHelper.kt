@@ -18,7 +18,6 @@ class BannerHelper : MyTargetView.MyTargetViewListener {
     override fun onLoad(p0: MyTargetView) {
         bar?.dismiss()
         afterLoad?.invoke()
-        p0.start()
     }
 
     override fun onClick(p0: MyTargetView) {
