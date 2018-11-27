@@ -12,7 +12,9 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>()
     private var adItems: ArrayList<ListItem>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainActivityViewHolder {
-        return MainActivityViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_main, parent, false))
+        return MainActivityViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_main,
+                                                                                  parent,
+                                                                                  false))
     }
 
     override fun getItemCount(): Int {
@@ -50,24 +52,23 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>()
         }
     }
 
-    class MainActivityViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    fun deleteItem(num: Int) {
+        val orNull = adItems?.getOrNull(num)
+        orNull?.deleteListener?.invoke(orNull)
+    }
+
+    class MainActivityViewHolder(override val containerView: View) : RecyclerView.ViewHolder(
+            containerView), LayoutContainer {
         fun bind(listItem: ListItem) {
             containerView.tv_title.text = listItem.title
             containerView.tv_description.text = listItem.description
-            val deleteListener = listItem.deleteListener
-            if (deleteListener != null) {
-                containerView.btn_delete.visibility = View.VISIBLE
-                containerView.btn_delete.setOnClickListener { deleteListener.invoke(listItem) }
-            }
-            else {
-                containerView.btn_delete.visibility = View.GONE
-                containerView.btn_delete.setOnClickListener(null)
-            }
-
             containerView.setOnClickListener { listItem.clickListener.invoke() }
         }
     }
 
-    class ListItem(var clickListener: () -> Unit, var title: String, var description: String, var deleteListener: ((ListItem) -> Unit)? = null)
+    class ListItem(var clickListener: () -> Unit,
+                   var title: String,
+                   var description: String,
+                   var deleteListener: ((ListItem) -> Unit)? = null)
 }
 

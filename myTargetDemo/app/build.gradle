@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'shot'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -12,14 +14,28 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.my.targetDemoTests.helpers.ScreenshotTestRunner"
         vectorDrawables.useSupportLibrary = true
+    }
+    lintOptions {
+        abortOnError true
+        warningsAsErrors true
+        lintConfig file("../lint.xml")
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/java'
+        androidTest.java.srcDirs += 'src/androidTest/java'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 androidExtensions {
@@ -34,19 +50,38 @@ allprojects {
     }
 }
 
+
 dependencies {
     if (new File("${project.projectDir}/libs/mytarget-sdk-TEST.aar").exists()) {
         implementation 'com.my.target:mytarget-sdk:TEST@aar'
     } else {
-        implementation 'com.my.target:mytarget-sdk:5.2.4'
+        implementation 'com.my.target:mytarget-sdk:5.2.6'
     }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:design:$support_version"
     implementation "com.android.support:cardview-v7:$support_version"
     implementation "com.android.support:recyclerview-v7:$support_version"
-    implementation "com.android.support.constraint:constraint-layout:1.1.2"
-    implementation 'com.google.android.gms:play-services-ads-identifier:15.0.1'
-    implementation 'com.google.android.exoplayer:exoplayer:2.8.1'
+    implementation "com.android.support.constraint:constraint-layout:1.1.3"
+    implementation 'com.google.android.gms:play-services-ads-identifier:16.0.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.9.1'
+
+    androidTestImplementation "junit:junit:4.12"
+    androidTestImplementation "com.android.support:support-annotations:$support_version"
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
+    androidTestImplementation "com.android.support.test:rules:1.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:3.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:3.0.2"
+    androidTestImplementation 'com.android.support.test.espresso:espresso-web:3.0.2'
+    androidTestImplementation("com.schibsted.spain:barista:2.7.0") {
+        exclude group: 'com.android.support'
+        exclude group: 'org.jetbrains.kotlin'
+    }
+}
+
+shot {
+    appId = "com.my.targetDemoApp"
 }

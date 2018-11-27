@@ -15,7 +15,7 @@ class ExoTimeBar(context: Context?, attrs: AttributeSet?) : DefaultTimeBar(conte
         for ((index, value) in adGroupTimesMs.withIndex()) {
             longs[index] = (value * 1000).toLong()
         }
-        super.setAdGroupTimesMs(longs, BooleanArray(adGroupTimesMs.size) { _ -> true }, adGroupTimesMs.size)
+        super.setAdGroupTimesMs(longs, BooleanArray(adGroupTimesMs.size) { true }, adGroupTimesMs.size)
     }
 
 }

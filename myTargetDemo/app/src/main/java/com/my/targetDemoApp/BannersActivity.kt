@@ -35,7 +35,8 @@ class BannersActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val displayMetrics = resources.displayMetrics
-        rbt_728x90.isEnabled = Math.max(displayMetrics.heightPixels / displayMetrics.density, displayMetrics.widthPixels / displayMetrics.density) > 728
+        rbt_728x90.isEnabled = Math.max(displayMetrics.heightPixels / displayMetrics.density,
+                                        displayMetrics.widthPixels / displayMetrics.density) > 728
 
         rbt_320x50.isChecked = true
         rbt_web.isChecked = true
@@ -46,6 +47,7 @@ class BannersActivity : AppCompatActivity() {
         val customSize = intent.getIntExtra(KEY_SIZE, -1)
         val customSlot = intent.getIntExtra(KEY_SLOT, -1)
         if (customSize >= 0 && customSlot >= 0) {
+            banner_container.visibility = VISIBLE
             goBanner(customSize, customSlot)
             customBannerShowing = true
         }
@@ -110,9 +112,8 @@ class BannersActivity : AppCompatActivity() {
             }
             MyTargetView.AdSize.BANNER_728x90  -> when {
                 rbt_web.isChecked    -> adType = AdvertisingType.STANDARD_BANNER_728X90_WEB
-                // no html yet
-//                rbt_html.isChecked -> adType = AdvertisingType.STANDARD_BANNER_300X250_HTML
-                rbt_native.isChecked -> adType = AdvertisingType.STANDARD_BANNER_728X90_WEB
+                rbt_html.isChecked   -> adType = AdvertisingType.STANDARD_BANNER_728X90_HTML
+                rbt_native.isChecked -> adType = AdvertisingType.STANDARD_BANNER_728X90_NATIVE
             }
         }
 
@@ -121,7 +122,6 @@ class BannersActivity : AppCompatActivity() {
 
     private fun goBanner(adSize: Int, slot: Int) {
         banner_container.removeView(bannerHelper.bannerView)
-
         bannerHelper.destroy()
         bannerHelper.init(slot, adSize, banner_container) {
             if (adSize == MyTargetView.AdSize.BANNER_300x250) {
@@ -134,7 +134,8 @@ class BannersActivity : AppCompatActivity() {
     }
 
     private fun showBanner() {
-        val lp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val lp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                          ViewGroup.LayoutParams.WRAP_CONTENT)
         lp.gravity = BOTTOM or CENTER_HORIZONTAL
         banner_container.addView(bannerHelper.bannerView, lp)
         banner_container.visibility = VISIBLE
@@ -142,7 +143,8 @@ class BannersActivity : AppCompatActivity() {
 
     private fun showBannerInsideList() {
         bannersAdapter.adViewInside = bannerHelper.bannerView
-        val lp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val lp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                          ViewGroup.LayoutParams.WRAP_CONTENT)
         lp.gravity = BOTTOM or CENTER_HORIZONTAL
         banner_container.visibility = VISIBLE
         bannersAdapter.notifyItemInserted(bannersAdapter.adPosition)

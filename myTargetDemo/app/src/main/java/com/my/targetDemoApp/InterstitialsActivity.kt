@@ -2,6 +2,7 @@ package com.my.targetDemoApp
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.my.target.ads.InterstitialAd
 import kotlinx.android.synthetic.main.activity_interstitials.*
 import kotlinx.android.synthetic.main.content_interstitials.*
 
@@ -12,7 +13,7 @@ class InterstitialsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_interstitials)
-
+        InterstitialAd.setDebugMode(true)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

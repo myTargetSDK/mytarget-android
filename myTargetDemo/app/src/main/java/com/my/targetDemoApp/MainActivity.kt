@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import com.my.target.ads.MyTargetView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,12 +23,24 @@ class MainActivity : AppCompatActivity() {
         mainActivityAdapter = ItemsAdapter()
         main_recycler.adapter = mainActivityAdapter
         main_recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val callback = TouchCallback { mainActivityAdapter.deleteItem(it) }
+        val helper = ItemTouchHelper(callback)
+        helper.attachToRecyclerView(main_recycler)
 
         val types = ArrayList<ItemsAdapter.ListItem>()
-        types.add(ItemsAdapter.ListItem({ goBanners() }, getString(R.string.standard_banners), getString(R.string.standard_banners_desc)))
-        types.add(ItemsAdapter.ListItem({ goInterstitials() }, getString(R.string.interstitial_ads), getString(R.string.interstitial_ads_desc)))
-        types.add(ItemsAdapter.ListItem({ goNative() }, getString(R.string.native_ads), getString(R.string.native_ads_desc)))
-        types.add(ItemsAdapter.ListItem({ goInstream() }, getString(R.string.instream_ads), getString(R.string.instream_ads_desc)))
+        types.add(ItemsAdapter.ListItem({ goBanners() },
+                                        getString(R.string.standard_banners),
+                                        getString(R.string.standard_banners_desc)))
+        types.add(ItemsAdapter.ListItem({ goInterstitials() },
+                                        getString(R.string.interstitial_ads),
+                                        getString(R.string.interstitial_ads_desc)))
+        types.add(ItemsAdapter.ListItem({ goNative() },
+                                        getString(R.string.native_ads),
+                                        getString(R.string.native_ads_desc)))
+        types.add(ItemsAdapter.ListItem({ goInstream() },
+                                        getString(R.string.instream_ads),
+                                        getString(R.string.instream_ads_desc)))
+        callback.protectedTypesSize = types.size
 
         saver.restore()?.forEach { types.add(createListItem(it)) }
 
@@ -110,9 +124,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createListItem(adType: CustomAdvertisingType): ItemsAdapter.ListItem {
-        return ItemsAdapter.ListItem({ goCustom(adType) }, "Custom ${adType.toString().toLowerCase()}", "Slot ID ${adType.slotId}", {
-            saver.remove(adType)
-            mainActivityAdapter.deleteItem(it)
-        })
+        return ItemsAdapter.ListItem({ goCustom(adType) },
+                                     "Custom ${adType.toString().toLowerCase()}",
+                                     "Slot ID ${adType.slotId}",
+                                     {
+                                         saver.remove(adType)
+                                         mainActivityAdapter.deleteItem(it)
+                                     })
+    }
+
+    class TouchCallback(private val swipeListener: (position: Int) -> Unit) : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT) {
+        var protectedTypesSize: Int = 0
+
+        override fun onMove(p0: RecyclerView,
+                            p1: RecyclerView.ViewHolder,
+                            p2: RecyclerView.ViewHolder): Boolean {
+            return true
+        }
+
+        override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
+            swipeListener.invoke(p1)
+        }
+
+        override fun getSwipeDirs(recyclerView: RecyclerView,
+                                  viewHolder: RecyclerView.ViewHolder): Int {
+            return if (viewHolder.adapterPosition < protectedTypesSize) {
+                0
+            }
+            else {
+                super.getSwipeDirs(recyclerView, viewHolder)
+            }
+        }
     }
 }

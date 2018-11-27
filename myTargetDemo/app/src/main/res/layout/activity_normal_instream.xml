@@ -340,19 +340,20 @@
 
         <com.google.android.exoplayer2.ui.AspectRatioFrameLayout
             android:id="@+id/video_frame"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cv_status"
-            app:resize_mode="fill">
+            app:resize_mode="fit">
 
             <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/exoplayer_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:auto_show="true"
-                app:resize_mode="fixed_width"
+                app:resize_mode="fit"
                 app:shutter_background_color="@android:color/black"
                 app:use_artwork="true"
                 app:use_controller="true" />

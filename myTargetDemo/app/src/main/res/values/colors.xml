@@ -2,8 +2,4 @@
 <resources>
     <item name="mycom" type="color">#FC2C38</item>
     <item name="mycomDark" type="color">#d72833</item>
-    <color name="primary_material_light">#e62727</color>
-    <color name="accent_material_light">#0a46f9</color>
-    <color name="primary_dark_material_light">#630303</color>
-    <color name="background_material_light">#fafafa</color>
 </resources>

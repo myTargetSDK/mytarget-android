@@ -38,7 +38,19 @@ class NativeActivity : AppCompatActivity() {
         }
 
         btn_gonative.setOnClickListener { loadAndShow(getAdType().defaultSlot) }
-
+        rg_type.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.rbt_news_feed, R.id.rbt_chat_list -> {
+                    rbt_none.isChecked = true
+                    rbt_cards.isEnabled = false
+                    rbt_video.isEnabled = false
+                }
+                else                                   -> {
+                    rbt_cards.isEnabled = true
+                    rbt_video.isEnabled = true
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -64,7 +76,8 @@ class NativeActivity : AppCompatActivity() {
 
         native_container.removeAllViews()
 
-        val lp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        val lp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                          ViewGroup.LayoutParams.MATCH_PARENT)
         lp.gravity = Gravity.CENTER
         native_container.addView(nativeHelper.recyclerView, 0, lp)
         native_container.visibility = View.VISIBLE

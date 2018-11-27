@@ -1,6 +1,5 @@
 package com.my.targetDemoApp
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
@@ -12,9 +11,6 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.trackselection.TrackSelection
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
@@ -30,15 +26,8 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
         const val KEY_SLOT = "slotId"
     }
 
-    private val bandwidthMeter = DefaultBandwidthMeter()
-
-    private var videoTrackSelectionFactory: TrackSelection.Factory = AdaptiveTrackSelection.Factory(bandwidthMeter)
-    private val trackSelector = DefaultTrackSelector(videoTrackSelectionFactory)
-
-    private lateinit var smallPlayer: InstreamAdPlayer
     private lateinit var instreamAd: InstreamAd
     private lateinit var exoPlayer: SimpleExoPlayer
-    private lateinit var dataSourceFactory: DefaultDataSourceFactory
     private lateinit var mediaSource: MediaSource
 
     private var loaded: Boolean = false
@@ -56,6 +45,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_normal_instream)
+        InstreamAd.setDebugMode(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         slotId = intent.getIntExtra(KEY_SLOT, AdvertisingType.INSTREAM.defaultSlot)
@@ -64,11 +54,6 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
         initAd()
 
         rootPadding = root_content_layout.paddingLeft
-        smallPlayer = VideoAdPlayer(this)
-    }
-
-    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
-        togglePipView(!isInPictureInPictureMode)
     }
 
     private fun initAd() {
@@ -80,12 +65,15 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
 
     private fun initPlayer() {
 
-        exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
-        dataSourceFactory = DefaultDataSourceFactory(this, Util.getUserAgent(this, "myTarget"), bandwidthMeter)
-
+        val bandwidthMeter = DefaultBandwidthMeter()
+        val dataSourceFactory = DefaultDataSourceFactory(this,
+                                                         Util.getUserAgent(this, "myTarget"),
+                                                         bandwidthMeter)
         val mediaSourceFactory = ExtractorMediaSource.Factory(dataSourceFactory)
+        exoPlayer = ExoPlayerFactory.newSimpleInstance(this)
 
-        mediaSource = mediaSourceFactory.createMediaSource(RawResourceDataSource.buildRawResourceUri(R.raw.mytarget))
+        mediaSource = mediaSourceFactory.createMediaSource(RawResourceDataSource.buildRawResourceUri(
+                R.raw.mytarget))
         exoPlayer.addListener(this)
         exoPlayer.playWhenReady = false
         exoplayer_view.player = exoPlayer
@@ -101,7 +89,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
         btn_pause.setOnClickListener { instreamAd.pause() }
         btn_resume.setOnClickListener { instreamAd.resume() }
         btn_stop.setOnClickListener { instreamAd.stop() }
-        btn_skip_banner.setOnClickListener() {
+        btn_skip_banner.setOnClickListener {
             instreamAd.skipBanner()
         }
         btn_skip.setOnClickListener {
@@ -230,59 +218,17 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
         }
     }
 
-    private fun togglePipView(show: Boolean) {
-        val childCount = root_content_layout.childCount
-        if (show) {
-            root_content_layout.setPadding(rootPadding, rootPadding, rootPadding, rootPadding)
-            if (btn_skip.visibility == View.INVISIBLE) {
-                btn_skip.visibility = View.VISIBLE
-            }
-
-            if (btn_skip_banner.visibility == View.INVISIBLE) {
-                btn_skip_banner.visibility = View.VISIBLE
-            }
-
-            if (btn_cta.visibility == View.INVISIBLE) {
-                btn_cta.visibility = View.VISIBLE
-            }
-
-        }
-        else {
-            exoplayer_view.hideController()
-            root_content_layout.setPadding(0, 0, 0, 0)
-
-            if (btn_skip.visibility == View.VISIBLE) {
-                btn_skip.visibility = View.INVISIBLE
-            }
-
-            if (btn_skip_banner.visibility == View.VISIBLE) {
-                btn_skip_banner.visibility = View.INVISIBLE
-            }
-
-            if (btn_cta.visibility == View.VISIBLE) {
-                btn_cta.visibility = View.INVISIBLE
-            }
-        }
-
-        for (i in 0 until childCount) {
-            val view = root_content_layout.getChildAt(i)
-            if (view != video_frame) {
-                if (show) {
-                    view.visibility = View.VISIBLE
-                }
-                else {
-                    view.visibility = View.GONE
-                }
-            }
-        }
-    }
-
     private fun addAdPlayer(): Boolean {
         if (instreamAd.player?.view?.parent != null) {
             snack("Player already created")
             return false
         }
-        video_frame.addView(instreamAd.player?.view, 1, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+        video_frame.addView(instreamAd.player?.view,
+                            1,
+                            ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                   ViewGroup.LayoutParams.MATCH_PARENT))
+
+//        (instreamAd.player?.view as PlayerView).resizeMode = RESIZE_MODE_FIT
         return true
     }
 
@@ -305,7 +251,8 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
     private fun processBanner(banner: InstreamAd.InstreamAdBanner? = null) {
         instreamAdBanner = banner
         tv_duration_content.text = banner?.duration?.toString() ?: getString(R.string.n_a)
-        tv_dimensions_content.text = banner?.let { "${banner.videoWidth}x${banner.videoHeight}" } ?: getString(R.string.n_a)
+        tv_dimensions_content.text = banner?.let { "${banner.videoWidth}x${banner.videoHeight}" } ?: getString(
+                R.string.n_a)
         tv_close_delay_content.text = banner?.allowCloseDelay?.toString() ?: getString(R.string.n_a)
         tv_allowclose_content.text = boolTextValue(banner?.allowClose)
         tv_haspause_content.text = boolTextValue(banner?.allowPause)
@@ -341,7 +288,8 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
         (exo_progress as ExoTimeBar).setAdGroupTimesSec(adGroupTimesMs)
 
         for (midPoint in adGroupTimesMs) {
-            exoPlayer.createMessage { _, _ -> startMidroll(midPoint) }.setPosition((midPoint * 1000).toLong()).setHandler(Handler()).send()
+            exoPlayer.createMessage { _, _ -> startMidroll(midPoint) }
+                    .setPosition((midPoint * 1000).toLong()).setHandler(Handler()).send()
         }
     }
 

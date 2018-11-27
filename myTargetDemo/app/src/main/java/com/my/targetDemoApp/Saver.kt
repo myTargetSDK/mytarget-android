@@ -14,7 +14,7 @@ class Saver(context: Context) {
 
     fun save(adType: CustomAdvertisingType) {
         val item = preferences.getStringSet(TAG, HashSet<String>())
-        item.add("${adType.name}:${adType.slotId}")
+        item?.add("${adType.name}:${adType.slotId}")
         preferences.edit().remove(TAG).apply()
         preferences.edit().putStringSet(TAG, item).apply()
     }
@@ -25,7 +25,7 @@ class Saver(context: Context) {
         item?.forEach {
             val split = it.split(DELIMETER)
             val type = CustomAdvertisingType.valueOf(split[0])
-            type.slotId = split[1].toInt()
+            type.slotId = split[1].toIntOrNull()
             types?.add(type)
         }
         return types
@@ -34,7 +34,7 @@ class Saver(context: Context) {
     fun remove(it: CustomAdvertisingType) {
         val item = "${it.name}:${it.slotId}"
         val items = preferences.getStringSet(TAG, null)
-        if (items.contains(item)) {
+        if (items?.contains(item) == true) {
             items.remove(item)
             preferences.edit().remove(TAG).apply()
             preferences.edit().putStringSet(TAG, items).apply()

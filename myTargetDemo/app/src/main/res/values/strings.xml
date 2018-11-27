@@ -46,7 +46,6 @@
     <string name="news_feed">News feed</string>
     <string name="chat_list">Chat list</string>
     <string name="native_content">Native content</string>
-    <string name="will_be_shown_only_if_native_view_supports_it">Will be shown only if native view supports it</string>
     <string name="none">None</string>
     <string name="video">Video</string>
     <string name="instream_params">Instream params</string>
