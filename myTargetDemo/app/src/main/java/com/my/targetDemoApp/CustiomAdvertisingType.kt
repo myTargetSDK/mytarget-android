@@ -1,12 +1,14 @@
 package com.my.targetDemoApp
 
-enum class CustomAdvertisingType {
-    STANDARD_320X50,
-    STANDARD_300X250,
-    STANDARD_728X90,
-    INTERSTITIAL,
-    NATIVE,
-    INSTREAM;
+class CustomAdvertisingType(val adType: AdType, val slotId: Int?) {
+    var name = "Custom ${adType.toString().toLowerCase()}"
 
-    var slotId: Int? = null
+    enum class AdType {
+        STANDARD_320X50,
+        STANDARD_300X250,
+        STANDARD_728X90,
+        INTERSTITIAL,
+        NATIVE,
+        INSTREAM;
+    }
 }

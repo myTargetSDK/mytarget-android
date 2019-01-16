@@ -13,25 +13,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="Advertisement type"/>
+            android:text="Advertisement type" />
 
-        <include layout="@layout/radiogroup_choose_ad"/>
+        <include layout="@layout/radiogroup_choose_ad" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="Slot id"/>
+            android:text="Slot id" />
 
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:hint="slot id"
             android:focusableInTouchMode="true"
+            android:hint="slot id"
             android:inputType="number"
-            android:maxLength="6"/>
+            android:maxLength="6" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="Name"
+            android:inputType="text" />
 
     </LinearLayout>
 </ScrollView>

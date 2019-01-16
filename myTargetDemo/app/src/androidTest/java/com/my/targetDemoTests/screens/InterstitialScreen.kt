@@ -88,13 +88,6 @@ class InterstitialScreen: WebViewScreen() {
         clickOn(showActivityBtn)
     }
 
-    fun showVastInDialog() {
-        clickOn(rbtVast)
-        clickOn(loadBtn)
-        sleep(1000)
-        clickOn(showDialogBtn)
-    }
-
     fun showImage() {
         clickOn(rbtImage)
         clickOn(loadBtn)

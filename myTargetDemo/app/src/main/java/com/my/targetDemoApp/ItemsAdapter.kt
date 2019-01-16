@@ -11,6 +11,12 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>()
 
     private var adItems: ArrayList<ListItem>? = null
 
+    private var deleteListener: ((Int) -> Unit)? = null
+
+    fun setDeleteListener(function: (Int) -> Unit) {
+        this.deleteListener = function
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainActivityViewHolder {
         return MainActivityViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_main,
                                                                                   parent,
@@ -42,19 +48,14 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>()
         }
     }
 
-    fun deleteItem(listItem: ListItem) {
+    fun deleteItem(num: Int) {
         adItems?.let {
-            val pos = it.indexOf(listItem)
-            if (pos >= 0) {
-                it.remove(listItem)
-                notifyItemRemoved(pos)
+            if (it.size > num) {
+                it.removeAt(num)
+                notifyItemRemoved(num)
+                deleteListener?.invoke(num)
             }
         }
-    }
-
-    fun deleteItem(num: Int) {
-        val orNull = adItems?.getOrNull(num)
-        orNull?.deleteListener?.invoke(orNull)
     }
 
     class MainActivityViewHolder(override val containerView: View) : RecyclerView.ViewHolder(
@@ -66,9 +67,6 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>()
         }
     }
 
-    class ListItem(var clickListener: () -> Unit,
-                   var title: String,
-                   var description: String,
-                   var deleteListener: ((ListItem) -> Unit)? = null)
+    class ListItem(var clickListener: () -> Unit, var title: String, var description: String)
 }
 

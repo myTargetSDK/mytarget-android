@@ -40,9 +40,15 @@ class MainActivity : AppCompatActivity() {
         types.add(ItemsAdapter.ListItem({ goInstream() },
                                         getString(R.string.instream_ads),
                                         getString(R.string.instream_ads_desc)))
-        callback.protectedTypesSize = types.size
+        val size = types.size
+        callback.protectedTypesSize = size
 
-        saver.restore()?.forEach { types.add(createListItem(it)) }
+        mainActivityAdapter.setDeleteListener { saver.remove(it - size) }
+
+        val restore = saver.restore()
+        restore?.forEach {
+            types.add(createListItem(it))
+        }
 
         mainActivityAdapter.setItems(types)
     }
@@ -78,23 +84,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun goCustom(adType: CustomAdvertisingType) {
         val slot = adType.slotId ?: return
-        when (adType) {
-            CustomAdvertisingType.STANDARD_320X50  -> {
+        when (adType.adType) {
+            CustomAdvertisingType.AdType.STANDARD_320X50  -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_320x50)
             }
-            CustomAdvertisingType.STANDARD_300X250 -> {
+            CustomAdvertisingType.AdType.STANDARD_300X250 -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_300x250)
             }
-            CustomAdvertisingType.STANDARD_728X90  -> {
+            CustomAdvertisingType.AdType.STANDARD_728X90  -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_728x90)
             }
-            CustomAdvertisingType.NATIVE           -> {
+            CustomAdvertisingType.AdType.NATIVE           -> {
                 goNative(slot)
             }
-            CustomAdvertisingType.INSTREAM         -> {
+            CustomAdvertisingType.AdType.INSTREAM         -> {
                 goInstream(slot)
             }
-            CustomAdvertisingType.INTERSTITIAL     -> {
+            CustomAdvertisingType.AdType.INTERSTITIAL     -> {
                 val helper = InterstitialHelper(main_recycler)
                 helper.init(slot, true)
             }
@@ -124,13 +130,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createListItem(adType: CustomAdvertisingType): ItemsAdapter.ListItem {
-        return ItemsAdapter.ListItem({ goCustom(adType) },
-                                     "Custom ${adType.toString().toLowerCase()}",
-                                     "Slot ID ${adType.slotId}",
-                                     {
-                                         saver.remove(adType)
-                                         mainActivityAdapter.deleteItem(it)
-                                     })
+        return ItemsAdapter.ListItem({ goCustom(adType) }, adType.name, "Slot ID ${adType.slotId}")
     }
 
     class TouchCallback(private val swipeListener: (position: Int) -> Unit) : ItemTouchHelper.SimpleCallback(
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
-            swipeListener.invoke(p1)
+            swipeListener.invoke(p0.adapterPosition)
         }
 
         override fun getSwipeDirs(recyclerView: RecyclerView,

@@ -155,12 +155,4 @@ class InterstitialTest: TestBase() {
         device.wait(callback = Callback.load)
         intended(hasComponent(MyTargetActivity::class.java.name))
     }
-
-    @Test
-    fun test_ShowVastInDialog() {
-        val interstitialScreen = InterstitialScreen()
-        interstitialScreen.showVastInDialog()
-        device.wait(callback = Callback.load)
-        onView(isRoot()).inRoot(isDialog()).check(matches(isDisplayed()))
-    }
 }
