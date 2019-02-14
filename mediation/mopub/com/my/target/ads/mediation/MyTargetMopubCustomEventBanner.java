@@ -20,6 +20,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 	 */
 	private static final String TAG = "MyTargetMopubCustomEven";
 	private static final String SLOT_ID_KEY = "slotId";
+	private static final String SIZE_KEY = "mytarget_adsize";
 
 	/**Static getters and setters**/
 
@@ -31,7 +32,6 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 		@Override
 		public void onLoad(@NonNull MyTargetView myTargetView)
 		{
-			myTargetView.start();
 			if (bannerListener != null)
 			{
 				bannerListener.onBannerLoaded(myTargetView);
@@ -69,15 +69,25 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 	}
 
 	@Override
-	protected void loadBanner(Context context, CustomEventBannerListener customEventBannerListener, Map<String, Object> stringObjectMap, Map<String, String> stringStringMap)
+	protected void loadBanner(Context context,@Nullable CustomEventBannerListener customEventBannerListener, Map<String, Object> stringObjectMap, Map<String, String> stringStringMap)
 	{
+		if (context == null)
+		{
+			Log.e(TAG, "Error loading banner: null context");
+			if (customEventBannerListener != null)
+			{
+				customEventBannerListener.onBannerFailed(MoPubErrorCode.INTERNAL_ERROR);
+			}
+			return;
+		}
+
 		int slotId;
 		if (stringStringMap == null || stringStringMap.size() == 0 || !stringStringMap.containsKey(SLOT_ID_KEY))
 		{
 			Log.w(TAG, "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
 			if (customEventBannerListener != null)
 			{
-				customEventBannerListener.onBannerFailed(MoPubErrorCode.NO_FILL);
+				customEventBannerListener.onBannerFailed(MoPubErrorCode.MISSING_AD_UNIT_ID);
 			}
 
 			return;
@@ -86,15 +96,25 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 		slotId = Integer.parseInt(stringStringMap.get(SLOT_ID_KEY));
 
 		bannerListener = customEventBannerListener;
+		int adSize = MyTargetView.AdSize.BANNER_320x50;
+		if (stringObjectMap != null)
+		{
+			Object size = stringObjectMap.get(SIZE_KEY);
+			if (size != null)
+			{
+				adSize = (int) size;
+			}
+		}
+
 		if (myTargetView == null)
 		{
 			myTargetView = new MyTargetView(context);
-			myTargetView.init(slotId, MyTargetView.AdSize.BANNER_320x50, false);
 			final CustomParams customParams = myTargetView.getCustomParams();
-			if (customParams != null)
+			if (customParams != null && stringObjectMap != null)
 			{
 				MopubCustomParamsUtils.fillCustomParams(customParams, stringObjectMap);
 			}
+			myTargetView.init(slotId, adSize, false);
 			myTargetView.setListener(myTargetViewListener);
 		}
 		myTargetView.load();
