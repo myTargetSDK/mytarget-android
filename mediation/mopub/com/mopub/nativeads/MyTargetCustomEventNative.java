@@ -6,23 +6,18 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.mopub.MopubCustomParamsUtils;
-
 import com.my.target.nativeads.NativeAd;
 import com.my.target.nativeads.banners.NativePromoBanner;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class MyTargetCustomEventNative extends CustomEventNative
 {
 	private static final String TAG = "MyTargetCustomNative";
 	private static final String SLOT_ID_KEY = "slotId";
-	private static final List<MyTargetCustomEventNative> activeEvents = new ArrayList<>();
 	private @Nullable NativeAd nativeAd;
 	private @Nullable CustomEventNativeListener loadedAdListener;
 	private @Nullable Context context;
-	private @Nullable MyTargetStaticNativeAd mopubNativeAd;
 
 	@Override
 	protected void loadNativeAd(@NonNull Context context,
@@ -33,20 +28,32 @@ public class MyTargetCustomEventNative extends CustomEventNative
 		this.loadedAdListener = customEventNativeListener;
 		this.context = context;
 
-		int slotId;
-
-		if (stringStringMap.containsKey(SLOT_ID_KEY))
+		int slotId = -1;
+		if (!stringStringMap.isEmpty())
 		{
-			slotId = Integer.parseInt(stringStringMap.get(SLOT_ID_KEY));
+			String sslotId = stringStringMap.get(SLOT_ID_KEY);
+			if (sslotId != null)
+			{
+				try
+				{
+					slotId = Integer.parseInt(sslotId);
+				}
+				catch (NumberFormatException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
-		else
+
+		if (slotId < 0)
 		{
-			Log.w(TAG,"Unable to get slotId. Probably MoPub custom network misconfiguration.");
-			loadedAdListener.onNativeAdFailed(NativeErrorCode.INVALID_RESPONSE);
+			Log.w(TAG, "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
+			if (loadedAdListener != null)
+			{
+				loadedAdListener.onNativeAdFailed(NativeErrorCode.UNSPECIFIED);
+			}
 			return;
 		}
-
-		activeEvents.add(this);
 
 		nativeAd = new NativeAd(slotId, context);
 
@@ -76,7 +83,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 				return;
 			}
 
-			mopubNativeAd = new MyTargetStaticNativeAd(context);
+			MyTargetStaticNativeAd mopubNativeAd = new MyTargetStaticNativeAd(context);
 			mopubNativeAd.setNativeAd(ad);
 			mopubNativeAd.setTitle(banner.getTitle());
 			mopubNativeAd.setCallToAction(banner.getCtaText());
@@ -94,12 +101,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 			mopubNativeAd.setStarRating((double) banner.getRating());
 			mopubNativeAd.setText(banner.getDescription());
 
-			if (activeEvents.contains(MyTargetCustomEventNative.this))
-			{
-				activeEvents.remove(MyTargetCustomEventNative.this);
-			}
-
-			if (mopubNativeAd != null && loadedAdListener != null)
+			if (loadedAdListener != null)
 			{
 				loadedAdListener.onNativeAdLoaded(mopubNativeAd);
 			}
@@ -113,11 +115,6 @@ public class MyTargetCustomEventNative extends CustomEventNative
 			if (loadedAdListener != null)
 			{
 				loadedAdListener.onNativeAdFailed(NativeErrorCode.EMPTY_AD_RESPONSE);
-			}
-
-			if (activeEvents.contains(MyTargetCustomEventNative.this))
-			{
-				activeEvents.remove(MyTargetCustomEventNative.this);
 			}
 		}
 

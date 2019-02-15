@@ -18,10 +18,10 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 	private @Nullable CustomEventInterstitialListener mopubInterstitialListener;
 
 	@Override
-	protected void loadInterstitial(Context context,
-									CustomEventInterstitialListener customEventInterstitialListener,
-									Map<String, Object> stringObjectMap,
-									Map<String, String> stringStringMap)
+	protected void loadInterstitial(@Nullable Context context,
+									@Nullable CustomEventInterstitialListener customEventInterstitialListener,
+									@Nullable Map<String, Object> stringObjectMap,
+									@Nullable Map<String, String> stringStringMap)
 	{
 		this.mopubInterstitialListener = customEventInterstitialListener;
 		Log.d(TAG, "Loading mopub mediation interstitial");
@@ -30,24 +30,30 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 			return;
 		}
 
-		int slotId;
-		if (stringStringMap != null && (stringStringMap.size() == 0 || !stringStringMap.containsKey(SLOT_ID_KEY)))
+		int slotId = -1;
+		if (stringStringMap != null && !stringStringMap.isEmpty())
 		{
-			Log.d(TAG, "Unable to get slotId from parameter json. Probably MoPub mediation misconfiguration.");
-			if (customEventInterstitialListener != null)
+			String sslotId = stringStringMap.get(SLOT_ID_KEY);
+			if (sslotId != null)
 			{
-				customEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.UNSPECIFIED);
+				try
+				{
+					slotId = Integer.parseInt(sslotId);
+				}
+				catch (NumberFormatException e)
+				{
+					e.printStackTrace();
+				}
 			}
-			return;
 		}
 
-		if (stringStringMap != null)
+		if (slotId < 0)
 		{
-			slotId = Integer.parseInt(stringStringMap.get(SLOT_ID_KEY));
-		}
-		else
-		{
-			Log.d(TAG, "Unable to get myTarget slotId");
+			Log.w(TAG, "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
+			if (mopubInterstitialListener != null)
+			{
+				mopubInterstitialListener.onInterstitialFailed(MoPubErrorCode.MISSING_AD_UNIT_ID);
+			}
 			return;
 		}
 

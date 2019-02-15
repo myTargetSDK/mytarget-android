@@ -15,18 +15,10 @@ import java.util.Map;
 
 public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 {
-	/**
-	 * Static members*
-	 */
 	private static final String TAG = "MyTargetMopubCustomEven";
 	private static final String SLOT_ID_KEY = "slotId";
 	private static final String SIZE_KEY = "mytarget_adsize";
 
-	/**Static getters and setters**/
-
-	/**
-	 * Static methods*
-	 */
 	private final MyTargetView.MyTargetViewListener myTargetViewListener = new MyTargetView.MyTargetViewListener()
 	{
 		@Override
@@ -61,15 +53,15 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 	private @Nullable MyTargetView myTargetView;
 	private @Nullable CustomEventBannerListener bannerListener;
 
-	/**
-	 * Constructor*
-	 */
 	public MyTargetMopubCustomEventBanner()
 	{
 	}
 
 	@Override
-	protected void loadBanner(Context context,@Nullable CustomEventBannerListener customEventBannerListener, Map<String, Object> stringObjectMap, Map<String, String> stringStringMap)
+	protected void loadBanner(Context context,
+							  @Nullable CustomEventBannerListener customEventBannerListener,
+							  @Nullable Map<String, Object> stringObjectMap,
+							  @Nullable Map<String, String> stringStringMap)
 	{
 		if (context == null)
 		{
@@ -81,19 +73,32 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 			return;
 		}
 
-		int slotId;
-		if (stringStringMap == null || stringStringMap.size() == 0 || !stringStringMap.containsKey(SLOT_ID_KEY))
+		int slotId = -1;
+		if (stringStringMap != null && !stringStringMap.isEmpty())
+		{
+			String sslotId = stringStringMap.get(SLOT_ID_KEY);
+			if (sslotId != null)
+			{
+				try
+				{
+					slotId = Integer.parseInt(sslotId);
+				}
+				catch (NumberFormatException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (slotId < 0)
 		{
 			Log.w(TAG, "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
 			if (customEventBannerListener != null)
 			{
 				customEventBannerListener.onBannerFailed(MoPubErrorCode.MISSING_AD_UNIT_ID);
 			}
-
 			return;
 		}
-
-		slotId = Integer.parseInt(stringStringMap.get(SLOT_ID_KEY));
 
 		bannerListener = customEventBannerListener;
 		int adSize = MyTargetView.AdSize.BANNER_320x50;

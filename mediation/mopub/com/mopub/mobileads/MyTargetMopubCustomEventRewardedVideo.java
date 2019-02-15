@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class MyTargetMopubCustomEventRewardedVideo extends CustomEventRewardedVideo
 {
-	public static final String NETWORK_ID = "myTarget";
+	private static final String NETWORK_ID = "myTarget";
 	private static final String TAG = "MyTargetMopubCustomEven";
 	private static final String SLOT_ID_KEY = "slotId";
 	private @Nullable InterstitialAd ad;
@@ -43,28 +43,33 @@ public class MyTargetMopubCustomEventRewardedVideo extends CustomEventRewardedVi
 		}
 	}
 
+	@SuppressWarnings("RedundantThrows")
 	@Override
 	protected boolean checkAndInitializeSdk(@NonNull Activity launcherActivity,
 											@NonNull Map<String, Object> localExtras,
-											@NonNull Map<String, String> serverExtras)
+											@NonNull Map<String, String> stringStringMap)
 			throws Exception
 	{
-		int slotId;
-		if (serverExtras.size() == 0 || !serverExtras.containsKey(SLOT_ID_KEY))
+		int slotId = -1;
+		if (!stringStringMap.isEmpty())
 		{
-			Log.i(TAG,
-				  "Unable to get slotId from parameter json. Probably Admob mediation " +
-							"misconfiguration.");
-			return false;
+			String sslotId = stringStringMap.get(SLOT_ID_KEY);
+			if (sslotId != null)
+			{
+				try
+				{
+					slotId = Integer.parseInt(sslotId);
+				}
+				catch (NumberFormatException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 
-		try
+		if (slotId < 0)
 		{
-			slotId = Integer.parseInt(serverExtras.get(SLOT_ID_KEY));
-		}
-		catch (NumberFormatException e)
-		{
-			Log.d(TAG, "Wrong slotId");
+			Log.w(TAG, "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
 			return false;
 		}
 
@@ -76,6 +81,7 @@ public class MyTargetMopubCustomEventRewardedVideo extends CustomEventRewardedVi
 		return true;
 	}
 
+	@SuppressWarnings("RedundantThrows")
 	@Override
 	protected void loadWithSdkInitialized(@NonNull Activity activity,
 										  @NonNull Map<String, Object> localExtras,

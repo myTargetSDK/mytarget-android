@@ -16,8 +16,8 @@ public class MopubCustomParamsUtils
 	private static final String EXTRA_VKID = "mytarget_vk_id";
 	private static final String EXTRA_OKID = "mytarget_ok_id";
 
-	public static @NonNull CustomParams fillCustomParams(@NonNull CustomParams customParams,
-														 @NonNull Map<String, Object> stringObjectMap)
+	public static void fillCustomParams(@NonNull CustomParams customParams,
+												 @NonNull Map<String, Object> stringObjectMap)
 	{
 		customParams.setCustomParam("mediation", "mopub");
 
@@ -113,6 +113,5 @@ public class MopubCustomParamsUtils
 			Log.d(TAG,"message: " + e.getMessage());
 		}
 
-		return customParams;
 	}
 }
