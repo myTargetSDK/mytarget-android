@@ -67,7 +67,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 	private class MyTargetNativeAdListener implements NativeAd.NativeAdListener
 	{
 		@Override
-		public void onLoad(@NonNull NativeAd ad)
+		public void onLoad(@NonNull NativePromoBanner banner, @NonNull NativeAd ad)
 		{
 			if (nativeAd != ad || context == null)
 			{
@@ -76,12 +76,6 @@ public class MyTargetCustomEventNative extends CustomEventNative
 			}
 
 			Log.d(TAG, "Received ad from myTarget, converting to MoPub ad");
-			NativePromoBanner banner = nativeAd.getBanner();
-			if (banner == null)
-			{
-				Log.d(TAG, "null banner in myTarget NativeAd");
-				return;
-			}
 
 			MyTargetStaticNativeAd mopubNativeAd = new MyTargetStaticNativeAd(context);
 			mopubNativeAd.setNativeAd(ad);

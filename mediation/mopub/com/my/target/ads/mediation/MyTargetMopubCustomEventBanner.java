@@ -48,6 +48,15 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 				bannerListener.onLeaveApplication();
 			}
 		}
+
+		@Override
+		public void onShow(@NonNull final MyTargetView myTargetView)
+		{
+			if (bannerListener != null)
+			{
+				bannerListener.onBannerImpression();
+			}
+		}
 	};
 
 	private @Nullable MyTargetView myTargetView;
