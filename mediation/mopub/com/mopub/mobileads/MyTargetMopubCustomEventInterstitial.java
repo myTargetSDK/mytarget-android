@@ -3,17 +3,19 @@ package com.mopub.mobileads;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.mopub.MopubCustomParamsUtils;
+import com.mopub.common.logging.MoPubLog;
+import com.mopub.common.logging.MoPubLog.AdLogEvent;
+import com.mopub.common.logging.MoPubLog.AdapterLogEvent;
 import com.my.target.ads.InterstitialAd;
 
 import java.util.Map;
 
 public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitial
 {
-	private static final String TAG = "MyTargetMopubCustomEven";
 	private static final String SLOT_ID_KEY = "slotId";
+	private static final String ADAPTER_NAME = MyTargetMopubCustomEventInterstitial.class.getSimpleName();
 	private @Nullable InterstitialAd ad;
 	private @Nullable CustomEventInterstitialListener mopubInterstitialListener;
 
@@ -24,9 +26,11 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 									@Nullable Map<String, String> stringStringMap)
 	{
 		this.mopubInterstitialListener = customEventInterstitialListener;
-		Log.d(TAG, "Loading mopub mediation interstitial");
+		MoPubLog.log(AdLogEvent.LOAD_ATTEMPTED, ADAPTER_NAME);
+
 		if (context == null)
 		{
+			MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", "null context");
 			return;
 		}
 
@@ -42,6 +46,7 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 				}
 				catch (NumberFormatException e)
 				{
+					MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -49,7 +54,7 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 
 		if (slotId < 0)
 		{
-			Log.w(TAG, "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
+			MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
 			if (mopubInterstitialListener != null)
 			{
 				mopubInterstitialListener.onInterstitialFailed(MoPubErrorCode.MISSING_AD_UNIT_ID);
@@ -70,7 +75,7 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 	@Override
 	protected void showInterstitial()
 	{
-		Log.d(TAG, "Showing mopub mediation interstitial");
+		MoPubLog.log(AdLogEvent.SHOW_ATTEMPTED, ADAPTER_NAME);
 		if (ad != null)
 		{
 			ad.show();
@@ -91,7 +96,7 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 		@Override
 		public void onLoad(@NonNull InterstitialAd ad)
 		{
-			Log.d(TAG, "Mediation interstitial ad loaded");
+			MoPubLog.log(AdLogEvent.LOAD_SUCCESS, ADAPTER_NAME);
 			if (mopubInterstitialListener != null)
 			{
 				mopubInterstitialListener.onInterstitialLoaded();
@@ -101,7 +106,7 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 		@Override
 		public void onNoAd(@NonNull String reason, @NonNull InterstitialAd ad)
 		{
-			Log.d(TAG, "Mediation interstitial failed to load: " + reason);
+			MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", reason);
 			if (mopubInterstitialListener != null)
 			{
 				mopubInterstitialListener.onInterstitialFailed(MoPubErrorCode.MRAID_LOAD_ERROR);
@@ -111,7 +116,7 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 		@Override
 		public void onClick(@NonNull InterstitialAd ad)
 		{
-			Log.d(TAG, "Mediation interstitial clicked");
+			MoPubLog.log(AdLogEvent.CLICKED, ADAPTER_NAME);
 			if (mopubInterstitialListener != null)
 			{
 				mopubInterstitialListener.onInterstitialClicked();
@@ -121,7 +126,7 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 		@Override
 		public void onDismiss(@NonNull InterstitialAd ad)
 		{
-			Log.d(TAG, "Mediation interstitial dismissed");
+			MoPubLog.log(AdapterLogEvent.WILL_DISAPPEAR, ADAPTER_NAME);
 			if (mopubInterstitialListener != null)
 			{
 				mopubInterstitialListener.onInterstitialDismissed();
@@ -131,13 +136,13 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 		@Override
 		public void onVideoCompleted(@NonNull InterstitialAd ad)
 		{
-
+			MoPubLog.log(AdLogEvent.CUSTOM, ADAPTER_NAME, "Video Completed");
 		}
 
 		@Override
 		public void onDisplay(@NonNull InterstitialAd ad)
 		{
-			Log.d(TAG, "Mediation interstitial shown");
+			MoPubLog.log(AdLogEvent.SHOW_SUCCESS, ADAPTER_NAME);
 			if (mopubInterstitialListener != null)
 			{
 				mopubInterstitialListener.onInterstitialShown();

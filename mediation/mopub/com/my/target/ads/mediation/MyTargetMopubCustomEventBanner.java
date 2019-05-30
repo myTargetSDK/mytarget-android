@@ -3,9 +3,11 @@ package com.my.target.ads.mediation;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.mopub.MopubCustomParamsUtils;
+import com.mopub.common.logging.MoPubLog;
+import com.mopub.common.logging.MoPubLog.AdLogEvent;
+import com.mopub.common.logging.MoPubLog.AdapterLogEvent;
 import com.mopub.mobileads.CustomEventBanner;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.my.target.ads.MyTargetView;
@@ -15,7 +17,7 @@ import java.util.Map;
 
 public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 {
-	private static final String TAG = "MyTargetMopubCustomEven";
+	private static final String ADAPTER_NAME = MyTargetMopubCustomEventBanner.class.getSimpleName();
 	private static final String SLOT_ID_KEY = "slotId";
 	private static final String SIZE_KEY = "mytarget_adsize";
 
@@ -24,6 +26,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 		@Override
 		public void onLoad(@NonNull MyTargetView myTargetView)
 		{
+			MoPubLog.log(AdapterLogEvent.LOAD_SUCCESS, ADAPTER_NAME);
 			if (bannerListener != null)
 			{
 				bannerListener.onBannerLoaded(myTargetView);
@@ -33,6 +36,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 		@Override
 		public void onNoAd(@NonNull String reason, @NonNull MyTargetView myTargetView)
 		{
+			MoPubLog.log(AdapterLogEvent.LOAD_FAILED, ADAPTER_NAME, "", reason);
 			if (bannerListener != null)
 			{
 				bannerListener.onBannerFailed(MoPubErrorCode.NO_FILL);
@@ -42,6 +46,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 		@Override
 		public void onClick(@NonNull MyTargetView myTargetView)
 		{
+			MoPubLog.log(AdapterLogEvent.CLICKED, ADAPTER_NAME);
 			if (bannerListener != null)
 			{
 				bannerListener.onBannerClicked();
@@ -52,6 +57,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 		@Override
 		public void onShow(@NonNull final MyTargetView myTargetView)
 		{
+			MoPubLog.log(AdapterLogEvent.SHOW_SUCCESS, ADAPTER_NAME);
 			if (bannerListener != null)
 			{
 				bannerListener.onBannerImpression();
@@ -72,9 +78,10 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 							  @Nullable Map<String, Object> stringObjectMap,
 							  @Nullable Map<String, String> stringStringMap)
 	{
+		MoPubLog.log(AdapterLogEvent.LOAD_ATTEMPTED, ADAPTER_NAME);
 		if (context == null)
 		{
-			Log.e(TAG, "Error loading banner: null context");
+			MoPubLog.log(AdapterLogEvent.LOAD_FAILED, ADAPTER_NAME, "", "null context");
 			if (customEventBannerListener != null)
 			{
 				customEventBannerListener.onBannerFailed(MoPubErrorCode.INTERNAL_ERROR);
@@ -94,6 +101,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 				}
 				catch (NumberFormatException e)
 				{
+					MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -101,7 +109,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 
 		if (slotId < 0)
 		{
-			Log.w(TAG, "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
+			MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
 			if (customEventBannerListener != null)
 			{
 				customEventBannerListener.onBannerFailed(MoPubErrorCode.MISSING_AD_UNIT_ID);

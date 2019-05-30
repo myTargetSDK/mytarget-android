@@ -3,9 +3,11 @@ package com.mopub.nativeads;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.mopub.MopubCustomParamsUtils;
+import com.mopub.common.logging.MoPubLog;
+import com.mopub.common.logging.MoPubLog.AdLogEvent;
+import com.mopub.common.logging.MoPubLog.AdapterLogEvent;
 import com.my.target.nativeads.NativeAd;
 import com.my.target.nativeads.banners.NativePromoBanner;
 
@@ -13,7 +15,7 @@ import java.util.Map;
 
 public class MyTargetCustomEventNative extends CustomEventNative
 {
-	private static final String TAG = "MyTargetCustomNative";
+	private static final String ADAPTER_NAME = MyTargetCustomEventNative.class.getSimpleName();
 	private static final String SLOT_ID_KEY = "slotId";
 	private @Nullable NativeAd nativeAd;
 	private @Nullable CustomEventNativeListener loadedAdListener;
@@ -25,6 +27,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 								@NonNull Map<String, Object> stringObjectMap,
 								@NonNull Map<String, String> stringStringMap)
 	{
+		MoPubLog.log(AdapterLogEvent.LOAD_ATTEMPTED, ADAPTER_NAME);
 		this.loadedAdListener = customEventNativeListener;
 		this.context = context;
 
@@ -40,6 +43,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 				}
 				catch (NumberFormatException e)
 				{
+					MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -47,7 +51,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 
 		if (slotId < 0)
 		{
-			Log.w(TAG, "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
+			MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
 			if (loadedAdListener != null)
 			{
 				loadedAdListener.onNativeAdFailed(NativeErrorCode.UNSPECIFIED);
@@ -71,11 +75,9 @@ public class MyTargetCustomEventNative extends CustomEventNative
 		{
 			if (nativeAd != ad || context == null)
 			{
-				Log.d(TAG, "Weird things happening");
+				MoPubLog.log(AdapterLogEvent.LOAD_FAILED, ADAPTER_NAME, "", "null context or ad");
 				return;
 			}
-
-			Log.d(TAG, "Received ad from myTarget, converting to MoPub ad");
 
 			MyTargetStaticNativeAd mopubNativeAd = new MyTargetStaticNativeAd(context);
 			mopubNativeAd.setNativeAd(ad);
@@ -99,13 +101,13 @@ public class MyTargetCustomEventNative extends CustomEventNative
 			{
 				loadedAdListener.onNativeAdLoaded(mopubNativeAd);
 			}
-
+			MoPubLog.log(AdapterLogEvent.LOAD_SUCCESS, ADAPTER_NAME);
 		}
 
 		@Override
 		public void onNoAd(@NonNull String reason, @NonNull NativeAd ad)
 		{
-			Log.d(TAG, "NativeAd: no ad, failing mediation");
+			MoPubLog.log(AdapterLogEvent.LOAD_FAILED, ADAPTER_NAME, "", reason);
 			if (loadedAdListener != null)
 			{
 				loadedAdListener.onNativeAdFailed(NativeErrorCode.EMPTY_AD_RESPONSE);
@@ -115,13 +117,13 @@ public class MyTargetCustomEventNative extends CustomEventNative
 		@Override
 		public void onClick(@NonNull NativeAd ad)
 		{
-			// stub
+			MoPubLog.log(AdapterLogEvent.CLICKED, ADAPTER_NAME);
 		}
 
 		@Override
 		public void onShow(@NonNull NativeAd ad)
 		{
-
+			MoPubLog.log(AdapterLogEvent.SHOW_SUCCESS, ADAPTER_NAME);
 		}
 
 		@Override
