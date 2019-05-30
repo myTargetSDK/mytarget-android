@@ -24,7 +24,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
@@ -52,11 +52,7 @@ allprojects {
 
 
 dependencies {
-    if (new File("${project.projectDir}/libs/mytarget-sdk-TEST.aar").exists()) {
-        implementation 'com.my.target:mytarget-sdk:TEST@aar'
-    } else {
-        implementation 'com.my.target:mytarget-sdk:5.3.4'
-    }
+    implementation 'com.my.target:mytarget-sdk:5.4.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     //noinspection GradleCompatible

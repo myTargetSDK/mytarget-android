@@ -8,6 +8,7 @@ class CustomAdvertisingType(val adType: AdType, val slotId: Int?) {
         STANDARD_300X250,
         STANDARD_728X90,
         INTERSTITIAL,
+        REWARDED,
         NATIVE,
         INSTREAM;
     }

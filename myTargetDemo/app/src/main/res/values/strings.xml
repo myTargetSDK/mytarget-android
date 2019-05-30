@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">myTarget Demo</string>
     <string name="standard_banners">Banners</string>
-    <string name="interstitial_ads">Interstitial Ads</string>
+    <string name="interstitial_ads">Interstitial</string>
     <string name="native_ads">Native Ads</string>
-    <string name="instream_ads">InStream ads</string>
+    <string name="instream_ads">InStream</string>
 
     <string name="standard_banners_desc">320x50 and 300x250 banners</string>
     <string name="interstitial_ads_desc">Fullscreen banners</string>
@@ -15,9 +15,7 @@
 
     <string name="adtype_banner_320x50">Banner 320x50</string>
     <string name="adtype_banner_300x250">Banner 300x250</string>
-    <string name="adtype_interstitial">Interstitial ad</string>
     <string name="adtype_native">Native ad</string>
-    <string name="adtype_instream">Instream ad</string>
     <string name="adtype_banner_728x90_dis">Banner 728x90 (tablets only)</string>
     <string name="banner_size">Banner size</string>
     <string name="_320x50">320x50</string>
@@ -35,8 +33,7 @@
     <string name="black_theme_with_vast_video">VAST video</string>
     <string name="image_only">Image</string>
     <string name="carousel">Carousel</string>
-    <string name="show_interstitial">Show in Activity</string>
-    <string name="show_interstitial_in_dialog">Show in Dialog</string>
+    <string name="show_interstitial">Show</string>
     <string name="n_a">N/A</string>
 
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</string>
@@ -72,5 +69,6 @@
     <string name="preroll">preroll</string>
     <string name="pauseroll">pauseroll</string>
     <string name="postroll">postroll</string>
-
+    <string name="rewarded_ads">Rewarded</string>
+    <string name="rewarded_ads_desc">Rewarded video banners</string>
 </resources>

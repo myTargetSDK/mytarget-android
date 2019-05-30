@@ -32,7 +32,13 @@
         android:id="@+id/adtype_interstitial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/adtype_interstitial"/>
+        android:text="@string/interstitial_ads"/>
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/adtype_rewarded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rewarded_ads"/>
 
     <android.support.v7.widget.AppCompatRadioButton
         android:id="@+id/adtype_native"
@@ -44,6 +50,6 @@
         android:id="@+id/adtype_instream"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/adtype_instream"/>
+        android:text="@string/instream_ads"/>
 
 </RadioGroup>

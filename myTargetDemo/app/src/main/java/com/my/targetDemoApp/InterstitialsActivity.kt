@@ -23,7 +23,6 @@ class InterstitialsActivity : AppCompatActivity() {
 
         btn_load.setOnClickListener { load(getAdType()) }
         btn_gointerstitial.setOnClickListener { goInterstitial() }
-        btn_godialog.setOnClickListener { goDialog() }
     }
 
     private fun load(adType: AdvertisingType) {
@@ -48,9 +47,4 @@ class InterstitialsActivity : AppCompatActivity() {
     private fun goInterstitial() {
         interstitialHelper.show()
     }
-
-    private fun goDialog() {
-        interstitialHelper.showDialog()
-    }
-
 }

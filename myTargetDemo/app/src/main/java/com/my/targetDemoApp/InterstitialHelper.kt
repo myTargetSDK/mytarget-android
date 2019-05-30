@@ -70,9 +70,4 @@ class InterstitialHelper(val parent: View) : InterstitialAd.InterstitialAdListen
         interstitialAd?.show()
                 ?: Snackbar.make(parent, "Not loaded yet", Snackbar.LENGTH_SHORT).show()
     }
-
-    fun showDialog() {
-        interstitialAd?.showDialog()
-                ?: Snackbar.make(parent, "Not loaded yet", Snackbar.LENGTH_SHORT).show()
-    }
 }

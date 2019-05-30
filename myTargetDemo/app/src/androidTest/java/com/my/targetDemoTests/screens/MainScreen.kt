@@ -1,5 +1,9 @@
 package com.my.targetDemoTests.screens
 
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.v7.widget.RecyclerView
 import com.my.targetDemoApp.R
 import com.my.targetDemoTests.helpers.Slot
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
@@ -7,9 +11,9 @@ import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.write
 
 class MainScreen {
     val banners = "Banners"
-    val interstitial = "Interstitial Ads"
+    val interstitial = "Interstitial"
     val native = "Native Ads"
-    val instream = "InStream ads"
+    val instream = "InStream"
     val plus = R.id.fab
     private val adType320x50 = R.id.adtype_banner_320x50
     private val adType300x250 = R.id.adtype_banner_300x250
@@ -36,6 +40,8 @@ class MainScreen {
         }
         writeTo(slotId, slot.toString())
         clickOn(ok)
+        onView(withId(R.id.main_recycler)).perform(scrollToPosition<RecyclerView.ViewHolder>(5))
+
     }
 
     fun addUnitWithoutSlot() {

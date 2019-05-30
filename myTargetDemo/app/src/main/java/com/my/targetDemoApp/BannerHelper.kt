@@ -23,6 +23,9 @@ class BannerHelper : MyTargetView.MyTargetViewListener {
     override fun onClick(p0: MyTargetView) {
     }
 
+    override fun onShow(p0: MyTargetView) {
+    }
+
     override fun onNoAd(p0: String, p1: MyTargetView) {
         parent?.let { Snackbar.make(it, "No ad", Snackbar.LENGTH_SHORT).show() }
     }

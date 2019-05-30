@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -24,6 +25,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
 
     companion object {
         const val KEY_SLOT = "slotId"
+        const val TAG = "InstreamActivity"
     }
 
     private lateinit var instreamAd: InstreamAd
@@ -146,6 +148,14 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
         }
         setStatus("Banner playing", status)
         processBanner(banner)
+    }
+
+    override fun onBannerResume(p0: InstreamAd, p1: InstreamAd.InstreamAdBanner) {
+        Log.d(TAG,"onBannerResume")
+    }
+
+    override fun onBannerPause(p0: InstreamAd, p1: InstreamAd.InstreamAdBanner) {
+        Log.d(TAG,"onBannerPause")
     }
 
     override fun onBannerComplete(ad: InstreamAd, banner: InstreamAd.InstreamAdBanner) {

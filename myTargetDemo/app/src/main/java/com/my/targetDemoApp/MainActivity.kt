@@ -28,18 +28,18 @@ class MainActivity : AppCompatActivity() {
         helper.attachToRecyclerView(main_recycler)
 
         val types = ArrayList<ItemsAdapter.ListItem>()
-        types.add(ItemsAdapter.ListItem({ goBanners() },
-                                        getString(R.string.standard_banners),
-                                        getString(R.string.standard_banners_desc)))
-        types.add(ItemsAdapter.ListItem({ goInterstitials() },
-                                        getString(R.string.interstitial_ads),
-                                        getString(R.string.interstitial_ads_desc)))
-        types.add(ItemsAdapter.ListItem({ goNative() },
-                                        getString(R.string.native_ads),
-                                        getString(R.string.native_ads_desc)))
-        types.add(ItemsAdapter.ListItem({ goInstream() },
-                                        getString(R.string.instream_ads),
-                                        getString(R.string.instream_ads_desc)))
+        types.add(ItemsAdapter.ListItem({ goBanners() }, getString(R.string.standard_banners),
+                getString(R.string.standard_banners_desc)))
+        types.add(ItemsAdapter.ListItem({ goInterstitials() }, getString(R.string.interstitial_ads),
+                getString(R.string.interstitial_ads_desc)))
+        types.add(ItemsAdapter.ListItem({
+            goCustom(CustomAdvertisingType(CustomAdvertisingType.AdType.REWARDED,
+                    AdvertisingType.REWARDED.defaultSlot))
+        }, getString(R.string.rewarded_ads), getString(R.string.rewarded_ads_desc)))
+        types.add(ItemsAdapter.ListItem({ goNative() }, getString(R.string.native_ads),
+                getString(R.string.native_ads_desc)))
+        types.add(ItemsAdapter.ListItem({ goInstream() }, getString(R.string.instream_ads),
+                getString(R.string.instream_ads_desc)))
         val size = types.size
         callback.protectedTypesSize = size
 
@@ -85,22 +85,22 @@ class MainActivity : AppCompatActivity() {
     private fun goCustom(adType: CustomAdvertisingType) {
         val slot = adType.slotId ?: return
         when (adType.adType) {
-            CustomAdvertisingType.AdType.STANDARD_320X50  -> {
+            CustomAdvertisingType.AdType.STANDARD_320X50                                     -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_320x50)
             }
-            CustomAdvertisingType.AdType.STANDARD_300X250 -> {
+            CustomAdvertisingType.AdType.STANDARD_300X250                                    -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_300x250)
             }
-            CustomAdvertisingType.AdType.STANDARD_728X90  -> {
+            CustomAdvertisingType.AdType.STANDARD_728X90                                     -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_728x90)
             }
-            CustomAdvertisingType.AdType.NATIVE           -> {
+            CustomAdvertisingType.AdType.NATIVE                                              -> {
                 goNative(slot)
             }
-            CustomAdvertisingType.AdType.INSTREAM         -> {
+            CustomAdvertisingType.AdType.INSTREAM                                            -> {
                 goInstream(slot)
             }
-            CustomAdvertisingType.AdType.INTERSTITIAL     -> {
+            CustomAdvertisingType.AdType.INTERSTITIAL, CustomAdvertisingType.AdType.REWARDED -> {
                 val helper = InterstitialHelper(main_recycler)
                 helper.init(slot, true)
             }
@@ -133,13 +133,12 @@ class MainActivity : AppCompatActivity() {
         return ItemsAdapter.ListItem({ goCustom(adType) }, adType.name, "Slot ID ${adType.slotId}")
     }
 
-    class TouchCallback(private val swipeListener: (position: Int) -> Unit) : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.LEFT) {
+    class TouchCallback(private val swipeListener: (position: Int) -> Unit) :
+            ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                    ItemTouchHelper.LEFT) {
         var protectedTypesSize: Int = 0
 
-        override fun onMove(p0: RecyclerView,
-                            p1: RecyclerView.ViewHolder,
+        override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder,
                             p2: RecyclerView.ViewHolder): Boolean {
             return true
         }

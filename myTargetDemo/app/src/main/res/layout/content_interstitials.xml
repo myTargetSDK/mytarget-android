@@ -111,14 +111,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_load" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_godialog"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/show_interstitial_in_dialog"
-        app:layout_constraintLeft_toRightOf="@+id/guideline1"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_gointerstitial" />
-
-
 </android.support.constraint.ConstraintLayout>

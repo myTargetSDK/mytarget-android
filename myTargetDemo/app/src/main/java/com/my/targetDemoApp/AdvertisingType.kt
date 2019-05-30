@@ -20,6 +20,7 @@ enum class AdvertisingType(val defaultSlot: Int) {
     INTERSTITIAL_HTML(93233),
     INTERSTITIAL_CAROUSEL(102652),
     INTERSTITIAL_VAST(101600),
+    REWARDED(45101),
 
     NATIVE(6590),
     NATIVE_VIDEO(30150),

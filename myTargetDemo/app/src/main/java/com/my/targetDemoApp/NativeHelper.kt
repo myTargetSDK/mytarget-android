@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.my.target.nativeads.NativeAd
+import com.my.target.nativeads.banners.NativePromoBanner
 import com.my.target.nativeads.factories.NativeViewsFactory
 import com.my.target.nativeads.views.ChatListAdView
 import com.my.target.nativeads.views.ContentStreamAdView
@@ -64,7 +65,7 @@ class NativeHelper(val parent: View) : NativeAd.NativeAdListener {
         }
     }
 
-    override fun onLoad(nativeAd: NativeAd) {
+    override fun onLoad(banner: NativePromoBanner, nativeAd: NativeAd) {
         adCalls++
         nativeList.append(nativeList.size() * 4 + 4, nativeAd)
         if (adCalls >= NATIVE_AD_COUNT) {
