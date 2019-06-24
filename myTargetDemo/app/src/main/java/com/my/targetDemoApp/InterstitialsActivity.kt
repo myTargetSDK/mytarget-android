@@ -1,7 +1,7 @@
 package com.my.targetDemoApp
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.my.target.ads.InterstitialAd
 import kotlinx.android.synthetic.main.activity_interstitials.*
 import kotlinx.android.synthetic.main.content_interstitials.*

@@ -1,6 +1,6 @@
 package com.my.targetDemoTests.tests
 
-import android.support.test.espresso.web.sugar.Web.onWebView
+import androidx.test.espresso.web.sugar.Web.onWebView
 import com.facebook.testing.screenshot.Screenshot
 import com.my.targetDemoApp.BannersActivity
 import com.my.targetDemoTests.helpers.Callback

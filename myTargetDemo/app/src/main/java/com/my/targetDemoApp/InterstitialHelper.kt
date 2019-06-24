@@ -1,7 +1,6 @@
 package com.my.targetDemoApp
 
-import android.support.design.R
-import android.support.design.widget.Snackbar
+import com.google.android.material.snackbar.Snackbar
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
