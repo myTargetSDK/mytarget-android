@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RadioGroup
+    android:id="@+id/rg_choose_ad"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/fragment_dialog">
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/adtype_banner_320x50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/adtype_banner_320x50"/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/adtype_banner_300x250"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/adtype_banner_300x250"/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/adtype_banner_728x90"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/adtype_banner_728x90_dis"/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/adtype_interstitial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/interstitial_ads"/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/adtype_rewarded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rewarded_ads"/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/adtype_native"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/adtype_native"/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/adtype_instream"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/instream_ads"/>
+
+</RadioGroup>
