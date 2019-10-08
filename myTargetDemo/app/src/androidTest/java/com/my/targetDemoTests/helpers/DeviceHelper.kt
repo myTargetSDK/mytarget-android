@@ -1,9 +1,9 @@
 package com.my.targetDemoTests.helpers
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.uiautomator.BySelector
-import android.support.test.uiautomator.UiDevice
-import android.support.test.uiautomator.Until
+import androidx.test.InstrumentationRegistry
+import androidx.test.uiautomator.BySelector
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
 
 class DeviceHelper {
     var device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())

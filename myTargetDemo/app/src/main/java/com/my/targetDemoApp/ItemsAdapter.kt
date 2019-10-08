@@ -1,13 +1,13 @@
 package com.my.targetDemoApp
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_main.view.*
 
-class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>() {
+class ItemsAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>() {
 
     private var adItems: ArrayList<ListItem>? = null
 
@@ -58,7 +58,7 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>()
         }
     }
 
-    class MainActivityViewHolder(override val containerView: View) : RecyclerView.ViewHolder(
+    class MainActivityViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(
             containerView), LayoutContainer {
         fun bind(listItem: ListItem) {
             containerView.tv_title.text = listItem.title

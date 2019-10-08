@@ -23,7 +23,6 @@
     <string name="_728x90">728x90 (tablets)</string>
     <string name="banner_type">Banner type</string>
     <string name="standard_web_js_banner">Webview</string>
-    <string name="native_view_banner">Native</string>
     <string name="html_banner">HTML</string>
     <string name="show">Show</string>
     <string name="interstitial_type">Interstitial type</string>

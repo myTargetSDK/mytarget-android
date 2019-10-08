@@ -1,12 +1,11 @@
 package com.my.targetDemoTests.screens
 
-import android.support.test.uiautomator.By
+import androidx.test.uiautomator.By
 import com.my.targetDemoApp.R
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 
 class BannersScreen: WebViewScreen() {
     val adView = By.res("ad_view")
-    private val rbtNative = R.id.rbt_native
     private val rbtWebview = R.id.rbt_web
     private val rbtHtml = R.id.rbt_html
     private val rbt320x50 = R.id.rbt_320x50
@@ -17,12 +16,6 @@ class BannersScreen: WebViewScreen() {
 
     fun show320x50Webview() {
         clickOn(rbtWebview)
-        clickOn(rbt320x50)
-        clickOn(showBtn)
-    }
-
-    fun show320x50Native() {
-        clickOn(rbtNative)
         clickOn(rbt320x50)
         clickOn(showBtn)
     }
@@ -39,12 +32,6 @@ class BannersScreen: WebViewScreen() {
         clickOn(showBtn)
     }
 
-    fun show300x250Native() {
-        clickOn(rbtNative)
-        clickOn(rbt300x250)
-        clickOn(showBtn)
-    }
-
     fun show300x250Html() {
         clickOn(rbtHtml)
         clickOn(rbt300x250)
@@ -53,12 +40,6 @@ class BannersScreen: WebViewScreen() {
 
     fun show728x90Webview() {
         clickOn(rbtWebview)
-        clickOn(rbt728x90)
-        clickOn(showBtn)
-    }
-
-    fun show728x90Native() {
-        clickOn(rbtNative)
         clickOn(rbt728x90)
         clickOn(showBtn)
     }

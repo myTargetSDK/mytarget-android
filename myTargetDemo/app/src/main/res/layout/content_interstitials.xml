@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:id="@+id/interstitials_root"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:padding="@dimen/content_padding"
-                                             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                             tools:layout="@layout/activity_interstitials">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:id="@+id/interstitials_root"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:padding="@dimen/content_padding"
+                                                   app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                                   tools:layout="@layout/activity_interstitials">
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_interstitial_type"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -45,43 +45,43 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatRadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbt_promo_static"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/static_promo" />
 
-            <android.support.v7.widget.AppCompatRadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbt_promo_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/promo_video" />
 
-            <android.support.v7.widget.AppCompatRadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbt_black_theme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/video_black_theme" />
 
-            <android.support.v7.widget.AppCompatRadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbt_vast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/black_theme_with_vast_video" />
 
-            <android.support.v7.widget.AppCompatRadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbt_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/image_only" />
 
-            <android.support.v7.widget.AppCompatRadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbt_carousel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/carousel" />
 
-            <android.support.v7.widget.AppCompatRadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbt_html"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
     </ScrollView>
 
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_load"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_gointerstitial"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -111,4 +111,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_load" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
