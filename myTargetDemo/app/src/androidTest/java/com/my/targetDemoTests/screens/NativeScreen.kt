@@ -1,6 +1,6 @@
 package com.my.targetDemoTests.screens
 
-import android.support.test.uiautomator.By
+import androidx.test.uiautomator.By
 import com.my.targetDemoApp.R
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions
 

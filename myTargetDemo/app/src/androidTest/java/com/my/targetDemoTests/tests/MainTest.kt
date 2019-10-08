@@ -1,18 +1,18 @@
 package com.my.targetDemoTests.tests
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.GeneralLocation
-import android.support.test.espresso.action.GeneralSwipeAction
-import android.support.test.espresso.action.Press
-import android.support.test.espresso.action.Swipe
-import android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import android.support.test.espresso.intent.Intents
-import android.support.test.espresso.intent.Intents.intended
-import android.support.test.espresso.intent.VerificationModes.times
-import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.v7.widget.RecyclerView
+import androidx.test.InstrumentationRegistry
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.GeneralLocation
+import androidx.test.espresso.action.GeneralSwipeAction
+import androidx.test.espresso.action.Press
+import androidx.test.espresso.action.Swipe
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.VerificationModes.times
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import com.facebook.testing.screenshot.Screenshot
 import com.facebook.testing.screenshot.ViewHelpers
@@ -179,14 +179,14 @@ class MainTest: TestBase() {
         val main = MainScreen()
         main.addUnit(slot = Slot.nativeAds)
         val unitsBefore = baristaRule.activityTestRule.activity.
-                findViewById<RecyclerView>(R.id.main_recycler).adapter!!.itemCount
+                findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.main_recycler).adapter!!.itemCount
         onView(withId(R.id.main_recycler))
-                .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                .perform(actionOnItemAtPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
                         unitsBefore - 1,
                         GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER,
                                 GeneralLocation.CENTER_LEFT, Press.FINGER)))
         val unitsAfter = baristaRule.activityTestRule.activity.
-                findViewById<RecyclerView>(R.id.main_recycler).adapter!!.itemCount
+                findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.main_recycler).adapter!!.itemCount
         assert(unitsBefore - 1 == unitsAfter)
     }
 

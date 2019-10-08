@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:padding="@dimen/content_padding"
-                                             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                             tools:layout="@layout/activity_banners">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:padding="@dimen/content_padding"
+                                                   app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                                   tools:layout="@layout/activity_banners">
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_banner_size"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_interstitial_type"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -44,19 +44,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_banner_size">
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rbt_320x50"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_320x50" />
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rbt_300x250"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_300x250" />
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rbt_728x90"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,19 +74,13 @@
         app:layout_constraintStart_toEndOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/tv_interstitial_type">
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rbt_web"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/standard_web_js_banner" />
 
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/rbt_native"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/native_view_banner" />
-
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rbt_html"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,7 +88,7 @@
 
     </RadioGroup>
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_gointerstitial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +98,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rg_type" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,4 +106,4 @@
         app:layout_constraintGuide_percent="0.5" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

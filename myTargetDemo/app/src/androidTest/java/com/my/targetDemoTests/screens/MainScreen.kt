@@ -1,9 +1,9 @@
 package com.my.targetDemoTests.screens
 
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.v7.widget.RecyclerView
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.recyclerview.widget.RecyclerView
 import com.my.targetDemoApp.R
 import com.my.targetDemoTests.helpers.Slot
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
@@ -40,7 +40,7 @@ class MainScreen {
         }
         writeTo(slotId, slot.toString())
         clickOn(ok)
-        onView(withId(R.id.main_recycler)).perform(scrollToPosition<RecyclerView.ViewHolder>(5))
+        onView(withId(R.id.main_recycler)).perform(scrollToPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(5))
 
     }
 

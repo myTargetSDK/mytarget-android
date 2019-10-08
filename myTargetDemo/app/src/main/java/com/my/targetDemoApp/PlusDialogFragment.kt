@@ -3,15 +3,15 @@ package com.my.targetDemoApp
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.RadioGroup
 import android.widget.Toast
 
-class PlusDialogFragment : DialogFragment() {
+class PlusDialogFragment : androidx.fragment.app.DialogFragment() {
 
     private var saveTypeListener: ((CustomAdvertisingType) -> Unit)? = null
 
