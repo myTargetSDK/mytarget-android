@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="mycom" type="color">#FC2C38</item>
+    <item name="mycomDark" type="color">#d72833</item>
+</resources>
