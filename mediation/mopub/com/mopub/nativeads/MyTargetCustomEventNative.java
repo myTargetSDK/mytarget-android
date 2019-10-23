@@ -20,6 +20,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 	private @Nullable NativeAd nativeAd;
 	private @Nullable CustomEventNativeListener loadedAdListener;
 	private @Nullable Context context;
+	private MyTargetStaticNativeAd mopubNativeAd;
 
 	@Override
 	protected void loadNativeAd(@NonNull Context context,
@@ -79,7 +80,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 				return;
 			}
 
-			MyTargetStaticNativeAd mopubNativeAd = new MyTargetStaticNativeAd(context);
+			mopubNativeAd = new MyTargetStaticNativeAd(context);
 			mopubNativeAd.setNativeAd(ad);
 			mopubNativeAd.setTitle(banner.getTitle());
 			mopubNativeAd.setCallToAction(banner.getCtaText());
@@ -117,12 +118,14 @@ public class MyTargetCustomEventNative extends CustomEventNative
 		@Override
 		public void onClick(@NonNull NativeAd ad)
 		{
+			mopubNativeAd.notifyAdClicked();
 			MoPubLog.log(AdapterLogEvent.CLICKED, ADAPTER_NAME);
 		}
 
 		@Override
 		public void onShow(@NonNull NativeAd ad)
 		{
+			mopubNativeAd.notifyAdImpressed();
 			MoPubLog.log(AdapterLogEvent.SHOW_SUCCESS, ADAPTER_NAME);
 		}
 
