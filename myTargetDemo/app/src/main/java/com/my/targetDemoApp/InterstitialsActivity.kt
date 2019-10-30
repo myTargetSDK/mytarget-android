@@ -32,15 +32,15 @@ class InterstitialsActivity : AppCompatActivity() {
 
     private fun getAdType(): AdvertisingType {
         return when {
-            rbt_promo_static.isChecked -> AdvertisingType.INTERSTITIAL_PROMO_STATIC
-            rbt_promo_video.isChecked  -> AdvertisingType.INTERSTITIAL_PROMO_VIDEO
-            rbt_black_theme.isChecked  -> AdvertisingType.INTERSTITIAL_PROMO_VIDEO_BLACK
-
-            rbt_vast.isChecked         -> AdvertisingType.INTERSTITIAL_VAST
-            rbt_image.isChecked        -> AdvertisingType.INTERSTITIAL_IMAGE
-            rbt_carousel.isChecked     -> AdvertisingType.INTERSTITIAL_CAROUSEL
-            rbt_html.isChecked         -> AdvertisingType.INTERSTITIAL_HTML
-            else                       -> AdvertisingType.INTERSTITIAL_PROMO_STATIC
+            rbt_promo_static.isChecked        -> AdvertisingType.INTERSTITIAL_PROMO_STATIC
+            rbt_promo_video.isChecked         -> AdvertisingType.INTERSTITIAL_PROMO_VIDEO
+            rbt_black_theme.isChecked         -> AdvertisingType.INTERSTITIAL_PROMO_VIDEO_BLACK
+            rbt_vast.isChecked                -> AdvertisingType.INTERSTITIAL_VAST
+            rbt_image.isChecked               -> AdvertisingType.INTERSTITIAL_IMAGE
+            rbt_carousel.isChecked            -> AdvertisingType.INTERSTITIAL_CAROUSEL
+            rbt_html.isChecked                -> AdvertisingType.INTERSTITIAL_HTML
+            rbt_promo_video_style_2.isChecked -> AdvertisingType.INTERSTITIAL_STYLE_2
+            else                              -> AdvertisingType.INTERSTITIAL_PROMO_STATIC
         }
     }
 

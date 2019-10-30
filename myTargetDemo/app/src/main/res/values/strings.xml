@@ -70,4 +70,5 @@
     <string name="postroll">postroll</string>
     <string name="rewarded_ads">Rewarded</string>
     <string name="rewarded_ads_desc">Rewarded video banners</string>
+    <string name="promo_video_2">Video promo (new style)</string>
 </resources>
