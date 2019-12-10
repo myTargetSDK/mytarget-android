@@ -50,7 +50,6 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 			if (bannerListener != null)
 			{
 				bannerListener.onBannerClicked();
-				bannerListener.onLeaveApplication();
 			}
 		}
 
