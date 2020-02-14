@@ -3,9 +3,8 @@ package com.my.targetDemoApp
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.target.ads.MyTargetView
 import kotlinx.android.synthetic.main.activity_main.*
 
