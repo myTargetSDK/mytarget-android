@@ -63,6 +63,14 @@ class InterstitialTest: TestBase() {
     }
 
     @Test
+    fun test_ShowVideoStyle2() {
+        val interstitialScreen = InterstitialScreen()
+        interstitialScreen.showVideoStyle2()
+        device.wait(interstitialScreen.adView)
+        intended(hasComponent(MyTargetActivity::class.java.name))
+    }
+
+    @Test
     fun test_ShowImage() {
         val interstitialScreen = InterstitialScreen()
         interstitialScreen.showImage()

@@ -12,6 +12,7 @@ class InterstitialScreen : WebViewScreen() {
     private val rbtPromoStatic = R.id.rbt_promo_static
     private val rbtPromoVideo = R.id.rbt_promo_video
     private val rbtVideo = R.id.rbt_black_theme
+    private val rbtVideoStyle2 = R.id.rbt_promo_video_style_2
     private val rbtVast = R.id.rbt_vast
     private val rbtImage = R.id.rbt_image
     private val rbtCards = R.id.rbt_carousel
@@ -25,48 +26,45 @@ class InterstitialScreen : WebViewScreen() {
 
     fun showPromoStatic() {
         clickOn(rbtPromoStatic)
-        clickOn(loadBtn)
-        sleep(1000)
-        clickOn(showActivityBtn)
+        loadAndShow()
     }
 
     fun showPromoVideo() {
         clickOn(rbtPromoVideo)
-        clickOn(loadBtn)
-        sleep(1000)
-        clickOn(showActivityBtn)
+        loadAndShow()
     }
 
     fun showPromoCards() {
         clickOn(rbtCards)
-        clickOn(loadBtn)
-        sleep(1000)
-        clickOn(showActivityBtn)
+        loadAndShow()
     }
 
     fun showVideo() {
         clickOn(rbtVideo)
-        clickOn(loadBtn)
-        sleep(1000)
-        clickOn(showActivityBtn)
+        loadAndShow()
+    }
+
+    fun showVideoStyle2() {
+        clickOn(rbtVideoStyle2)
+        loadAndShow()
     }
 
     fun showVast() {
         clickOn(rbtVast)
-        clickOn(loadBtn)
-        sleep(1000)
-        clickOn(showActivityBtn)
+        loadAndShow()
     }
 
     fun showImage() {
         clickOn(rbtImage)
-        clickOn(loadBtn)
-        sleep(1000)
-        clickOn(showActivityBtn)
+        loadAndShow()
     }
 
     fun showHtml() {
         clickOn(rbtHtml)
+        loadAndShow()
+    }
+
+    private fun loadAndShow() {
         clickOn(loadBtn)
         sleep(1000)
         clickOn(showActivityBtn)
