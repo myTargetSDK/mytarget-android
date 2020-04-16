@@ -9,60 +9,6 @@
                                                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                                                    tools:layout="@layout/activity_natives">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_native_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_radio_title"
-        android:layout_marginStart="@dimen/margin_radio_title"
-        android:text="Native view type"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RadioGroup
-        android:id="@+id/rg_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline1"
-        app:layout_constraintTop_toTopOf="@+id/rg_content">
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbt_content_stream"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/content_stream" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbt_content_wall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/content_wall" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbt_news_feed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/news_feed" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbt_chat_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chat_list" />
-
-    </RadioGroup>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_native_content"
@@ -74,9 +20,10 @@
         android:textAlignment="center"
 
         android:textSize="20sp"
-        app:layout_constraintLeft_toRightOf="@+id/guideline1"
+        app:layout_constraintLeft_toLeftOf="parent"
 
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center_horizontal" />
 
 
     <RadioGroup
@@ -84,7 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintLeft_toRightOf="@+id/guideline1"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_native_content">
 
@@ -118,7 +65,7 @@
         android:text="@string/show"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rg_type" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_content" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

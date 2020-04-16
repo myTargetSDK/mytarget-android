@@ -12,7 +12,6 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.VerificationModes.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import com.facebook.testing.screenshot.Screenshot
 import com.facebook.testing.screenshot.ViewHelpers
@@ -125,7 +124,7 @@ class MainTest: TestBase() {
         MainScreen().addUnit(slot = Slot.nativeAds)
         assertDisplayed(expectedValue)
         clickOn(expectedValue)
-        intended(hasComponent(NativeActivity::class.java.name))
+        intended(hasComponent(NativeAdActivity::class.java.name))
     }
 
     @Test
@@ -199,7 +198,7 @@ class MainTest: TestBase() {
     @Test
     fun test_GoToNativeAds() {
         clickOn(MainScreen().native)
-        intended(hasComponent(NativeActivity::class.java.name))
+        intended(hasComponent(NativeAdActivity::class.java.name))
     }
 
     @Test

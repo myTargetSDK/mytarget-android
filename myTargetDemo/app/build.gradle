@@ -1,8 +1,8 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 
-apply plugin: 'kotlin-android'
+apply plugin: "kotlin-android"
 
-apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-android-extensions"
 
 android {
     compileSdkVersion 29
@@ -23,13 +23,13 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.debug
         }
     }
     sourceSets {
-        main.java.srcDirs += 'src/main/java'
-        androidTest.java.srcDirs += 'src/androidTest/java'
+        main.java.srcDirs += "src/main/java"
+        androidTest.java.srcDirs += "src/androidTest/java"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -50,31 +50,33 @@ allprojects {
 
 
 dependencies {
-    implementation 'com.my.target:mytarget-sdk:5.6.3'
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.my.target:mytarget-sdk:5.7.0"
+    implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
-    implementation 'com.google.android.exoplayer:exoplayer:2.10.5'
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "com.google.android.material:material:1.1.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
+    implementation "com.google.android.gms:play-services-ads-identifier:17.0.0"
+    implementation "com.google.android.exoplayer:exoplayer:2.10.4"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.2.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.2.1"
 
-    androidTestImplementation "junit:junit:4.12"
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-web:3.2.0'
+    androidTestImplementation "junit:junit:4.13"
+    androidTestImplementation "androidx.test:runner:1.2.0"
+    androidTestImplementation "androidx.test:rules:1.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-web:3.2.0"
     androidTestImplementation("com.schibsted.spain:barista:2.7.0") {
-        exclude group: 'com.android.support'
-        exclude group: 'org.jetbrains.kotlin'
+        exclude group: "com.android.support"
+        exclude group: "org.jetbrains.kotlin"
     }
 }
 
-apply plugin: 'shot'
+apply plugin: "shot"
 
 shot {
     appId = "com.my.targetDemoApp"

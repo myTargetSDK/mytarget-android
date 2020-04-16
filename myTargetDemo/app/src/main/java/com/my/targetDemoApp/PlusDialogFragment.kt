@@ -3,13 +3,12 @@ package com.my.targetDemoApp
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 
 class PlusDialogFragment : androidx.fragment.app.DialogFragment() {
 
@@ -51,12 +50,13 @@ class PlusDialogFragment : androidx.fragment.app.DialogFragment() {
                                     R.id.adtype_interstitial   -> CustomAdvertisingType.AdType.INTERSTITIAL
                                     R.id.adtype_rewarded       -> CustomAdvertisingType.AdType.REWARDED
                                     R.id.adtype_instream       -> CustomAdvertisingType.AdType.INSTREAM
-                                    R.id.adtype_native         -> CustomAdvertisingType.AdType.NATIVE
+                                    R.id.adtype_native         -> CustomAdvertisingType.AdType.NATIVE_AD
+                                    R.id.adtype_native_banner  -> CustomAdvertisingType.AdType.NATIVE_BANNER
                                     else                       -> CustomAdvertisingType.AdType.STANDARD_320X50
                                 }
                         val checkedAdType = CustomAdvertisingType(type, slotId)
                         val name = nameEditText.text.toString()
-                        if (!name.isEmpty()) {
+                        if (name.isNotEmpty()) {
                             checkedAdType.name = name
                         }
                         saveTypeListener?.invoke(checkedAdType)

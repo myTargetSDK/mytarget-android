@@ -40,7 +40,7 @@ class MainScreen {
         }
         writeTo(slotId, slot.toString())
         clickOn(ok)
-        onView(withId(R.id.main_recycler)).perform(scrollToPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(5))
+        onView(withId(R.id.main_recycler)).perform(scrollToPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(6))
 
     }
 

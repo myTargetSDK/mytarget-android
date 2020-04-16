@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 
-class ExoTimeBar(context: Context?, attrs: AttributeSet?) : DefaultTimeBar(context, attrs) {
+class ExoTimeBar(context: Context, attrs: AttributeSet?) : DefaultTimeBar(context, attrs) {
 
     override fun setAdGroupTimesMs(adGroupTimesMs: LongArray?, playedAdGroups: BooleanArray?, adGroupCount: Int) {
         //nothing

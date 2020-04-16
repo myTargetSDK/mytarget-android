@@ -47,6 +47,12 @@
         android:text="@string/adtype_native"/>
 
     <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/adtype_native_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/adtype_native_banner"/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
         android:id="@+id/adtype_instream"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

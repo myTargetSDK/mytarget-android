@@ -46,9 +46,19 @@
         </activity>
 
         <activity
-            android:name=".NativeActivity"
+            android:name=".NativeAdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="Native ads"
+            android:parentActivityName="com.my.targetDemoApp.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.my.targetDemoApp.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".NativeBannerActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="Native Banner ads"
             android:parentActivityName="com.my.targetDemoApp.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

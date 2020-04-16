@@ -3,11 +3,13 @@
     <string name="standard_banners">Banners</string>
     <string name="interstitial_ads">Interstitial</string>
     <string name="native_ads">Native Ads</string>
+    <string name="native_banner_ads">Native Banner Ads</string>
     <string name="instream_ads">InStream</string>
 
     <string name="standard_banners_desc">320x50 and 300x250 banners</string>
     <string name="interstitial_ads_desc">Fullscreen banners</string>
     <string name="native_ads_desc">Advertisement inside app\'s content</string>
+    <string name="native_banner_ads_desc">Compact advertisement inside app\'s content</string>
     <string name="instream_ads_desc">Advertisement inside video stream</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -16,6 +18,7 @@
     <string name="adtype_banner_320x50">Banner 320x50</string>
     <string name="adtype_banner_300x250">Banner 300x250</string>
     <string name="adtype_native">Native ad</string>
+    <string name="adtype_native_banner">Native Banner ad</string>
     <string name="adtype_banner_728x90_dis">Banner 728x90 (tablets only)</string>
     <string name="banner_size">Banner size</string>
     <string name="_320x50">320x50</string>
@@ -71,4 +74,5 @@
     <string name="rewarded_ads">Rewarded</string>
     <string name="rewarded_ads_desc">Rewarded video banners</string>
     <string name="promo_video_2">Video promo (new style)</string>
+    <string name="carousel_extended">Extended Carousel</string>
 </resources>

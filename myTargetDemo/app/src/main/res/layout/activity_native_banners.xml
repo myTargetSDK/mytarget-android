@@ -20,7 +20,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_natives" />
+    <include layout="@layout/content_native_banners" />
 
     <FrameLayout
         android:id="@+id/native_container"

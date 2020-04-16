@@ -2,11 +2,13 @@ package com.my.targetDemoApp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.DisplayMetrics
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.target.ads.MyTargetView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.math.ceil
+import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,8 +38,10 @@ class MainActivity : AppCompatActivity() {
             goCustom(CustomAdvertisingType(CustomAdvertisingType.AdType.REWARDED,
                     AdvertisingType.REWARDED.defaultSlot))
         }, getString(R.string.rewarded_ads), getString(R.string.rewarded_ads_desc)))
-        types.add(ItemsAdapter.ListItem({ goNative() }, getString(R.string.native_ads),
+        types.add(ItemsAdapter.ListItem({ goNativeAd() }, getString(R.string.native_ads),
                 getString(R.string.native_ads_desc)))
+        types.add(ItemsAdapter.ListItem({ goNativeBanner() }, getString(R.string.native_banner_ads),
+                getString(R.string.native_banner_ads_desc)))
         types.add(ItemsAdapter.ListItem({ goInstream() }, getString(R.string.instream_ads),
                 getString(R.string.instream_ads_desc)))
         val size = types.size
@@ -66,13 +70,20 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, InterstitialsActivity::class.java))
     }
 
-    private fun goNative(slot: Int? = null) {
-        val intent = Intent(this, NativeActivity::class.java)
+    private fun goNativeAd(slot: Int? = null) {
+        val intent = Intent(this, NativeAdActivity::class.java)
         if (slot != null) {
-            intent.putExtra(NativeActivity.KEY_SLOT, slot)
+            intent.putExtra(NativeAdActivity.KEY_SLOT, slot)
         }
         startActivity(intent)
     }
+
+    private fun goNativeBanner(slot: Int? = null) {
+        val intent = Intent(this, NativeBannerActivity::class.java)
+        if (slot != null) {
+            intent.putExtra(NativeBannerActivity.KEY_SLOT, slot)
+        }
+        startActivity(intent)    }
 
     private fun goInstream(slot: Int? = null) {
         val intent = Intent(this, InstreamActivity::class.java)
@@ -94,8 +105,11 @@ class MainActivity : AppCompatActivity() {
             CustomAdvertisingType.AdType.STANDARD_728X90                                     -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_728x90)
             }
-            CustomAdvertisingType.AdType.NATIVE                                              -> {
-                goNative(slot)
+            CustomAdvertisingType.AdType.NATIVE_AD                                           -> {
+                goNativeAd(slot)
+            }
+            CustomAdvertisingType.AdType.NATIVE_BANNER                                       -> {
+                goNativeBanner(slot)
             }
             CustomAdvertisingType.AdType.INSTREAM                                            -> {
                 goInstream(slot)
