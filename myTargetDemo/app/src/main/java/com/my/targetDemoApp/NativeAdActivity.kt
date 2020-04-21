@@ -16,7 +16,7 @@ class NativeAdActivity : AppCompatActivity() {
         var KEY_SLOT = "slotId"
     }
 
-    private lateinit var nativeAdHelper: NativeHelper
+    private lateinit var nativeAdHelper: NativeAdHelper
     private var customBannerShowing: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,18 +54,14 @@ class NativeAdActivity : AppCompatActivity() {
     private fun showNativeAd() {
         native_container.visibility = View.VISIBLE
         ll_progress.visibility = View.GONE
-        nativeAdHelper.createRecycler()
-
-        if (nativeAdHelper.recyclerView == null) {
-            return
-        }
+        val recycler = nativeAdHelper.createRecycler()
 
         native_container.removeAllViews()
 
         val lp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                          ViewGroup.LayoutParams.MATCH_PARENT)
+                ViewGroup.LayoutParams.MATCH_PARENT)
         lp.gravity = Gravity.CENTER
-        native_container.addView(nativeAdHelper.recyclerView, 0, lp)
+        native_container.addView(recycler, 0, lp)
         native_container.visibility = View.VISIBLE
     }
 

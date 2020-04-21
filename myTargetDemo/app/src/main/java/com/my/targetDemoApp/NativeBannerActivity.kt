@@ -39,16 +39,14 @@ class NativeBannerActivity : AppCompatActivity() {
         ll_progress.visibility = View.GONE
         nativeBannerHelper.createRecycler()
 
-        if (nativeBannerHelper.recyclerView == null) {
-            return
-        }
+        val recycler = nativeBannerHelper.createRecycler()
 
         native_container.removeAllViews()
 
         val lp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
         lp.gravity = Gravity.CENTER
-        native_container.addView(nativeBannerHelper.recyclerView, 0, lp)
+        native_container.addView(recycler, 0, lp)
         native_container.visibility = View.VISIBLE
     }
 
