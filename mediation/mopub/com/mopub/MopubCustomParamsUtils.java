@@ -19,7 +19,7 @@ public class MopubCustomParamsUtils
 	public static void fillCustomParams(@NonNull CustomParams customParams,
 												 @NonNull Map<String, Object> stringObjectMap)
 	{
-		customParams.setCustomParam("mediation", "mopub");
+		customParams.setCustomParam("mediation", "2");
 
 		try
 		{
