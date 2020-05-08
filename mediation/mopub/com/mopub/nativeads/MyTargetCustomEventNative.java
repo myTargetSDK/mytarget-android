@@ -1,17 +1,19 @@
 package com.mopub.nativeads;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.mopub.MopubCustomParamsUtils;
 import com.mopub.common.logging.MoPubLog;
 import com.mopub.common.logging.MoPubLog.AdLogEvent;
 import com.mopub.common.logging.MoPubLog.AdapterLogEvent;
+import com.my.target.common.CachePolicy;
 import com.my.target.nativeads.NativeAd;
 import com.my.target.nativeads.banners.NativePromoBanner;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class MyTargetCustomEventNative extends CustomEventNative
 {
@@ -64,7 +66,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 
 		MopubCustomParamsUtils.fillCustomParams(nativeAd.getCustomParams(), stringObjectMap);
 
-		nativeAd.setAutoLoadImages(false);
+		nativeAd.setCachePolicy(CachePolicy.NONE);
 		nativeAd.setListener(new MyTargetNativeAdListener());
 		nativeAd.load();
 	}
