@@ -41,9 +41,9 @@ class InstreamTest: TestBase() {
     fun test_InstreamPause() {
         val instreamScreen = InstreamScreen()
         clickOn(instreamScreen.loadBtn)
-        sleep(1000)
+        device.wait(callback = "[myTarget]: done")
         clickOn(instreamScreen.play)
-        sleep(500)
+        sleep(1000)
         clickOn(instreamScreen.pauseBtn)
         assertTrue(device.wait(callback = Callback.pause))
     }
@@ -52,9 +52,9 @@ class InstreamTest: TestBase() {
     fun test_InstreamResume() {
         val instreamScreen = InstreamScreen()
         clickOn(instreamScreen.loadBtn)
-        sleep(1000)
+        device.wait(callback = "[myTarget]: done")
         clickOn(instreamScreen.play)
-        sleep(500)
+        sleep(1000)
         clickOn(instreamScreen.pauseBtn)
         clickOn(instreamScreen.resumeBtn)
         assertTrue(device.wait(callback = Callback.resume))
@@ -64,13 +64,13 @@ class InstreamTest: TestBase() {
     fun test_InstreamStop() {
         val instreamScreen = InstreamScreen()
         clickOn(instreamScreen.loadBtn)
-        sleep(1000)
+        sleep(3000)
         clickOn(instreamScreen.play)
-        sleep(500)
+        sleep(1000)
         clickOn(instreamScreen.pauseBtn)
         clickOn(instreamScreen.stopBtn)
         clickOn(instreamScreen.resumeBtn)
-        assertFalse(device.wait(callback = Callback.resume, timeout = 1000))
+        assertFalse(device.wait(callback = Callback.resume, timeout = 3000))
     }
 
 }

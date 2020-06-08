@@ -23,6 +23,9 @@ import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickBac
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep
 import com.schibsted.spain.barista.rule.BaristaRule
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
+import kotlinx.android.synthetic.main.activity_main.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -46,16 +49,30 @@ class MainTest: TestBase() {
     }
 
     @Test
+    fun test_MainToolbar() {
+        val expectedTitle = "myTarget Demo"
+        val title = baristaRule.activityTestRule.activity.supportActionBar?.title
+        assertEquals(expectedTitle, title)
+    }
+
+    @Test
+    fun test_MainSdkVersion() {
+        val filter = Regex("(SDK Version: [0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,2})")
+        val subtitle = baristaRule.activityTestRule.activity.supportActionBar?.subtitle
+        assertTrue("Subtitle - $subtitle", filter.matches(subtitle!!))
+    }
+
+    @Test
     fun test_MainWithCustomUnitSnapshot() {
         MainScreen().addUnit(slot = Slot.nativeAds)
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
     }
 
     @Test
     fun test_CancelAddingNewUnitSnapshot() {
         clickOn(MainScreen().plus)
         clickOn(MainScreen().cancel)
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
     }
 
     @Test
@@ -72,7 +89,7 @@ class MainTest: TestBase() {
         MainScreen().addUnit(slot = Slot.standard320x50)
         clickOn("Slot ID ${Slot.standard320x50}")
         sleep(1000)
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
     }
 
     @Test
@@ -80,7 +97,7 @@ class MainTest: TestBase() {
         MainScreen().addUnit(slot = Slot.nativeAds)
         clickOn("Slot ID ${Slot.nativeAds}")
         sleep(1000)
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
     }
 
     @Test
@@ -88,7 +105,7 @@ class MainTest: TestBase() {
         MainScreen().addUnit(slot = Slot.instream)
         clickOn("Slot ID ${Slot.instream}")
         sleep(1000)
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
     }
 
     @Test
@@ -216,6 +233,6 @@ class MainTest: TestBase() {
     @Test
     fun test_AddNewUnitWithEmptySlot() {
         MainScreen().addUnitWithoutSlot()
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
     }
 }

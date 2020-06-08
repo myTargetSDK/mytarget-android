@@ -1,7 +1,7 @@
 package com.my.targetDemoApp
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -13,12 +13,13 @@ class Saver(context: Context) {
         const val NAME = "name"
         const val ITEMS = "items"
         const val SLOT = "slot"
+        const val DEFAULT = "{\"$ITEMS\":[]}"
     }
 
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun save(adType: CustomAdvertisingType) {
-        val prefs = preferences.getString(TAG, "{\"$ITEMS\":[]}")
+        val prefs = preferences.getString(TAG, DEFAULT) ?: DEFAULT
         val prefsJO = JSONObject(prefs)
         val array = prefsJO.getJSONArray(ITEMS)
         val itemJO = JSONObject()
@@ -32,7 +33,7 @@ class Saver(context: Context) {
     fun restore(): Collection<CustomAdvertisingType>? {
         val types = ArrayList<CustomAdvertisingType>()
 
-        val prefs = preferences.getString(TAG, "{\"$ITEMS\":[]}")
+        val prefs = preferences.getString(TAG, DEFAULT) ?: DEFAULT
         val prefsJO = JSONObject(prefs)
         val array = prefsJO.getJSONArray(ITEMS)
         for (i in 0 until array.length()) {
@@ -50,23 +51,19 @@ class Saver(context: Context) {
             return
         }
 
-        val prefs = preferences.getString(TAG, "{\"$ITEMS\":[]}")
+        val prefs = preferences.getString(TAG, DEFAULT) ?: DEFAULT
         var prefsJO = JSONObject(prefs)
         val array = prefsJO.getJSONArray(ITEMS)
 
         val list = ArrayList<JSONObject>()
-        val len = array.length()
-        if (array != null) {
-            for (i in 0 until len) {
-                list.add(array.getJSONObject(i))
-            }
+        for (i in 0 until array.length()) {
+            list.add(array.getJSONObject(i))
         }
         list.removeAt(pos)
         val newArray = JSONArray(list)
 
         prefsJO = JSONObject()
         prefsJO.put(ITEMS, newArray)
-
 
         preferences.edit().putString(TAG, prefsJO.toString()).apply()
     }

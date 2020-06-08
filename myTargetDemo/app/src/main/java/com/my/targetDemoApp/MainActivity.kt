@@ -2,13 +2,11 @@ package com.my.targetDemoApp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.my.target.ads.MyTargetView
+import com.my.target.common.MyTargetVersion
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.math.ceil
-import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        supportActionBar?.subtitle = "SDK Version: ${MyTargetVersion.VERSION}"
         saver = Saver(this)
         fab.setOnClickListener { addElement() }
         mainActivityAdapter = ItemsAdapter()

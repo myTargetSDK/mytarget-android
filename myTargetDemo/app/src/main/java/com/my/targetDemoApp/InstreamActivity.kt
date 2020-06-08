@@ -1,5 +1,6 @@
 package com.my.targetDemoApp
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -9,12 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.RawResourceDataSource
-import com.google.android.exoplayer2.util.Util
 import com.google.android.material.snackbar.Snackbar
 import com.my.target.instreamads.InstreamAd
 import com.my.target.instreamads.InstreamAdPlayer
@@ -66,16 +65,11 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
     }
 
     private fun initPlayer() {
-
-        val bandwidthMeter = DefaultBandwidthMeter()
-        val dataSourceFactory = DefaultDataSourceFactory(this,
-                                                         Util.getUserAgent(this, "myTarget"),
-                                                         bandwidthMeter)
-        val mediaSourceFactory = ExtractorMediaSource.Factory(dataSourceFactory)
+        val uri = Uri.parse("https://r.mradx.net/img/ED/518795.mp4")
         exoPlayer = ExoPlayerFactory.newSimpleInstance(this)
-
-        mediaSource = mediaSourceFactory.createMediaSource(RawResourceDataSource.buildRawResourceUri(
-                R.raw.mytarget))
+        val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(this, "mytarget")
+        mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(uri)
         exoPlayer.addListener(this)
         exoPlayer.playWhenReady = false
         exoplayer_view.player = exoPlayer
@@ -230,7 +224,8 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
 
     private fun addAdPlayer(): Boolean {
         if (instreamAd.player?.view?.parent != null) {
-            snack("Player already created")
+            Snackbar.make(root_content_layout, "Player already created", Snackbar.LENGTH_SHORT)
+                    .show()
             return false
         }
         video_frame.addView(instreamAd.player?.view,
@@ -240,10 +235,6 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
 
 //        (instreamAd.player?.view as PlayerView).resizeMode = RESIZE_MODE_FIT
         return true
-    }
-
-    private fun snack(s: String) {
-        Snackbar.make(root_content_layout, s, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun processLoadedAd(ad: InstreamAd) {
