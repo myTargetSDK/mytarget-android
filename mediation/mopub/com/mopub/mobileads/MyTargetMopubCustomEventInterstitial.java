@@ -9,6 +9,7 @@ import com.mopub.common.logging.MoPubLog;
 import com.mopub.common.logging.MoPubLog.AdLogEvent;
 import com.mopub.common.logging.MoPubLog.AdapterLogEvent;
 import com.my.target.ads.InterstitialAd;
+import com.my.target.ads.mediation.MyTargetAdapterUtils;
 
 import java.util.Map;
 
@@ -69,6 +70,7 @@ public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitia
 		}
 
 		ad.setListener(new MyTargetInterstitialAdListener());
+		MyTargetAdapterUtils.handleConsent();
 		ad.load();
 	}
 

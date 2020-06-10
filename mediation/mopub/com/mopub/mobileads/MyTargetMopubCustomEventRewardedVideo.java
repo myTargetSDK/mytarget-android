@@ -10,6 +10,7 @@ import com.mopub.common.MoPubReward;
 import com.mopub.common.logging.MoPubLog;
 import com.mopub.common.logging.MoPubLog.AdapterLogEvent;
 import com.my.target.ads.InterstitialAd;
+import com.my.target.ads.mediation.MyTargetAdapterUtils;
 
 import java.util.Map;
 
@@ -92,6 +93,7 @@ public class MyTargetMopubCustomEventRewardedVideo extends CustomEventRewardedVi
 		MoPubLog.log(AdapterLogEvent.LOAD_ATTEMPTED, ADAPTER_NAME);
 		if (ad != null)
 		{
+			MyTargetAdapterUtils.handleConsent();
 			ad.load();
 		}
 		else

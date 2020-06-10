@@ -6,6 +6,7 @@ import com.mopub.MopubCustomParamsUtils;
 import com.mopub.common.logging.MoPubLog;
 import com.mopub.common.logging.MoPubLog.AdLogEvent;
 import com.mopub.common.logging.MoPubLog.AdapterLogEvent;
+import com.my.target.ads.mediation.MyTargetAdapterUtils;
 import com.my.target.common.CachePolicy;
 import com.my.target.nativeads.NativeAd;
 import com.my.target.nativeads.banners.NativePromoBanner;
@@ -68,6 +69,7 @@ public class MyTargetCustomEventNative extends CustomEventNative
 
 		nativeAd.setCachePolicy(CachePolicy.NONE);
 		nativeAd.setListener(new MyTargetNativeAdListener());
+		MyTargetAdapterUtils.handleConsent();
 		nativeAd.load();
 	}
 

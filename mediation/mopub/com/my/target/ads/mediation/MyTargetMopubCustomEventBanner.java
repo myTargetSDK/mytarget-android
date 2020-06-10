@@ -134,6 +134,7 @@ public class MyTargetMopubCustomEventBanner extends CustomEventBanner
 			myTargetView.init(slotId, adSize, false);
 			myTargetView.setListener(myTargetViewListener);
 		}
+		MyTargetAdapterUtils.handleConsent();
 		myTargetView.load();
 	}
 
