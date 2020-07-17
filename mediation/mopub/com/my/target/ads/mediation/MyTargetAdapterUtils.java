@@ -5,7 +5,9 @@ import com.mopub.common.privacy.ConsentStatus;
 import com.mopub.common.privacy.PersonalInfoManager;
 import com.my.target.common.MyTargetPrivacy;
 
-public class MyTargetAdapterUtils
+import androidx.annotation.Nullable;
+
+public final class MyTargetAdapterUtils
 {
 	public static void handleConsent()
 	{
@@ -26,5 +28,23 @@ public class MyTargetAdapterUtils
 					break;
 			}
 		}
+	}
+
+	public static int parseSlot(@Nullable String slotString)
+	{
+		int slot = -1;
+		if (slotString == null)
+		{
+			return slot;
+		}
+		try
+		{
+			slot = Integer.parseInt(slotString);
+		}
+		catch (NumberFormatException e)
+		{
+			e.printStackTrace();
+		}
+		return slot;
 	}
 }

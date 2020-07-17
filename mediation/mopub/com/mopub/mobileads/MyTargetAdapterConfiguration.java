@@ -10,8 +10,9 @@ import com.my.target.common.MyTargetVersion;
 
 import java.util.Map;
 
-public class MyTargetAdapterConfiguration extends BaseAdapterConfiguration
+public final class MyTargetAdapterConfiguration extends BaseAdapterConfiguration
 {
+	public static final String SLOT_ID_KEY = "slotId";
 	private static final String ADAPTER_VERSION = MyTargetVersion.VERSION + ".0";
 	private static final String NETWORK_NAME = "myTarget";
 

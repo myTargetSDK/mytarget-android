@@ -1,154 +1,185 @@
 package com.mopub.mobileads;
 
+import android.app.Activity;
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.mopub.MopubCustomParamsUtils;
+import com.mopub.common.DataKeys;
+import com.mopub.common.LifecycleListener;
 import com.mopub.common.logging.MoPubLog;
 import com.mopub.common.logging.MoPubLog.AdLogEvent;
-import com.mopub.common.logging.MoPubLog.AdapterLogEvent;
+import com.mopub.mobileads.AdLifecycleListener.InteractionListener;
+import com.mopub.mobileads.AdLifecycleListener.LoadListener;
 import com.my.target.ads.InterstitialAd;
 import com.my.target.ads.mediation.MyTargetAdapterUtils;
 
 import java.util.Map;
 
-public class MyTargetMopubCustomEventInterstitial extends CustomEventInterstitial
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.CLICKED;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.CUSTOM;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.LOAD_FAILED;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.LOAD_SUCCESS;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.SHOW_ATTEMPTED;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.SHOW_SUCCESS;
+import static com.mopub.mobileads.MoPubErrorCode.NETWORK_NO_FILL;
+
+public final class MyTargetMopubCustomEventInterstitial extends BaseAd implements InterstitialAd.InterstitialAdListener
 {
-	private static final String SLOT_ID_KEY = "slotId";
 	private static final String ADAPTER_NAME = MyTargetMopubCustomEventInterstitial.class.getSimpleName();
-	private @Nullable InterstitialAd ad;
-	private @Nullable CustomEventInterstitialListener mopubInterstitialListener;
+	private @Nullable InterstitialAd interstitialAd;
+	private @NonNull String adNetworkId = "";
 
 	@Override
-	protected void loadInterstitial(@Nullable Context context,
-									@Nullable CustomEventInterstitialListener customEventInterstitialListener,
-									@Nullable Map<String, Object> stringObjectMap,
-									@Nullable Map<String, String> stringStringMap)
+	protected void load(@NonNull final Context context, @NonNull final AdData adData)
 	{
-		this.mopubInterstitialListener = customEventInterstitialListener;
-		MoPubLog.log(AdLogEvent.LOAD_ATTEMPTED, ADAPTER_NAME);
+		setAutomaticImpressionAndClickTracking(false);
 
-		if (context == null)
-		{
-			MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", "null context");
-			return;
-		}
-
-		int slotId = -1;
-		if (stringStringMap != null && !stringStringMap.isEmpty())
-		{
-			String sslotId = stringStringMap.get(SLOT_ID_KEY);
-			if (sslotId != null)
-			{
-				try
-				{
-					slotId = Integer.parseInt(sslotId);
-				}
-				catch (NumberFormatException e)
-				{
-					MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, e.getMessage());
-					e.printStackTrace();
-				}
-			}
-		}
-
+		final Map<String, String> extras = adData.getExtras();
+		String sslotId = extras.get(MyTargetAdapterConfiguration.SLOT_ID_KEY);
+		int slotId = MyTargetAdapterUtils.parseSlot(sslotId);
 		if (slotId < 0)
 		{
-			MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", "Unable to get slotId from parameter json. Probably Mopub mediation misconfiguration.");
-			if (mopubInterstitialListener != null)
+			LoadListener loadListener = mLoadListener;
+			if (loadListener != null)
 			{
-				mopubInterstitialListener.onInterstitialFailed(MoPubErrorCode.MISSING_AD_UNIT_ID);
+				loadListener.onAdLoadFailed(MoPubErrorCode.NETWORK_NO_FILL);
+				MoPubLog.log(getAdNetworkId(), LOAD_FAILED, ADAPTER_NAME,
+							 MoPubErrorCode.NETWORK_NO_FILL.getIntCode(), MoPubErrorCode.NETWORK_NO_FILL);
 			}
 			return;
 		}
-
-		ad = new InterstitialAd(slotId, context);
-		if (stringObjectMap != null)
-		{
-			MopubCustomParamsUtils.fillCustomParams(ad.getCustomParams(), stringObjectMap);
-		}
-
-		ad.setListener(new MyTargetInterstitialAdListener());
+		adNetworkId = sslotId != null ? sslotId : "";
 		MyTargetAdapterUtils.handleConsent();
-		ad.load();
+
+		interstitialAd = new InterstitialAd(slotId, context);
+		final String adMarkup = extras.get(DataKeys.ADM_KEY);
+
+		MopubCustomParamsUtils.fillCustomParams(interstitialAd.getCustomParams(), adData.getExtras());
+
+		interstitialAd.setListener(this);
+
+		if (adMarkup == null || adMarkup.length() == 0)
+		{
+			interstitialAd.load();
+		}
+		else
+		{
+			interstitialAd.loadFromBid(adMarkup);
+		}
+		MoPubLog.log(getAdNetworkId(), LOAD_ATTEMPTED, ADAPTER_NAME);
 	}
 
 	@Override
-	protected void showInterstitial()
+	protected void show()
 	{
-		MoPubLog.log(AdLogEvent.SHOW_ATTEMPTED, ADAPTER_NAME);
-		if (ad != null)
+		MoPubLog.log(getAdNetworkId(), SHOW_ATTEMPTED, ADAPTER_NAME);
+		if (interstitialAd != null)
 		{
-			ad.show();
+			interstitialAd.show();
 		}
 	}
 
 	@Override
 	protected void onInvalidate()
 	{
-		if (ad != null)
+		if (interstitialAd != null)
 		{
-			ad.setListener(null);
+			interstitialAd.setListener(null);
+			interstitialAd.destroy();
+		}
+		interstitialAd = null;
+	}
+
+	@Override
+	protected @Nullable LifecycleListener getLifecycleListener()
+	{
+		return null;
+	}
+
+	@Override
+	protected @NonNull String getAdNetworkId()
+	{
+		return adNetworkId;
+	}
+
+	@Override
+	protected boolean checkAndInitializeSdk(@NonNull Activity launcherActivity, @NonNull AdData adData)
+	{
+		return false;
+	}
+
+	@Override
+	public void onLoad(@NonNull InterstitialAd ad)
+	{
+		LoadListener loadListener = mLoadListener;
+		if (loadListener != null)
+		{
+			loadListener.onAdLoaded();
+			MoPubLog.log(getAdNetworkId(), LOAD_SUCCESS, ADAPTER_NAME);
 		}
 	}
 
-	private class MyTargetInterstitialAdListener implements InterstitialAd.InterstitialAdListener
+	@Override
+	public void onNoAd(@NonNull String reason, @NonNull InterstitialAd ad)
 	{
-		@Override
-		public void onLoad(@NonNull InterstitialAd ad)
-		{
-			MoPubLog.log(AdLogEvent.LOAD_SUCCESS, ADAPTER_NAME);
-			if (mopubInterstitialListener != null)
-			{
-				mopubInterstitialListener.onInterstitialLoaded();
-			}
-		}
+		MoPubLog.log(getAdNetworkId(), CUSTOM, ADAPTER_NAME, "myTarget banner ad failed " +
+				"to load.");
 
-		@Override
-		public void onNoAd(@NonNull String reason, @NonNull InterstitialAd ad)
-		{
-			MoPubLog.log(AdLogEvent.LOAD_FAILED, ADAPTER_NAME, "", reason);
-			if (mopubInterstitialListener != null)
-			{
-				mopubInterstitialListener.onInterstitialFailed(MoPubErrorCode.MRAID_LOAD_ERROR);
-			}
-		}
+		MoPubErrorCode code = NETWORK_NO_FILL;
+		MoPubLog.log(getAdNetworkId(), AdLogEvent.LOAD_FAILED, ADAPTER_NAME, code.getIntCode(), code);
 
-		@Override
-		public void onClick(@NonNull InterstitialAd ad)
+		LoadListener loadListener = mLoadListener;
+		InteractionListener interactionListener = mInteractionListener;
+		if (interactionListener == null && loadListener != null)
 		{
-			MoPubLog.log(AdLogEvent.CLICKED, ADAPTER_NAME);
-			if (mopubInterstitialListener != null)
-			{
-				mopubInterstitialListener.onInterstitialClicked();
-			}
+			loadListener.onAdLoadFailed(code);
 		}
-
-		@Override
-		public void onDismiss(@NonNull InterstitialAd ad)
+		else if (interactionListener != null)
 		{
-			MoPubLog.log(AdapterLogEvent.WILL_DISAPPEAR, ADAPTER_NAME);
-			if (mopubInterstitialListener != null)
-			{
-				mopubInterstitialListener.onInterstitialDismissed();
-			}
+			interactionListener.onAdFailed(code);
 		}
+	}
 
-		@Override
-		public void onVideoCompleted(@NonNull InterstitialAd ad)
+	@Override
+	public void onClick(@NonNull InterstitialAd ad)
+	{
+		MoPubLog.log(getAdNetworkId(), CLICKED, ADAPTER_NAME);
+		InteractionListener interactionListener = mInteractionListener;
+		if (interactionListener != null)
 		{
-			MoPubLog.log(AdLogEvent.CUSTOM, ADAPTER_NAME, "Video Completed");
+			interactionListener.onAdClicked();
 		}
+	}
 
-		@Override
-		public void onDisplay(@NonNull InterstitialAd ad)
+	@Override
+	public void onDismiss(@NonNull InterstitialAd ad)
+	{
+		InteractionListener interactionListener = mInteractionListener;
+		if (interactionListener != null)
 		{
-			MoPubLog.log(AdLogEvent.SHOW_SUCCESS, ADAPTER_NAME);
-			if (mopubInterstitialListener != null)
-			{
-				mopubInterstitialListener.onInterstitialShown();
-			}
+			interactionListener.onAdDismissed();
+		}
+	}
+
+	@Override
+	public void onVideoCompleted(@NonNull InterstitialAd ad)
+	{
+		MoPubLog.log(AdLogEvent.CUSTOM, ADAPTER_NAME, "Video Completed");
+	}
+
+	@Override
+	public void onDisplay(@NonNull InterstitialAd ad)
+	{
+		MoPubLog.log(getAdNetworkId(), SHOW_SUCCESS, ADAPTER_NAME);
+		InteractionListener interactionListener = mInteractionListener;
+		if (interactionListener != null)
+		{
+			interactionListener.onAdShown();
+			interactionListener.onAdImpression();
 		}
 	}
 }
