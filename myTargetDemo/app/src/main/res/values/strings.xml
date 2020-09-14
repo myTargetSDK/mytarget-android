@@ -20,13 +20,11 @@
     <string name="adtype_native">Native ad</string>
     <string name="adtype_native_banner">Native Banner ad</string>
     <string name="adtype_banner_728x90_dis">Banner 728x90 (tablets only)</string>
+    <string name="adtype_banner_adaptive_dis">Adaptive size</string>
     <string name="banner_size">Banner size</string>
     <string name="_320x50">320x50</string>
     <string name="_300x250">300x250</string>
     <string name="_728x90">728x90 (tablets)</string>
-    <string name="banner_type">Banner type</string>
-    <string name="standard_web_js_banner">Webview</string>
-    <string name="html_banner">HTML</string>
     <string name="show">Show</string>
     <string name="interstitial_type">Interstitial type</string>
     <string name="static_promo">Static promo</string>
@@ -40,10 +38,6 @@
 
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</string>
     <string name="load">Load</string>
-    <string name="content_stream">Content stream</string>
-    <string name="content_wall">Content wall</string>
-    <string name="news_feed">News feed</string>
-    <string name="chat_list">Chat list</string>
     <string name="native_content">Native content</string>
     <string name="none">None</string>
     <string name="video">Video</string>
@@ -74,5 +68,6 @@
     <string name="rewarded_ads">Rewarded</string>
     <string name="rewarded_ads_desc">Rewarded video banners</string>
     <string name="promo_video_2">Video promo (new style)</string>
-    <string name="carousel_extended">Extended Carousel</string>
+    <string name="adaptive">Adaptive</string>
+    <string name="adaptive_xml">Adaptive (xml)</string>
 </resources>

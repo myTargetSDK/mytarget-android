@@ -12,6 +12,8 @@ import org.junit.Test
 
 class BannersTest : TestBase() {
 
+    private val bannersScreen = BannersScreen()
+
     @get:Rule
     var baristaRule = BaristaRule.create(BannersActivity::class.java)
 
@@ -28,50 +30,29 @@ class BannersTest : TestBase() {
     }
 
     @Test
-    fun test_Show320x50Webview() {
-        val bannersScreen = BannersScreen()
-        bannersScreen.show320x50Webview()
+    fun test_Show320x50() {
+        bannersScreen.show320x50()
         device.wait(bannersScreen.webview)
         onWebView().forceJavascriptEnabled()
     }
 
     @Test
-    fun test_Show320x50Html() {
-        val bannersScreen = BannersScreen()
-        bannersScreen.show320x50Html()
+    fun test_Show300x250() {
+        bannersScreen.show300x250()
         device.wait(bannersScreen.webview)
         onWebView().forceJavascriptEnabled()
     }
 
     @Test
-    fun test_Show300x250Webview() {
-        val bannersScreen = BannersScreen()
-        bannersScreen.show300x250Webview()
-        device.wait(callback = Callback.load)
-        onWebView().forceJavascriptEnabled()
-    }
-
-    @Test
-    fun test_Show300x250Html() {
-        val bannersScreen = BannersScreen()
-        bannersScreen.show300x250Html()
+    fun test_Show728x90() {
+        bannersScreen.show728x90()
         device.wait(bannersScreen.webview)
         onWebView().forceJavascriptEnabled()
     }
 
     @Test
-    fun test_Show728x90Webview() {
-        val bannersScreen = BannersScreen()
-        bannersScreen.show728x90Webview()
+    fun test_ShowAdaptive() {
+        bannersScreen.showAdaptive()
         device.wait(bannersScreen.webview)
-        onWebView().forceJavascriptEnabled()
-    }
-
-    @Test
-    fun test_Show728x90Html() {
-        val bannersScreen = BannersScreen()
-        bannersScreen.show728x90Html()
-        device.wait(bannersScreen.webview)
-        onWebView().forceJavascriptEnabled()
     }
 }

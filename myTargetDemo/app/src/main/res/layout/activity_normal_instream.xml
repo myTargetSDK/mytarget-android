@@ -79,7 +79,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_params_instream_title" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_quality_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/quality"
@@ -97,7 +96,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_fullscreen_content" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_loading_timeout_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/timeout"
@@ -169,7 +167,6 @@
 
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_duration_title"
 
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -188,7 +185,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_params_title" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_position_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/position"
@@ -224,7 +220,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_position_content" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_close_delay_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/closedelay"
@@ -261,7 +256,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_params_title" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_haspause_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/has_pause"
@@ -498,7 +492,6 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_ad_controls"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

@@ -21,20 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_interstitial_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_radio_title"
-        android:layout_marginStart="@dimen/margin_radio_title"
-        android:text="@string/banner_type"
-        android:textAlignment="gravity"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
     <RadioGroup
         android:id="@+id/rg_size"
         android:layout_width="0dp"
@@ -62,31 +48,20 @@
             android:layout_height="wrap_content"
             android:text="@string/_728x90" />
 
-    </RadioGroup>
-
-
-    <RadioGroup
-        android:id="@+id/rg_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tv_interstitial_type">
-
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbt_web"
+            android:id="@+id/rbt_adaptive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/standard_web_js_banner" />
+            android:text="@string/adaptive" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbt_html"
+            android:id="@+id/rbt_adaptive_xml"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/html_banner" />
+            android:text="@string/adaptive_xml" />
 
     </RadioGroup>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_gointerstitial"
@@ -96,7 +71,7 @@
         android:text="@string/show"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rg_type" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_size" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

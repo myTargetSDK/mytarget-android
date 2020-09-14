@@ -29,7 +29,7 @@ class BannerHelper : MyTargetView.MyTargetViewListener {
         parent?.let { Snackbar.make(it, "No ad", Snackbar.LENGTH_SHORT).show() }
     }
 
-    fun init(defaultSlot: Int, adSize: Int, parent: View, function: (() -> Unit)? = null) {
+    fun load(defaultSlot: Int, adSize: MyTargetView.AdSize, parent: ViewGroup, function: (() -> Unit)? = null) {
         MyTargetView.setDebugMode(true)
         afterLoad = function
         bannerView = MyTargetView(parent.context)
@@ -37,8 +37,9 @@ class BannerHelper : MyTargetView.MyTargetViewListener {
         showLoading(parent)
 
         bannerView?.let {
+            it.setSlotId(defaultSlot)
+            it.setAdSize(adSize)
             it.listener = this
-            it.init(defaultSlot, adSize)
             it.load()
         }
     }

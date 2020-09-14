@@ -47,6 +47,7 @@ class PlusDialogFragment : androidx.fragment.app.DialogFragment() {
                                     R.id.adtype_banner_320x50  -> CustomAdvertisingType.AdType.STANDARD_320X50
                                     R.id.adtype_banner_300x250 -> CustomAdvertisingType.AdType.STANDARD_300X250
                                     R.id.adtype_banner_728x90  -> CustomAdvertisingType.AdType.STANDARD_728X90
+                                    R.id.adtype_banner_adaptive-> CustomAdvertisingType.AdType.STANDARD_ADAPTIVE
                                     R.id.adtype_interstitial   -> CustomAdvertisingType.AdType.INTERSTITIAL
                                     R.id.adtype_rewarded       -> CustomAdvertisingType.AdType.REWARDED
                                     R.id.adtype_instream       -> CustomAdvertisingType.AdType.INSTREAM

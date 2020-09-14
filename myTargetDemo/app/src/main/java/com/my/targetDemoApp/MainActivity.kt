@@ -95,26 +95,33 @@ class MainActivity : AppCompatActivity() {
     private fun goCustom(adType: CustomAdvertisingType) {
         val slot = adType.slotId ?: return
         when (adType.adType) {
-            CustomAdvertisingType.AdType.STANDARD_320X50                                     -> {
+            CustomAdvertisingType.AdType.STANDARD_320X50  -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_320x50)
             }
-            CustomAdvertisingType.AdType.STANDARD_300X250                                    -> {
+            CustomAdvertisingType.AdType.STANDARD_300X250 -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_300x250)
             }
-            CustomAdvertisingType.AdType.STANDARD_728X90                                     -> {
+            CustomAdvertisingType.AdType.STANDARD_728X90  -> {
                 goBanners(slot, MyTargetView.AdSize.BANNER_728x90)
             }
-            CustomAdvertisingType.AdType.NATIVE_AD                                           -> {
+            CustomAdvertisingType.AdType.STANDARD_ADAPTIVE                                     -> {
+                goBanners(slot, MyTargetView.AdSize.BANNER_ADAPTIVE)
+            }
+            CustomAdvertisingType.AdType.NATIVE_AD        -> {
                 goNativeAd(slot)
             }
-            CustomAdvertisingType.AdType.NATIVE_BANNER                                       -> {
+            CustomAdvertisingType.AdType.NATIVE_BANNER    -> {
                 goNativeBanner(slot)
             }
-            CustomAdvertisingType.AdType.INSTREAM                                            -> {
+            CustomAdvertisingType.AdType.INSTREAM         -> {
                 goInstream(slot)
             }
-            CustomAdvertisingType.AdType.INTERSTITIAL, CustomAdvertisingType.AdType.REWARDED -> {
+            CustomAdvertisingType.AdType.INTERSTITIAL     -> {
                 val helper = InterstitialHelper(main_recycler)
+                helper.init(slot, true)
+            }
+            CustomAdvertisingType.AdType.REWARDED         -> {
+                val helper = RewardedHelper(main_recycler)
                 helper.init(slot, true)
             }
 

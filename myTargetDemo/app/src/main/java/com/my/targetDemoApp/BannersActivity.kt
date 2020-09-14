@@ -1,5 +1,6 @@
 package com.my.targetDemoApp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity.BOTTOM
 import android.view.Gravity.CENTER_HORIZONTAL
@@ -36,17 +37,21 @@ class BannersActivity : AppCompatActivity() {
 
         val displayMetrics = resources.displayMetrics
         rbt_728x90.isEnabled = Math.max(displayMetrics.heightPixels / displayMetrics.density,
-                                        displayMetrics.widthPixels / displayMetrics.density) > 728
+                displayMetrics.widthPixels / displayMetrics.density) > 728
 
         rbt_320x50.isChecked = true
-        rbt_web.isChecked = true
 
         btn_gointerstitial.setOnClickListener { goBanner() }
         initFish()
 
-        val customSize = intent.getIntExtra(KEY_SIZE, -1)
+        val customSize = when (intent.getIntExtra(KEY_SIZE, -1)) {
+            1    -> MyTargetView.AdSize.ADSIZE_300x250
+            2    -> MyTargetView.AdSize.ADSIZE_728x90
+            3    -> MyTargetView.AdSize.getAdSizeForCurrentOrientation(this)
+            else -> MyTargetView.AdSize.ADSIZE_320x50
+        }
         val customSlot = intent.getIntExtra(KEY_SLOT, -1)
-        if (customSize >= 0 && customSlot >= 0) {
+        if (customSlot >= 0) {
             banner_container.visibility = VISIBLE
             goBanner(customSize, customSlot)
             customBannerShowing = true
@@ -94,35 +99,36 @@ class BannersActivity : AppCompatActivity() {
     }
 
     private fun goBanner() {
-        var adSize: Int = MyTargetView.AdSize.BANNER_320x50
-        if (rbt_300x250.isChecked) adSize = MyTargetView.AdSize.BANNER_300x250
-        else if (rbt_728x90.isChecked) adSize = MyTargetView.AdSize.BANNER_728x90
+        if (rbt_adaptive_xml.isChecked) {
+            startActivity(Intent(this, SimpleBannerActivity::class.java))
+            return
+        }
 
+        var adSize: MyTargetView.AdSize = MyTargetView.AdSize.ADSIZE_320x50
         var adType: AdvertisingType = AdvertisingType.STANDARD_BANNER_320X50
-
-        when (adSize) {
-            MyTargetView.AdSize.BANNER_320x50  -> when {
-                rbt_web.isChecked    -> adType = AdvertisingType.STANDARD_BANNER_320X50
-                rbt_html.isChecked   -> adType = AdvertisingType.STANDARD_BANNER_320X50_HTML
+        when {
+            rbt_300x250.isChecked  -> {
+                adSize = MyTargetView.AdSize.ADSIZE_300x250
+                adType = AdvertisingType.STANDARD_BANNER_300X250
             }
-            MyTargetView.AdSize.BANNER_300x250 -> when {
-                rbt_web.isChecked    -> adType = AdvertisingType.STANDARD_BANNER_300X250_WEB
-                rbt_html.isChecked   -> adType = AdvertisingType.STANDARD_BANNER_300X250_HTML
+            rbt_728x90.isChecked   -> {
+                adSize = MyTargetView.AdSize.ADSIZE_728x90
+                adType = AdvertisingType.STANDARD_BANNER_728X90
             }
-            MyTargetView.AdSize.BANNER_728x90  -> when {
-                rbt_web.isChecked    -> adType = AdvertisingType.STANDARD_BANNER_728X90_WEB
-                rbt_html.isChecked   -> adType = AdvertisingType.STANDARD_BANNER_728X90_HTML
+            rbt_adaptive.isChecked -> {
+                adSize = MyTargetView.AdSize.getAdSizeForCurrentOrientation(this)
+                adType = AdvertisingType.STANDARD_BANNER_ADAPTIVE
             }
         }
 
         goBanner(adSize, adType.defaultSlot)
     }
 
-    private fun goBanner(adSize: Int, slot: Int) {
+    private fun goBanner(adSize: MyTargetView.AdSize, slot: Int) {
         banner_container.removeView(bannerHelper.bannerView)
         bannerHelper.destroy()
-        bannerHelper.init(slot, adSize, banner_container) {
-            if (adSize == MyTargetView.AdSize.BANNER_300x250) {
+        bannerHelper.load(slot, adSize, banner_container) {
+            if (adSize == MyTargetView.AdSize.ADSIZE_300x250) {
                 showBannerInsideList()
             }
             else {
@@ -148,14 +154,15 @@ class BannersActivity : AppCompatActivity() {
         bannersAdapter.notifyItemChanged(bannersAdapter.adPosition)
     }
 
-    inner class BannersAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+    inner class BannersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val adPosition = 3
 
         var adViewInside: MyTargetView? = null
 
-        override fun onCreateViewHolder(p0: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
-            val frame = LayoutInflater.from(p0.context).inflate(R.layout.item_banner, p0, false)
-            return object : androidx.recyclerview.widget.RecyclerView.ViewHolder(frame) {}
+        override fun onCreateViewHolder(p0: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            val frame = LayoutInflater.from(p0.context)
+                    .inflate(R.layout.item_banner, p0, false)
+            return object : RecyclerView.ViewHolder(frame) {}
         }
 
         override fun getItemCount(): Int {
@@ -169,7 +176,7 @@ class BannersActivity : AppCompatActivity() {
             return 0
         }
 
-        override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             adViewInside?.let {
                 if (getItemViewType(position) == 1 && it.parent == null) {
                     (holder.itemView as FrameLayout?)?.removeAllViews()

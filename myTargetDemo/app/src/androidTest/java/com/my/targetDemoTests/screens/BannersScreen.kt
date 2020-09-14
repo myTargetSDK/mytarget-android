@@ -6,7 +6,7 @@ import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 
 class BannersScreen: WebViewScreen() {
     val adView = By.res("ad_view")
-    private val rbtWebview = R.id.rbt_web
+    private val rbtAdaptive = R.id.rbt_adaptive
     private val rbtHtml = R.id.rbt_html
     private val rbt320x50 = R.id.rbt_320x50
     private val rbt300x250 = R.id.rbt_300x250
@@ -14,38 +14,22 @@ class BannersScreen: WebViewScreen() {
     private val showBtn = R.id.btn_gointerstitial
     val banner = R.id.banner_container
 
-    fun show320x50Webview() {
-        clickOn(rbtWebview)
+    fun showAdaptive() {
+        clickOn(rbtAdaptive)
+        clickOn(showBtn)
+    }
+
+    fun show320x50() {
         clickOn(rbt320x50)
         clickOn(showBtn)
     }
 
-    fun show320x50Html() {
-        clickOn(rbtHtml)
-        clickOn(rbt320x50)
-        clickOn(showBtn)
-    }
-
-    fun show300x250Webview() {
-        clickOn(rbtWebview)
+    fun show300x250() {
         clickOn(rbt300x250)
         clickOn(showBtn)
     }
 
-    fun show300x250Html() {
-        clickOn(rbtHtml)
-        clickOn(rbt300x250)
-        clickOn(showBtn)
-    }
-
-    fun show728x90Webview() {
-        clickOn(rbtWebview)
-        clickOn(rbt728x90)
-        clickOn(showBtn)
-    }
-
-    fun show728x90Html() {
-        clickOn(rbtHtml)
+    fun show728x90() {
         clickOn(rbt728x90)
         clickOn(showBtn)
     }

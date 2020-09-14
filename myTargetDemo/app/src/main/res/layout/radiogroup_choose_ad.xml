@@ -29,6 +29,12 @@
         android:text="@string/adtype_banner_728x90_dis"/>
 
     <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/adtype_banner_adaptive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/adtype_banner_adaptive_dis"/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
         android:id="@+id/adtype_interstitial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

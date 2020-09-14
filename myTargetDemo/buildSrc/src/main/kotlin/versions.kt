@@ -1,7 +1,7 @@
 const val KOTLIN_VERSION = "1.3.72"
 
 object Plugins {
-    const val AGP = "4.0.0"
+    const val AGP = "4.0.1"
     const val KARUMI = "3.0.0"
     const val VERSIONS = "0.28.0"
 }

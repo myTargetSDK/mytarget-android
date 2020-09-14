@@ -3,18 +3,18 @@ plugins {
 }
 allprojects {
     repositories {
+        maven(url = "file://${rootDir}/../repository")
         google()
         jcenter()
-        maven(url = "file://${rootDir}/../repository")
         flatDir { dirs("libs") }
     }
 }
 
 buildscript {
     repositories {
+        maven(url = "file://${rootDir}/../repository")
         google()
         jcenter()
-        maven(url = "file://${rootDir}/../repository")
         flatDir { dirs("libs") }
     }
     dependencies {
