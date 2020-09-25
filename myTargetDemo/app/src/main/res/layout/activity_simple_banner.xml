@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             app:myTarget_adSize="adaptive"
             app:myTarget_isRefreshAd="true"
-            app:myTarget_slotId="799927" />
+            app:myTarget_slotId="794557" />
     </FrameLayout>
 
 </LinearLayout>
