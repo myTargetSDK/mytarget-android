@@ -18,7 +18,6 @@ import com.mopub.mobileads.MyTargetAdapterConfiguration;
 import com.my.target.ads.MyTargetView;
 import com.my.target.ads.MyTargetView.AdSize;
 import com.my.target.ads.MyTargetView.MyTargetViewListener;
-import com.my.target.common.CustomParams;
 
 import java.util.Map;
 
@@ -95,21 +94,25 @@ public final class MyTargetMopubCustomEventBanner extends BaseAd implements MyTa
 		}
 	}
 
-	private int calculateSize(int width, int height)
+	private @Nullable AdSize calculateSize(int width, int height, @NonNull Context context)
 	{
-		if (height <= 50)
+		if (width == 300 && height == 250)
 		{
-			return AdSize.BANNER_320x50;
+			return AdSize.ADSIZE_300x250;
 		}
-		else if (width <= 300 && height <= 250)
+		else if (width == 320 && height == 50)
 		{
-			return AdSize.BANNER_300x250;
+			return AdSize.ADSIZE_320x50;
 		}
-		else if (height <= 90)
+		else if (width == 728 && height == 90)
 		{
-			return AdSize.BANNER_728x90;
+			return AdSize.ADSIZE_728x90;
 		}
-		return AdSize.BANNER_320x50;
+		else if (width > 0)
+		{
+			return AdSize.getAdSizeForCurrentOrientation(width, context);
+		}
+		return null;
 	}
 
 	@Override
@@ -170,17 +173,18 @@ public final class MyTargetMopubCustomEventBanner extends BaseAd implements MyTa
 		MyTargetAdapterUtils.handleConsent();
 		Integer adHeight = adData.getAdHeight();
 		Integer adWidth = adData.getAdWidth();
-		int adSize = calculateSize(adWidth == null ? 0 : adWidth, adHeight == null ? 0 : adHeight);
+		AdSize adSize = calculateSize(adWidth == null ? 0 : adWidth, adHeight == null ? 0 : adHeight, context);
 
 		if (myTargetView == null)
 		{
 			myTargetView = new MyTargetView(context);
-			final CustomParams customParams = myTargetView.getCustomParams();
-			if (customParams != null)
+			MopubCustomParamsUtils.fillCustomParams(myTargetView.getCustomParams(), adData.getExtras());
+			myTargetView.setSlotId(slotId);
+			if (adSize != null)
 			{
-				MopubCustomParamsUtils.fillCustomParams(customParams, adData.getExtras());
+				myTargetView.setAdSize(adSize);
 			}
-			myTargetView.init(slotId, adSize, false);
+			myTargetView.setRefreshAd(false);
 			myTargetView.setListener(this);
 		}
 		final String adMarkup = extras.get(DataKeys.ADM_KEY);

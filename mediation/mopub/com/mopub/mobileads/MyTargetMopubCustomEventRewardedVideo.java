@@ -11,7 +11,8 @@ import com.mopub.common.logging.MoPubLog;
 import com.mopub.common.logging.MoPubLog.AdLogEvent;
 import com.mopub.mobileads.AdLifecycleListener.InteractionListener;
 import com.mopub.mobileads.AdLifecycleListener.LoadListener;
-import com.my.target.ads.InterstitialAd;
+import com.my.target.ads.Reward;
+import com.my.target.ads.RewardedAd;
 import com.my.target.ads.mediation.MyTargetAdapterUtils;
 
 import java.util.Map;
@@ -28,10 +29,10 @@ import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.SHOW_ATTEMPTED;
 import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.SHOW_SUCCESS;
 import static com.mopub.mobileads.MoPubErrorCode.NETWORK_NO_FILL;
 
-public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implements InterstitialAd.InterstitialAdListener
+public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implements RewardedAd.RewardedAdListener
 {
 	private static final String ADAPTER_NAME = MyTargetMopubCustomEventRewardedVideo.class.getSimpleName();
-	private @Nullable InterstitialAd interstitialAd;
+	private @Nullable RewardedAd rewardedAd;
 	private @NonNull String adNetworkId = "";
 
 	@Override
@@ -56,20 +57,20 @@ public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implemen
 		adNetworkId = sslotId != null ? sslotId : "";
 		MyTargetAdapterUtils.handleConsent();
 
-		interstitialAd = new InterstitialAd(slotId, context);
+		rewardedAd = new RewardedAd(slotId, context);
 		final String adMarkup = extras.get(DataKeys.ADM_KEY);
 
-		MopubCustomParamsUtils.fillCustomParams(interstitialAd.getCustomParams(), adData.getExtras());
+		MopubCustomParamsUtils.fillCustomParams(rewardedAd.getCustomParams(), adData.getExtras());
 
-		interstitialAd.setListener(this);
+		rewardedAd.setListener(this);
 
 		if (adMarkup == null || adMarkup.length() == 0)
 		{
-			interstitialAd.load();
+			rewardedAd.load();
 		}
 		else
 		{
-			interstitialAd.loadFromBid(adMarkup);
+			rewardedAd.loadFromBid(adMarkup);
 		}
 		MoPubLog.log(getAdNetworkId(), LOAD_ATTEMPTED, ADAPTER_NAME);
 	}
@@ -78,21 +79,21 @@ public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implemen
 	protected void show()
 	{
 		MoPubLog.log(getAdNetworkId(), SHOW_ATTEMPTED, ADAPTER_NAME);
-		if (interstitialAd != null)
+		if (rewardedAd != null)
 		{
-			interstitialAd.show();
+			rewardedAd.show();
 		}
 	}
 
 	@Override
 	protected void onInvalidate()
 	{
-		if (interstitialAd != null)
+		if (rewardedAd != null)
 		{
-			interstitialAd.setListener(null);
-			interstitialAd.destroy();
+			rewardedAd.setListener(null);
+			rewardedAd.destroy();
 		}
-		interstitialAd = null;
+		rewardedAd = null;
 	}
 
 	@Override
@@ -114,7 +115,7 @@ public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implemen
 	}
 
 	@Override
-	public void onLoad(@NonNull InterstitialAd ad)
+	public void onLoad(@NonNull RewardedAd ad)
 	{
 		LoadListener loadListener = mLoadListener;
 		if (loadListener != null)
@@ -125,7 +126,7 @@ public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implemen
 	}
 
 	@Override
-	public void onNoAd(@NonNull String reason, @NonNull InterstitialAd ad)
+	public void onNoAd(@NonNull String reason, @NonNull RewardedAd ad)
 	{
 		MoPubLog.log(getAdNetworkId(), CUSTOM, ADAPTER_NAME, "myTarget banner ad failed " +
 				"to load.");
@@ -146,7 +147,7 @@ public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implemen
 	}
 
 	@Override
-	public void onClick(@NonNull InterstitialAd ad)
+	public void onClick(@NonNull RewardedAd ad)
 	{
 		MoPubLog.log(getAdNetworkId(), CLICKED, ADAPTER_NAME);
 		InteractionListener interactionListener = mInteractionListener;
@@ -157,7 +158,7 @@ public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implemen
 	}
 
 	@Override
-	public void onDismiss(@NonNull InterstitialAd ad)
+	public void onDismiss(@NonNull RewardedAd ad)
 	{
 		InteractionListener interactionListener = mInteractionListener;
 		if (interactionListener != null)
@@ -167,18 +168,18 @@ public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implemen
 	}
 
 	@Override
-	public void onVideoCompleted(@NonNull InterstitialAd ad)
+	public void onReward(@NonNull Reward reward, @NonNull RewardedAd ad)
 	{
-		MoPubLog.log(AdLogEvent.CUSTOM, ADAPTER_NAME, "Video Completed");
+		MoPubLog.log(AdLogEvent.CUSTOM, ADAPTER_NAME, "Rewarded");
 		InteractionListener interactionListener = mInteractionListener;
 		if (interactionListener != null)
 		{
-			interactionListener.onAdComplete(MoPubReward.success(MoPubReward.NO_REWARD_LABEL, MoPubReward.NO_REWARD_AMOUNT));
+			interactionListener.onAdComplete(MoPubReward.success(reward.type, MoPubReward.NO_REWARD_AMOUNT));
 		}
 	}
 
 	@Override
-	public void onDisplay(@NonNull InterstitialAd ad)
+	public void onDisplay(@NonNull RewardedAd ad)
 	{
 		MoPubLog.log(getAdNetworkId(), SHOW_SUCCESS, ADAPTER_NAME);
 		InteractionListener interactionListener = mInteractionListener;
