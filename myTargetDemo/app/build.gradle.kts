@@ -24,6 +24,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -33,7 +34,9 @@ android {
 }
 
 dependencies {
-    implementation("com.my.target:mytarget-sdk:$SDK_VERSION")
+    val sdkversion: String? by project
+    debugImplementation("com.my.target:mytarget-sdk:$SDK_VERSION")
+    releaseImplementation("com.my.target:mytarget-sdk:$sdkversion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION")
     implementation("androidx.appcompat:appcompat:${AndroidX.appcompat}")
     implementation("com.google.android.material:material:${AndroidX.material}")
