@@ -7,6 +7,7 @@ object Plugins {
 }
 
 object AndroidX {
+    const val multidex = "2.0.1"
     const val appcompat = "1.1.0"
     const val material = "1.1.0"
     const val cardview = "1.0.0"

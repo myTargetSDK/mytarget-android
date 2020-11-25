@@ -5,15 +5,17 @@ plugins {
 }
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
     defaultConfig {
         applicationId = "com.my.targetDemoApp"
         minSdkVersion(16)
-        targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
+        targetSdkVersion(30)
+        val ver = findVersionName()
+        versionName = ver
+        versionCode = convertVerToCode(ver)
         testInstrumentationRunner = "com.my.targetDemoTests.helpers.ScreenshotTestRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled = true
     }
     lintOptions {
         isAbortOnError = true
@@ -48,6 +50,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:${AndroidX.navigation}")
     implementation("androidx.navigation:navigation-ui-ktx:${AndroidX.navigation}")
     implementation("androidx.preference:preference-ktx:${AndroidX.preference}")
+    implementation("com.android.support:multidex:${AndroidX.multidex}")
 
     androidTestImplementation("junit:junit:${Test.junit}")
     androidTestImplementation("androidx.test:runner:${Test.runner}")
@@ -64,7 +67,24 @@ dependencies {
 
 apply(plugin = "shot")
 
-configure<com.karumi.shot.ShotExtension>
-{
+configure<com.karumi.shot.ShotExtension> {
     appId = "com.my.targetDemoApp"
+}
+
+fun convertVerToCode(versionName: String): Int {
+    return versionName.split(".")
+            .take(3)
+            .mapIndexed { index, s ->
+                s.toInt() * (when (index) {
+                    0 -> 1_000_000
+                    1 -> 1000
+                    else -> 1
+                })
+            }
+            .sum()
+}
+
+fun findVersionName(): String {
+    val sdkversion: String? by project
+    return sdkversion ?: SDK_VERSION
 }
