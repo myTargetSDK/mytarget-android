@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mopub.nativeads.MyTargetCustomEventNative.MyTargetNativeAd;
@@ -62,6 +63,10 @@ public final class MyTargetAdRenderer implements MoPubAdRenderer<MyTargetNativeA
 										 nativeAd.getCallToAction());
 		NativeRendererHelper.addTextView(myTargetNativeViewHolder.getAdvertisingLabelView(),
 										 nativeAd.getAdvertisingLabel());
+		NativeImageHelper.loadImageView(nativeAd.getMainImageUrl(),
+										 myTargetNativeViewHolder.getMainImageView());
+		NativeImageHelper.loadImageView(nativeAd.getIconImageUrl(),
+										 myTargetNativeViewHolder.getIconImageView());
 		View rootView = myTargetNativeViewHolder.getMainView();
 		NativeRendererHelper.addCtaButton(myTargetNativeViewHolder.getCallToActionView(),
 										  rootView,
@@ -79,6 +84,8 @@ public final class MyTargetAdRenderer implements MoPubAdRenderer<MyTargetNativeA
 		private @Nullable TextView textView;
 		private @Nullable TextView callToActionView;
 		private @Nullable TextView advertisingLabelView;
+		private @Nullable ImageView mainImageView;
+		private @Nullable ImageView iconImageView;
 
 		// Use fromViewBinder instead of a constructor
 		private MyTargetNativeViewHolder()
@@ -95,6 +102,8 @@ public final class MyTargetAdRenderer implements MoPubAdRenderer<MyTargetNativeA
 
 			final MyTargetNativeViewHolder viewHolder = new MyTargetNativeViewHolder();
 			viewHolder.mainView = view;
+			viewHolder.mainImageView = view.findViewById(myTargetViewBinder.mainImageId);
+			viewHolder.iconImageView = view.findViewById(myTargetViewBinder.iconImageId);
 			viewHolder.titleView = view.findViewById(myTargetViewBinder.titleId);
 			viewHolder.textView = view.findViewById(myTargetViewBinder.descriptionId);
 			viewHolder.callToActionView =
@@ -127,6 +136,16 @@ public final class MyTargetAdRenderer implements MoPubAdRenderer<MyTargetNativeA
 		{
 			return advertisingLabelView;
 		}
+
+		public @Nullable ImageView getMainImageView()
+		{
+			return mainImageView;
+		}
+
+		public @Nullable ImageView getIconImageView()
+		{
+			return iconImageView;
+		}
 	}
 
 	public final static class MyTargetViewBinder
@@ -137,6 +156,8 @@ public final class MyTargetAdRenderer implements MoPubAdRenderer<MyTargetNativeA
 		final int descriptionId;
 		final int callToActionId;
 		final int advertisingLabelId;
+		final int mainImageId;
+		final int iconImageId;
 
 		private MyTargetViewBinder(@NonNull final Builder builder)
 		{
@@ -145,6 +166,8 @@ public final class MyTargetAdRenderer implements MoPubAdRenderer<MyTargetNativeA
 			this.descriptionId = builder.descriptionId;
 			this.callToActionId = builder.callToActionId;
 			this.advertisingLabelId = builder.advertisingLabelId;
+			this.mainImageId = builder.mainImageId;
+			this.iconImageId = builder.iconImageId;
 		}
 
 		public static class Builder
@@ -155,6 +178,8 @@ public final class MyTargetAdRenderer implements MoPubAdRenderer<MyTargetNativeA
 			private int descriptionId;
 			private int callToActionId;
 			private int advertisingLabelId;
+			private int mainImageId;
+			private int iconImageId;
 
 			public Builder(final int layoutId)
 			{
@@ -186,6 +211,18 @@ public final class MyTargetAdRenderer implements MoPubAdRenderer<MyTargetNativeA
 			public Builder advertisingLabelId(final int advertisingLabelId)
 			{
 				this.advertisingLabelId = advertisingLabelId;
+				return this;
+			}
+
+			@NonNull
+			public final Builder mainImageId(final int mainImageId) {
+				this.mainImageId = mainImageId;
+				return this;
+			}
+
+			@NonNull
+			public final Builder iconImageId(final int iconImageId) {
+				this.iconImageId = iconImageId;
 				return this;
 			}
 

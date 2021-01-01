@@ -109,6 +109,16 @@ public final class MyTargetCustomEventNative extends CustomEventNative
 			return promoBanner != null ? promoBanner.getCtaText() : null;
 		}
 
+		final public @Nullable String getMainImageUrl()
+		{
+			return promoBanner != null && promoBanner.getImage() != null ? promoBanner.getImage().getUrl() : null;
+		}
+
+		final public @Nullable String getIconImageUrl()
+		{
+			return promoBanner != null && promoBanner.getIcon() != null ? promoBanner.getIcon().getUrl() : null;
+		}
+
 		@Override
 		public void onLoad(@NonNull NativePromoBanner banner, @NonNull NativeAd ad)
 		{
