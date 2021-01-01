@@ -90,4 +90,15 @@ public final class MopubCustomParamsUtils
 			}
 		}
 	}
+
+	public static void fillLocalCustomParams(@NonNull CustomParams customParams,
+											 @NonNull Map<String, Object> extras)
+	{
+		Map<String,String> localExtras = new HashMap<>();
+		for (Map.Entry<String, Object> entry : extras.entrySet())
+		{
+			localExtras.put(entry.getKey(), String.valueOf(entry.getValue()));
+		}
+		fillCustomParams(customParams, localExtras);
+	}
 }
