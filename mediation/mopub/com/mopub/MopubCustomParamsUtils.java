@@ -11,10 +11,23 @@ import androidx.annotation.NonNull;
 public final class MopubCustomParamsUtils
 {
 	private static final String TAG = "MopubCustomParamsUtils";
-	private static final String EXTRA_GENDER = "mytarget_gender";
-	private static final String EXTRA_AGE = "mytarget_age";
-	private static final String EXTRA_VKID = "mytarget_vk_id";
-	private static final String EXTRA_OKID = "mytarget_ok_id";
+	public static final String EXTRA_GENDER = "mytarget_gender";
+	public static final String EXTRA_AGE = "mytarget_age";
+	public static final String EXTRA_VKID = "mytarget_vk_id";
+	public static final String EXTRA_OKID = "mytarget_ok_id";
+
+	public static void mergeExtras(@NonNull Map<String, String> serverExtras,
+								   @NonNull Map<String, Object> localExtras)
+	{
+		for (final String key : localExtras.keySet())
+		{
+			final Object value = localExtras.get(key);
+			if (value != null && !serverExtras.containsKey(key))
+			{
+				serverExtras.put(key, value.toString());
+			}
+		}
+	}
 
 	public static void fillCustomParams(@NonNull CustomParams customParams,
 										@NonNull Map<String, String> extras)

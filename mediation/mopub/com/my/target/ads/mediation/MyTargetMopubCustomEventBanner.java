@@ -178,7 +178,7 @@ public final class MyTargetMopubCustomEventBanner extends BaseAd implements MyTa
 		if (myTargetView == null)
 		{
 			myTargetView = new MyTargetView(context);
-			MopubCustomParamsUtils.fillCustomParams(myTargetView.getCustomParams(), adData.getExtras());
+			MopubCustomParamsUtils.fillCustomParams(myTargetView.getCustomParams(), extras);
 			myTargetView.setSlotId(slotId);
 			if (adSize != null)
 			{
