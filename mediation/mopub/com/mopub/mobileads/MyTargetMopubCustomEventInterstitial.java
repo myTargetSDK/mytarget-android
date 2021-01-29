@@ -58,7 +58,7 @@ public final class MyTargetMopubCustomEventInterstitial extends BaseAd implement
 		interstitialAd = new InterstitialAd(slotId, context);
 		final String adMarkup = extras.get(DataKeys.ADM_KEY);
 
-		MopubCustomParamsUtils.fillCustomParams(interstitialAd.getCustomParams(), adData.getExtras());
+		MopubCustomParamsUtils.fillCustomParams(interstitialAd.getCustomParams(), extras);
 
 		interstitialAd.setListener(this);
 

@@ -49,6 +49,7 @@ public final class MyTargetCustomEventNative extends CustomEventNative
 		MyTargetAdapterUtils.handleConsent();
 
 		NativeAd nativeAd = new NativeAd(slotId, context);
+		MopubCustomParamsUtils.mergeExtras(extras,localExtras);
 		MopubCustomParamsUtils.fillCustomParams(nativeAd.getCustomParams(), extras);
 		MyTargetNativeAd myTargetNativeAd = new MyTargetNativeAd(nativeAd, customEventNativeListener, bid, sslotId != null ? sslotId : "");
 		myTargetNativeAd.loadAd();

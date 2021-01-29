@@ -60,7 +60,7 @@ public final class MyTargetMopubCustomEventRewardedVideo extends BaseAd implemen
 		rewardedAd = new RewardedAd(slotId, context);
 		final String adMarkup = extras.get(DataKeys.ADM_KEY);
 
-		MopubCustomParamsUtils.fillCustomParams(rewardedAd.getCustomParams(), adData.getExtras());
+		MopubCustomParamsUtils.fillCustomParams(rewardedAd.getCustomParams(), extras);
 
 		rewardedAd.setListener(this);
 
