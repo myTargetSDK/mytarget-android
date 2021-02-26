@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.my.target.ads.MyTargetView
+import com.my.target.common.MyTargetManager
 
 class BannerHelper : MyTargetView.MyTargetViewListener {
 
@@ -30,7 +31,7 @@ class BannerHelper : MyTargetView.MyTargetViewListener {
     }
 
     fun load(defaultSlot: Int, adSize: MyTargetView.AdSize, parent: ViewGroup, function: (() -> Unit)? = null) {
-        MyTargetView.setDebugMode(true)
+        MyTargetManager.setDebugMode(true)
         afterLoad = function
         bannerView = MyTargetView(parent.context)
         this.parent = parent

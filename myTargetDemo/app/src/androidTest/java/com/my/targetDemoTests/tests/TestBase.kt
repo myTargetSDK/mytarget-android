@@ -1,6 +1,6 @@
 package com.my.targetDemoTests.tests
 
-import com.my.target.ads.InterstitialAd
+import com.my.target.common.MyTargetManager
 import com.my.targetDemoTests.helpers.DeviceHelper
 import org.junit.Before
 
@@ -10,6 +10,6 @@ open class TestBase {
     @Before
     open fun setUp() {
         device.clearLog()
-        InterstitialAd.setDebugMode(true)
+        MyTargetManager.setDebugMode(true)
     }
 }

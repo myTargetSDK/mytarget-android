@@ -15,6 +15,7 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.material.snackbar.Snackbar
+import com.my.target.common.MyTargetManager
 import com.my.target.instreamads.InstreamAd
 import com.my.target.instreamads.InstreamAdPlayer
 import kotlinx.android.synthetic.main.activity_normal_instream.*
@@ -46,7 +47,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener, Instre
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_normal_instream)
-        InstreamAd.setDebugMode(true)
+        MyTargetManager.setDebugMode(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         slotId = intent.getIntExtra(KEY_SLOT, AdvertisingType.INSTREAM.defaultSlot)
