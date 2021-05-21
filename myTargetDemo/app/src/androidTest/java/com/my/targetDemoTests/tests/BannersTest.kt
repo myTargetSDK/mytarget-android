@@ -2,8 +2,7 @@ package com.my.targetDemoTests.tests
 
 import androidx.test.espresso.web.sugar.Web.onWebView
 import com.facebook.testing.screenshot.Screenshot
-import com.my.targetDemoApp.BannersActivity
-import com.my.targetDemoTests.helpers.Callback
+import com.my.targetDemoApp.activities.BannersActivity
 import com.my.targetDemoTests.screens.BannersScreen
 import com.schibsted.spain.barista.rule.BaristaRule
 import org.junit.Before

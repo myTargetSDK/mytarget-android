@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".SimpleBannerActivity">
+    tools:context=".activities.SimpleBannerActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"

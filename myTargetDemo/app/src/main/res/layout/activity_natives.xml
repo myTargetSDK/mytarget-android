@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                     xmlns:tools="http://schemas.android.com/tools"
-                                                     android:layout_width="match_parent"
-                                                     android:layout_height="match_parent"
-                                                     tools:context=".NativeAdActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.NativeAdActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -20,7 +20,74 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_natives" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/natives_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/content_padding"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:layout="@layout/activity_natives">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_native_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_radio_title"
+            android:layout_marginLeft="@dimen/margin_radio_title"
+            android:gravity="center_horizontal"
+            android:text="@string/native_content"
+
+            android:textAlignment="center"
+            android:textSize="20sp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RadioGroup
+            android:id="@+id/rg_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_native_content">
+
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rbt_none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rbt_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/video" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rbt_cards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/carousel" />
+
+        </RadioGroup>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_gonative"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/show"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rg_content" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/native_container"
@@ -28,11 +95,10 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:visibility="gone"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </FrameLayout>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/ll_progress"
+        android:id="@+id/ll_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -41,11 +107,13 @@
         android:visibility="gone">
 
         <ProgressBar
+            android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Loading"

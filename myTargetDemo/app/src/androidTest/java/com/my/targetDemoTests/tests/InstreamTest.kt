@@ -1,7 +1,7 @@
 package com.my.targetDemoTests.tests
 
 import com.facebook.testing.screenshot.Screenshot
-import com.my.targetDemoApp.InstreamActivity
+import com.my.targetDemoApp.activities.InstreamActivity
 import com.my.targetDemoTests.helpers.Callback
 import com.my.targetDemoTests.screens.InstreamScreen
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn

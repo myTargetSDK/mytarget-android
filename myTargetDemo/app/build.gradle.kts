@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
 }
 
 android {
@@ -33,6 +32,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -50,7 +52,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:${AndroidX.navigation}")
     implementation("androidx.navigation:navigation-ui-ktx:${AndroidX.navigation}")
     implementation("androidx.preference:preference-ktx:${AndroidX.preference}")
-    implementation("com.android.support:multidex:${AndroidX.multidex}")
+    implementation("androidx.multidex:multidex:${AndroidX.multidex}")
 
     androidTestImplementation("junit:junit:${Test.junit}")
     androidTestImplementation("androidx.test:runner:${Test.runner}")

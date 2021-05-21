@@ -1,7 +1,7 @@
 package com.my.targetDemoTests.tests
 
 import com.facebook.testing.screenshot.Screenshot
-import com.my.targetDemoApp.NativeAdActivity
+import com.my.targetDemoApp.activities.NativeAdActivity
 import com.my.targetDemoTests.screens.NativeScreen
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.rule.BaristaRule

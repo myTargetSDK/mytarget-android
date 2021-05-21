@@ -1,5 +1,6 @@
 package com.my.targetDemoTests.tests
 
+import android.view.LayoutInflater
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.GeneralLocation
@@ -12,10 +13,14 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.VerificationModes.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import android.view.LayoutInflater
 import com.facebook.testing.screenshot.Screenshot
 import com.facebook.testing.screenshot.ViewHelpers
-import com.my.targetDemoApp.*
+import com.my.targetDemoApp.R
+import com.my.targetDemoApp.activities.BannersActivity
+import com.my.targetDemoApp.activities.InstreamActivity
+import com.my.targetDemoApp.activities.InterstitialsActivity
+import com.my.targetDemoApp.activities.MainActivity
+import com.my.targetDemoApp.activities.NativeAdActivity
 import com.my.targetDemoTests.helpers.Slot
 import com.my.targetDemoTests.screens.MainScreen
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
@@ -25,13 +30,14 @@ import com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep
 import com.schibsted.spain.barista.rule.BaristaRule
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
-import kotlinx.android.synthetic.main.activity_main.*
+import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class MainTest: TestBase() {
+class MainTest : TestBase() {
 
     @get:Rule
     var baristaRule = BaristaRule.create(MainActivity::class.java)
@@ -65,14 +71,16 @@ class MainTest: TestBase() {
     @Test
     fun test_MainWithCustomUnitSnapshot() {
         MainScreen().addUnit(slot = Slot.nativeAds)
-        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
+                .record()
     }
 
     @Test
     fun test_CancelAddingNewUnitSnapshot() {
         clickOn(MainScreen().plus)
         clickOn(MainScreen().cancel)
-        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
+                .record()
     }
 
     @Test
@@ -80,8 +88,11 @@ class MainTest: TestBase() {
         val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
         val inflater = LayoutInflater.from(targetContext)
         val view = inflater.inflate(R.layout.fragment_dialog, null, false)
-        ViewHelpers.setupView(view).setExactWidthDp(300).layout()
-        Screenshot.snap(view).record()
+        ViewHelpers.setupView(view)
+                .setExactWidthDp(300)
+                .layout()
+        Screenshot.snap(view)
+                .record()
     }
 
     @Test
@@ -89,7 +100,8 @@ class MainTest: TestBase() {
         MainScreen().addUnit(slot = Slot.standard320x50)
         clickOn("Slot ID ${Slot.standard320x50}")
         sleep(1000)
-        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
+                .record()
     }
 
     @Test
@@ -97,7 +109,8 @@ class MainTest: TestBase() {
         MainScreen().addUnit(slot = Slot.nativeAds)
         clickOn("Slot ID ${Slot.nativeAds}")
         sleep(1000)
-        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
+                .record()
     }
 
     @Test
@@ -105,7 +118,8 @@ class MainTest: TestBase() {
         MainScreen().addUnit(slot = Slot.instream)
         clickOn("Slot ID ${Slot.instream}")
         sleep(1000)
-        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
+                .record()
     }
 
     @Test
@@ -194,15 +208,16 @@ class MainTest: TestBase() {
     fun test_RemoveUnit() {
         val main = MainScreen()
         main.addUnit(slot = Slot.nativeAds)
-        val unitsBefore = baristaRule.activityTestRule.activity.
-                findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.main_recycler).adapter!!.itemCount
-        onView(withId(R.id.main_recycler))
-                .perform(actionOnItemAtPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
-                        unitsBefore - 1,
-                        GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER,
-                                GeneralLocation.CENTER_LEFT, Press.FINGER)))
-        val unitsAfter = baristaRule.activityTestRule.activity.
-                findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.main_recycler).adapter!!.itemCount
+        val unitsBefore =
+                baristaRule.activityTestRule.activity.findViewById<androidx.recyclerview.widget.RecyclerView>(
+                        R.id.main_recycler).adapter!!.itemCount
+        onView(withId(R.id.main_recycler)).perform(
+                actionOnItemAtPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
+                        unitsBefore - 1, GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER,
+                        GeneralLocation.CENTER_LEFT, Press.FINGER)))
+        val unitsAfter =
+                baristaRule.activityTestRule.activity.findViewById<androidx.recyclerview.widget.RecyclerView>(
+                        R.id.main_recycler).adapter!!.itemCount
         assert(unitsBefore - 1 == unitsAfter)
     }
 
@@ -233,6 +248,14 @@ class MainTest: TestBase() {
     @Test
     fun test_AddNewUnitWithEmptySlot() {
         MainScreen().addUnitWithoutSlot()
-        Screenshot.snap(baristaRule.activityTestRule.activity.main_recycler).record()
+        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
+                .record()
+    }
+
+    @Test
+    fun test_AutoInit() {
+        val log = device.getLogByTag("[myTarget]")
+        assertThat(log, containsString("MyTarget initialization"))
+        assertThat(log, containsString("start autoinitialization"))
     }
 }

@@ -54,4 +54,8 @@ class DeviceHelper {
     fun getLog(): String {
         return device.executeShellCommand("logcat -d")
     }
+
+    fun getLogByTag(tag: String): String {
+        return device.executeShellCommand("logcat -d *:S $tag")
+    }
 }

@@ -4,7 +4,7 @@
                                                      xmlns:tools="http://schemas.android.com/tools"
                                                      android:layout_width="match_parent"
                                                      android:layout_height="match_parent"
-                                                     tools:context=".NativeAdActivity">
+                                                     tools:context=".activities.NativeAdActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -20,7 +20,15 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_native_banners" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/natives_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/content_padding"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:layout="@layout/activity_natives">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/native_container"
@@ -32,7 +40,7 @@
     </FrameLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/ll_progress"
+        android:id="@+id/ll_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -41,11 +49,13 @@
         android:visibility="gone">
 
         <ProgressBar
+            android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Loading"

@@ -6,7 +6,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.web.sugar.Web.onWebView
 import com.facebook.testing.screenshot.Screenshot
 import com.my.target.common.MyTargetActivity
-import com.my.targetDemoApp.InterstitialsActivity
+import com.my.targetDemoApp.activities.InterstitialsActivity
 import com.my.targetDemoTests.helpers.Callback
 import com.my.targetDemoTests.screens.InterstitialScreen
 import com.schibsted.spain.barista.rule.BaristaRule

@@ -14,16 +14,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.my.target.debugMode"
+            android:value="@integer/enable_logging" />
+
         <activity
-            android:name=".SimpleBannerActivity"
+            android:name=".activities.SimpleBannerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:parentActivityName=".BannersActivity">
+            android:parentActivityName=".activities.BannersActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.my.targetDemoApp.BannersActivity" />
+                android:value="com.my.targetDemoApp.activities.BannersActivity" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -34,49 +39,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BannersActivity"
+            android:name=".activities.BannersActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="Standard banners"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.my.targetDemoApp.MainActivity" />
+                android:value="com.my.targetDemoApp.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".InterstitialsActivity"
+            android:name=".activities.InterstitialsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="Interstitials"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.my.targetDemoApp.MainActivity" />
+                android:value="com.my.targetDemoApp.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".NativeAdActivity"
+            android:name=".activities.NativeAdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="Native ads"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.my.targetDemoApp.MainActivity" />
+                android:value="com.my.targetDemoApp.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".NativeBannerActivity"
+            android:name=".activities.NativeBannerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="Native Banner ads"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.my.targetDemoApp.MainActivity" />
+                android:value="com.my.targetDemoApp.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".InstreamActivity"
+            android:name=".activities.InstreamActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="Instream ads"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.my.targetDemoApp.MainActivity" />
+                android:value="com.my.targetDemoApp.activities.MainActivity" />
         </activity>
     </application>
 

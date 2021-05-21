@@ -1,26 +1,18 @@
 package com.my.targetDemoApp
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_main.view.*
+import androidx.recyclerview.widget.RecyclerView
+import com.my.targetDemoApp.databinding.ItemMainBinding
 
-class ItemsAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>() {
+class ItemsAdapter(private val onDelete: (Int) -> Unit) :
+        RecyclerView.Adapter<ItemsAdapter.MainActivityViewHolder>() {
 
     private var adItems: ArrayList<ListItem>? = null
 
-    private var deleteListener: ((Int) -> Unit)? = null
-
-    fun setDeleteListener(function: (Int) -> Unit) {
-        this.deleteListener = function
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainActivityViewHolder {
-        return MainActivityViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_main,
-                                                                                  parent,
-                                                                                  false))
+        return MainActivityViewHolder(
+                ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -28,12 +20,13 @@ class ItemsAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<ItemsAdap
     }
 
     override fun onBindViewHolder(holder: MainActivityViewHolder, position: Int) {
-        adItems?.get(position)?.let { holder.bind(it) }
+        adItems?.get(position)
+                ?.let { holder.bind(it) }
     }
 
     override fun onViewRecycled(holder: MainActivityViewHolder) {
         super.onViewRecycled(holder)
-        holder.containerView.setOnClickListener(null)
+        holder.containerViewBinding.root.setOnClickListener(null)
     }
 
     fun setItems(types: ArrayList<ListItem>) {
@@ -49,24 +42,25 @@ class ItemsAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<ItemsAdap
     }
 
     fun deleteItem(num: Int) {
-        adItems?.let {
-            if (it.size > num) {
-                it.removeAt(num)
-                notifyItemRemoved(num)
-                deleteListener?.invoke(num)
-            }
+        val items = adItems ?: return
+        if (num >= items.size) {
+            return
         }
+        items.removeAt(num)
+        adItems = items
+        notifyItemRemoved(num)
+        onDelete.invoke(num)
     }
 
-    class MainActivityViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(
-            containerView), LayoutContainer {
+    class MainActivityViewHolder(var containerViewBinding: ItemMainBinding) :
+            RecyclerView.ViewHolder(containerViewBinding.root) {
         fun bind(listItem: ListItem) {
-            containerView.tv_title.text = listItem.title
-            containerView.tv_description.text = listItem.description
-            containerView.setOnClickListener { listItem.clickListener.invoke() }
+            containerViewBinding.tvTitle.text = listItem.title
+            containerViewBinding.tvDescription.text = listItem.description
+            containerViewBinding.root.setOnClickListener { listItem.onClick.invoke() }
         }
     }
 
-    class ListItem(var clickListener: () -> Unit, var title: String, var description: String)
+    class ListItem(var onClick: () -> Unit, var title: String, var description: String)
 }
 
