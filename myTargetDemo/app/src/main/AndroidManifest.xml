@@ -19,6 +19,10 @@
             android:name="com.my.target.debugMode"
             android:value="@integer/enable_logging" />
 
+        <meta-data
+            android:name="com.my.target.myTrackerSdkKey"
+            android:value="@string/mytracker_app_key" />
+
         <activity
             android:name=".activities.SimpleBannerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"

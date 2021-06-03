@@ -72,4 +72,5 @@
     <string name="adaptive_xml">Adaptive (xml)</string>
     <string name="loading">Loading…</string>
     <string name="error_msg">Ad wasn\'t loaded, message: %8s</string>
+    <string name="mytracker_app_key">66039511634340742311</string>
 </resources>

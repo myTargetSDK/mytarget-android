@@ -1,4 +1,5 @@
 const val KOTLIN_VERSION = "1.4.32"
+const val MYTRACKER_VERSION = "2.1.2"
 
 object Plugins {
     const val AGP = "4.1.3"
@@ -18,7 +19,7 @@ object AndroidX {
 }
 
 object Google {
-    const val exoplayer = "2.10.4"
+    const val exoplayer = "2.13.3"
     const val play = "17.0.0"
 }
 

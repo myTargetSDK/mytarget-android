@@ -2,19 +2,19 @@ package com.my.targetDemoApp.activities
 
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Util
 import com.google.android.material.snackbar.Snackbar
 import com.my.target.instreamads.InstreamAd
 import com.my.target.instreamads.InstreamAdPlayer
@@ -22,7 +22,6 @@ import com.my.targetDemoApp.AdvertisingType
 import com.my.targetDemoApp.R
 import com.my.targetDemoApp.databinding.ActivityNormalInstreamBinding
 import com.my.targetDemoApp.player.DefaultPlayerEventListener
-import com.my.targetDemoApp.player.ExoTimeBar
 
 class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         InstreamAd.InstreamAdListener {
@@ -69,17 +68,19 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
     }
 
     private fun initPlayer() {
-        val uri = Uri.parse("https://r.mradx.net/img/ED/518795.mp4")
-        exoPlayer = ExoPlayerFactory.newSimpleInstance(this)
-        val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(this, "mytarget")
-        mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(uri)
+        exoPlayer = SimpleExoPlayer.Builder(this)
+                .build()
+        mediaSource = ProgressiveMediaSource.Factory(
+                DefaultDataSourceFactory(this, Util.getUserAgent(this, "myTarget")))
+                .createMediaSource(
+                        MediaItem.fromUri(Uri.parse("https://r.mradx.net/img/ED/518795.mp4")))
         exoPlayer.addListener(this)
         exoPlayer.playWhenReady = false
         viewBinding.exoplayerView.player = exoPlayer
         viewBinding.exoplayerView.keepScreenOn = true
 
-        exoPlayer.prepare(mediaSource)
+        exoPlayer.setMediaSource(mediaSource)
+        exoPlayer.prepare()
         viewBinding.exoplayerView.requestFocus()
 
         viewBinding.btnLoad.setOnClickListener {
@@ -237,7 +238,6 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT))
 
-//        (instreamAd.player?.view as PlayerView).resizeMode = RESIZE_MODE_FIT
         return true
     }
 
@@ -291,14 +291,16 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
     }
 
     private fun processMidPoints() {
-        val adGroupTimesMs = instreamAd.midPoints
-        viewBinding.root.findViewById<ExoTimeBar>(R.id.exo_progress)
-                .setAdGroupTimesSec(adGroupTimesMs)
+        val adGroupTimesMs = instreamAd.midPoints.map { (it * 1000).toLong() }
+                .toLongArray()
+        viewBinding.root.findViewById<DefaultTimeBar>(R.id.exo_progress)
+                .setAdGroupTimesMs(adGroupTimesMs, BooleanArray(adGroupTimesMs.size) { true },
+                        adGroupTimesMs.size)
 
         for (midPoint in adGroupTimesMs) {
-            exoPlayer.createMessage { _, _ -> startMidroll(midPoint) }
-                    .setPosition((midPoint * 1000).toLong())
-                    .setHandler(Handler(Looper.getMainLooper()))
+            exoPlayer.createMessage { _, _ -> startMidroll((midPoint / 1000).toFloat()) }
+                    .setPosition(midPoint)
+                    .setLooper(Looper.getMainLooper())
                     .send()
         }
     }

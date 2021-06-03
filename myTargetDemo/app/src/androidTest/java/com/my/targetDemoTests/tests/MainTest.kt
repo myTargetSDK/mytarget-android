@@ -251,11 +251,4 @@ class MainTest : TestBase() {
         Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
                 .record()
     }
-
-    @Test
-    fun test_AutoInit() {
-        val log = device.getLogByTag("[myTarget]")
-        assertThat(log, containsString("MyTarget initialization"))
-        assertThat(log, containsString("start autoinitialization"))
-    }
 }
