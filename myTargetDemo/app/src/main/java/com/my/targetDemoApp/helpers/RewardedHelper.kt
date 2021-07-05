@@ -5,6 +5,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.my.target.ads.Reward
 import com.my.target.ads.RewardedAd
 import com.my.targetDemoApp.R
+import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.showLoading
 
 class RewardedHelper(val parent: View) : RewardedAd.RewardedAdListener {
@@ -48,12 +49,13 @@ class RewardedHelper(val parent: View) : RewardedAd.RewardedAdListener {
         rewardedAd?.dismiss()
     }
 
-    fun init(slot: Int, showImmediatly: Boolean = false) {
+    fun init(slot: Int, showImmediatly: Boolean = false, params: String?) {
         showLoading(parent)
         this.showImmediatly = showImmediatly
         rewardedAd = RewardedAd(slot, parent.context)
         rewardedAd?.let {
             it.listener = this
+            it.customParams.addParsedString(params)
             it.load()
         }
     }

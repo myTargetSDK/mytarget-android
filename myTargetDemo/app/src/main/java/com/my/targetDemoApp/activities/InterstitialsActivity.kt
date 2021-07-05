@@ -28,7 +28,7 @@ class InterstitialsActivity : AppCompatActivity() {
 
     private fun load(adType: AdvertisingType) {
         interstitialHelper.destroy()
-        interstitialHelper.init(adType.defaultSlot)
+        interstitialHelper.init(adType.defaultSlot, params = null)
     }
 
     private fun getAdType(): AdvertisingType {

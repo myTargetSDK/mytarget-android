@@ -2,10 +2,13 @@ package com.my.targetDemoApp
 
 import java.util.*
 
-class CustomAdvertisingType(val adType: AdType, val slotId: Int?) {
-    var name = "Custom ${adType.toString()
-            .toLowerCase(Locale.getDefault())
-            .replace("_", " ")}"
+class CustomAdvertisingType(val adType: AdType, val slotId: Int?,
+                            val params: String? = null) {
+    var name = "Custom ${
+        adType.toString()
+                .toLowerCase(Locale.getDefault())
+                .replace("_", " ")
+    }"
 
     enum class AdType {
         STANDARD_320X50,

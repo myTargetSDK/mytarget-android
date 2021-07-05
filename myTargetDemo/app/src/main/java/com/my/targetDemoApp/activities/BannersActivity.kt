@@ -25,6 +25,7 @@ class BannersActivity : AppCompatActivity() {
     companion object {
         const val KEY_SLOT = "key"
         const val KEY_SIZE = "size"
+        const val KEY_PARAMS = "params"
     }
 
     private lateinit var viewBinding: ActivityBannersBinding
@@ -32,8 +33,6 @@ class BannersActivity : AppCompatActivity() {
     private var bannerHelper: BannerHelper = BannerHelper()
     private var bannersAdapter: BannersAdapter = BannersAdapter()
     private var customBannerShowing: Boolean = false
-
-    private lateinit var binding: ActivityBannersBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +52,15 @@ class BannersActivity : AppCompatActivity() {
         initFish()
 
         val customSize = when (intent.getIntExtra(KEY_SIZE, -1)) {
-            1 -> MyTargetView.AdSize.ADSIZE_300x250
-            2 -> MyTargetView.AdSize.ADSIZE_728x90
-            3 -> MyTargetView.AdSize.getAdSizeForCurrentOrientation(this)
+            1    -> MyTargetView.AdSize.ADSIZE_300x250
+            2    -> MyTargetView.AdSize.ADSIZE_728x90
+            3    -> MyTargetView.AdSize.getAdSizeForCurrentOrientation(this)
             else -> MyTargetView.AdSize.ADSIZE_320x50
         }
         val customSlot = intent.getIntExtra(KEY_SLOT, -1)
         if (customSlot >= 0) {
             viewBinding.bannerContainer.visibility = VISIBLE
-            goBanner(customSize, customSlot)
+            goBanner(customSize, customSlot, intent.getStringExtra(KEY_PARAMS))
             customBannerShowing = true
         }
     }
@@ -128,13 +127,13 @@ class BannersActivity : AppCompatActivity() {
             }
         }
 
-        goBanner(adSize, adType.defaultSlot)
+        goBanner(adSize, adType.defaultSlot, null)
     }
 
-    private fun goBanner(adSize: MyTargetView.AdSize, slot: Int) {
+    private fun goBanner(adSize: MyTargetView.AdSize, slot: Int, params: String?) {
         viewBinding.bannerContainer.removeView(bannerHelper.bannerView)
         bannerHelper.destroy()
-        bannerHelper.load(slot, adSize, viewBinding.bannerContainer) {
+        bannerHelper.load(slot, adSize, params, viewBinding.bannerContainer) {
             if (adSize == MyTargetView.AdSize.ADSIZE_300x250) {
                 showBannerInsideList()
             }

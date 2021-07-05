@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
 import com.my.target.ads.MyTargetView
 import com.my.targetDemoApp.R
+import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.showLoading
 
 class BannerHelper : MyTargetView.MyTargetViewListener {
@@ -34,14 +35,15 @@ class BannerHelper : MyTargetView.MyTargetViewListener {
         }
     }
 
-    fun load(defaultSlot: Int, adSize: MyTargetView.AdSize, parent: ViewGroup,
+    fun load(defaultSlot: Int, adSize: MyTargetView.AdSize, params: String?, parent: ViewGroup,
              function: (() -> Unit)? = null) {
         afterLoad = function
-        bannerView = MyTargetView(parent.context).also {
-            it.setSlotId(defaultSlot)
-            it.setAdSize(adSize)
-            it.listener = this
-            it.load()
+        bannerView = MyTargetView(parent.context).also { myTargetView ->
+            myTargetView.setSlotId(defaultSlot)
+            myTargetView.setAdSize(adSize)
+            myTargetView.listener = this
+            myTargetView.customParams.addParsedString(params)
+            myTargetView.load()
         }
         this.parent = parent
         showLoading(parent)

@@ -32,10 +32,10 @@ class NativeAdActivity : AppCompatActivity() {
         val customSlot = intent.getIntExtra(KEY_SLOT, -1)
         if (customSlot >= 0) {
             customBannerShowing = true
-            loadAndShow(customSlot)
+            loadAndShow(customSlot, intent.getStringExtra(KEY_PARAMS))
         }
 
-        binding.btnGonative.setOnClickListener { loadAndShow(getAdType().defaultSlot) }
+        binding.btnGonative.setOnClickListener { loadAndShow(getAdType().defaultSlot, null) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -92,12 +92,12 @@ class NativeAdActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadAndShow(customSlot: Int) {
+    private fun loadAndShow(customSlot: Int, params: String?) {
         binding.nativeContainer.visibility = View.VISIBLE
         binding.llStatus.visibility = View.VISIBLE
         binding.progressBar.visibility = View.VISIBLE
         binding.tvStatus.text = getString(R.string.loading)
-        nativeAdHelper.load(customSlot, binding.nativesRoot, { showNativeAd() }, {
+        nativeAdHelper.load(customSlot, params, binding.nativesRoot, { showNativeAd() }, {
             hideNative()
             binding.nativeContainer.visibility = View.VISIBLE
             binding.llStatus.visibility = View.VISIBLE
@@ -115,6 +115,7 @@ class NativeAdActivity : AppCompatActivity() {
 
     companion object {
         var KEY_SLOT = "slotId"
+        var KEY_PARAMS = "params"
     }
 
 }

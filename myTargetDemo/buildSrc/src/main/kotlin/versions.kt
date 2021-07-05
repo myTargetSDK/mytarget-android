@@ -1,15 +1,15 @@
-const val KOTLIN_VERSION = "1.4.32"
+const val KOTLIN_VERSION = "1.5.10"
 const val MYTRACKER_VERSION = "2.1.2"
 
 object Plugins {
-    const val AGP = "4.1.3"
+    const val AGP = "4.2.1"
     const val KARUMI = "3.0.0"
-    const val VERSIONS = "0.38.0"
+    const val VERSIONS = "0.39.0"
 }
 
 object AndroidX {
     const val multidex = "2.0.1"
-    const val appcompat = "1.2.0"
+    const val appcompat = "1.3.0"
     const val material = "1.3.0"
     const val cardview = "1.0.0"
     const val recyclerview = "1.2.0"
@@ -20,7 +20,7 @@ object AndroidX {
 
 object Google {
     const val exoplayer = "2.13.3"
-    const val play = "17.0.0"
+    const val play = "17.0.1"
 }
 
 object Test{

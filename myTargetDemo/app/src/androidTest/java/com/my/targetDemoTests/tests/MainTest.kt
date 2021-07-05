@@ -83,17 +83,18 @@ class MainTest : TestBase() {
                 .record()
     }
 
-    @Test
-    fun test_AddNewUnitDialogSnapshot() {
-        val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val inflater = LayoutInflater.from(targetContext)
-        val view = inflater.inflate(R.layout.fragment_dialog, null, false)
-        ViewHelpers.setupView(view)
-                .setExactWidthDp(300)
-                .layout()
-        Screenshot.snap(view)
-                .record()
-    }
+// TODO: обновить тест в рамках автоматизации задачи 4060
+//    @Test
+//    fun test_AddNewUnitDialogSnapshot() {
+//        val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
+//        val inflater = LayoutInflater.from(targetContext)
+//        val view = inflater.inflate(R.layout.fragment_dialog, null, false)
+//        ViewHelpers.setupView(view)
+//                .setExactWidthDp(300)
+//                .layout()
+//        Screenshot.snap(view)
+//                .record()
+//    }
 
     @Test
     fun test_CustomStandardUnitSnapshot() {

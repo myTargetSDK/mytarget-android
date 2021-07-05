@@ -1,108 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_cancel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:text="Advertisement type" />
-
-        <RadioGroup android:id="@+id/rg_choose_ad"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:showIn="@layout/fragment_dialog">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/adtype_banner_320x50"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/adtype_banner_320x50" />
+                android:layout_margin="4dp"
+                android:text="Advertisement type" />
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/adtype_banner_300x250"
-                android:layout_width="wrap_content"
+            <RadioGroup xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/rg_choose_ad"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/adtype_banner_300x250" />
+                tools:showIn="@layout/fragment_dialog">
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/adtype_banner_728x90"
-                android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/adtype_banner_320x50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/adtype_banner_320x50" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/adtype_banner_300x250"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/adtype_banner_300x250" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/adtype_banner_728x90"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:text="@string/adtype_banner_728x90_dis" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/adtype_banner_adaptive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/adtype_banner_adaptive_dis" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/adtype_interstitial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/interstitial_ads" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/adtype_rewarded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rewarded_ads" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/adtype_native"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/adtype_native" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/adtype_native_banner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/adtype_native_banner" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/adtype_instream"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/instream_ads" />
+
+            </RadioGroup>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="@string/adtype_banner_728x90_dis" />
+                android:hint="slot id">
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/adtype_banner_adaptive"
-                android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="number"
+                    android:maxLength="6" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/adtype_banner_adaptive_dis" />
+                android:hint="Name">
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/adtype_interstitial"
-                android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/interstitial_ads" />
+                android:hint="Params"
+                app:endIconMode="clear_text">
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/adtype_rewarded"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rewarded_ads" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_params"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </ScrollView>
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/adtype_native"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/adtype_native" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_ok"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/adtype_native_banner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/adtype_native_banner" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cancel"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_ok" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/adtype_instream"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/instream_ads" />
-
-        </RadioGroup>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:text="Slot id" />
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="slot id"
-            android:inputType="number"
-            android:maxLength="6" />
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="Name"
-            android:inputType="text" />
-
-    </LinearLayout>
-</ScrollView>
 

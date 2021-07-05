@@ -15,6 +15,7 @@ class NativeBannerActivity : AppCompatActivity() {
 
     companion object {
         var KEY_SLOT = "slotId"
+        var KEY_PARAMS = "params"
     }
 
     private lateinit var binding: ActivityNativeBannersBinding
@@ -31,10 +32,10 @@ class NativeBannerActivity : AppCompatActivity() {
 
         val customSlot = intent.getIntExtra(KEY_SLOT, -1)
         if (customSlot >= 0) {
-            loadAndShow(customSlot)
+            loadAndShow(customSlot, intent.getStringExtra(KEY_PARAMS))
         }
         else {
-            loadAndShow(AdvertisingType.NATIVE_BANNER.defaultSlot)
+            loadAndShow(AdvertisingType.NATIVE_BANNER.defaultSlot, null)
         }
     }
 
@@ -54,12 +55,12 @@ class NativeBannerActivity : AppCompatActivity() {
         binding.nativeContainer.visibility = View.VISIBLE
     }
 
-    private fun loadAndShow(customSlot: Int) {
+    private fun loadAndShow(customSlot: Int, params: String?) {
         binding.nativeContainer.visibility = View.VISIBLE
         binding.llStatus.visibility = View.VISIBLE
         binding.progressBar.visibility = View.VISIBLE
         binding.tvStatus.text = getString(R.string.loading)
-        nativeBannerHelper.load(customSlot, binding.nativesRoot, { showNative() }, {
+        nativeBannerHelper.load(customSlot, params, binding.nativesRoot, { showNative() }, {
             hideNative()
             binding.llStatus.visibility = View.VISIBLE
             binding.progressBar.visibility = View.GONE

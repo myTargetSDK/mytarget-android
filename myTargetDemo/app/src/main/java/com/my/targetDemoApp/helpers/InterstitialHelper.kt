@@ -4,6 +4,7 @@ import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.my.target.ads.InterstitialAd
 import com.my.targetDemoApp.R
+import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.showLoading
 
 class InterstitialHelper(val parent: View) : InterstitialAd.InterstitialAdListener {
@@ -34,7 +35,8 @@ class InterstitialHelper(val parent: View) : InterstitialAd.InterstitialAdListen
 
     override fun onNoAd(reason: String, p1: InterstitialAd) {
         val s = String.format(parent.context.getString(R.string.error_msg), reason)
-        Snackbar.make(parent, s, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(parent, s, Snackbar.LENGTH_SHORT)
+                .show()
     }
 
     override fun onVideoCompleted(interstitialAd: InterstitialAd) {
@@ -44,11 +46,12 @@ class InterstitialHelper(val parent: View) : InterstitialAd.InterstitialAdListen
         interstitialAd?.dismiss()
     }
 
-    fun init(slot: Int, showImmediatly: Boolean = false) {
+    fun init(slot: Int, showImmediatly: Boolean = false, params: String?) {
         showLoading(parent)
         this.showImmediatly = showImmediatly
         interstitialAd = InterstitialAd(slot, parent.context).also {
             it.listener = this
+            it.customParams.addParsedString(params)
             it.load()
         }
     }

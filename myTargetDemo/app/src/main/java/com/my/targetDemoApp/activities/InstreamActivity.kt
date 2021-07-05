@@ -20,6 +20,7 @@ import com.my.target.instreamads.InstreamAd
 import com.my.target.instreamads.InstreamAdPlayer
 import com.my.targetDemoApp.AdvertisingType
 import com.my.targetDemoApp.R
+import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.databinding.ActivityNormalInstreamBinding
 import com.my.targetDemoApp.player.DefaultPlayerEventListener
 
@@ -28,11 +29,13 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
 
     companion object {
         const val KEY_SLOT = "slotId"
+        const val KEY_PARAMS = "params"
         const val TAG = "InstreamActivity"
     }
 
     private var loaded: Boolean = false
     private var slotId: Int = AdvertisingType.INSTREAM.defaultSlot
+    private var params: String? = null
     private var currentAd: String? = null
     private var prerollPlayed = false
     private var postRollPlayed = false
@@ -53,6 +56,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         slotId = intent.getIntExtra(KEY_SLOT, AdvertisingType.INSTREAM.defaultSlot)
+        params = intent.getStringExtra(KEY_PARAMS)
 
         initPlayer()
         initAd()
@@ -62,6 +66,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
 
     private fun initAd() {
         instreamAd = InstreamAd(slotId, this)
+        instreamAd.customParams.addParsedString(params)
         instreamAd.useDefaultPlayer()
         bigPlayer = instreamAd.player
         instreamAd.listener = this

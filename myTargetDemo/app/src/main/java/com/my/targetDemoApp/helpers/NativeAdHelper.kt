@@ -6,13 +6,15 @@ import com.my.target.nativeads.NativeAd
 import com.my.target.nativeads.banners.NativePromoBanner
 import com.my.target.nativeads.factories.NativeViewsFactory
 import com.my.target.nativeads.views.NativeAdView
+import com.my.targetDemoApp.addParsedString
 
 class NativeAdHelper(parent: View) : NativeAd.NativeAdListener,
         NativeHelper<NativeAd, NativeAdView>(parent) {
 
-    override fun loadAds(slot: Int) {
+    override fun loadAds(slot: Int, params: String?) {
         val nativeAd = NativeAd(slot, parent.context)
         nativeAd.listener = this
+        nativeAd.customParams.addParsedString(params)
         nativeAd.load()
     }
 

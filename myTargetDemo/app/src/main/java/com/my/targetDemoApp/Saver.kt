@@ -12,6 +12,7 @@ class Saver(context: Context) {
         const val AD_TYPE = "ad_type"
         const val NAME = "name"
         const val ITEMS = "items"
+        const val PARAMS = "params"
         const val SLOT = "slot"
         const val DEFAULT = "{\"$ITEMS\":[]}"
     }
@@ -26,8 +27,14 @@ class Saver(context: Context) {
         itemJO.put(AD_TYPE, adType.adType)
         itemJO.put(SLOT, adType.slotId)
         itemJO.put(NAME, adType.name)
+        val params = adType.params
+        if (params != null) {
+            itemJO.put(PARAMS, params)
+        }
         array.put(itemJO)
-        preferences.edit().putString(TAG, prefsJO.toString()).apply()
+        preferences.edit()
+                .putString(TAG, prefsJO.toString())
+                .apply()
     }
 
     fun restore(): Collection<CustomAdvertisingType>? {
@@ -38,8 +45,11 @@ class Saver(context: Context) {
         val array = prefsJO.getJSONArray(ITEMS)
         for (i in 0 until array.length()) {
             val item = array.getJSONObject(i)
-            val type = CustomAdvertisingType(CustomAdvertisingType.AdType.valueOf(item.getString(
-                    AD_TYPE)), item.getInt(SLOT))
+            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS") val params =
+                    item.optString(PARAMS, null)
+            val type = CustomAdvertisingType(
+                    CustomAdvertisingType.AdType.valueOf(item.getString(AD_TYPE)),
+                    item.getInt(SLOT), params)
             type.name = item.getString(NAME)
             types.add(type)
         }
@@ -65,7 +75,9 @@ class Saver(context: Context) {
         prefsJO = JSONObject()
         prefsJO.put(ITEMS, newArray)
 
-        preferences.edit().putString(TAG, prefsJO.toString()).apply()
+        preferences.edit()
+                .putString(TAG, prefsJO.toString())
+                .apply()
     }
 
 }

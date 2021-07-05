@@ -17,17 +17,18 @@ abstract class NativeHelper<N : INativeAd, V : View>(val parent: View) {
     val nativeList = SparseArrayCompat<N>()
     var adCalls: Int = 0
     var nativeAdCount = NATIVE_AD_CHUNK_SIZE
-
     private var loaded = false
+
     private var afterLoad: (() -> Unit)? = null
     private var afterNoad: ((String) -> Unit)? = null
     private var bar: Snackbar? = null
     private var slot: Int = 0
+    private var params: String? = null
     private var loadingPosition: Int = 0
 
     private lateinit var nativeAdapter: NativeAdapter
 
-    abstract fun loadAds(slot: Int)
+    abstract fun loadAds(slot: Int, params: String?)
 
     abstract fun createAdView(context: Context): V
 
@@ -56,12 +57,14 @@ abstract class NativeHelper<N : INativeAd, V : View>(val parent: View) {
         }
         nativeAdCount += NATIVE_AD_CHUNK_SIZE
         repeat(NATIVE_AD_CHUNK_SIZE) {
-            loadAds(slot)
+            loadAds(slot,params)
         }
     }
 
-    fun load(slot: Int, view: View, afterLoad: (() -> Unit)?, afterNoAd: ((String) -> Unit)?) {
+    fun load(slot: Int, params: String?, view: View, afterLoad: (() -> Unit)?,
+             afterNoAd: ((String) -> Unit)?) {
         this.slot = slot
+        this.params = params
         this.afterLoad = afterLoad
         this.afterNoad = afterNoAd
         loaded = false
@@ -70,7 +73,7 @@ abstract class NativeHelper<N : INativeAd, V : View>(val parent: View) {
         loadingPosition = nativeAdCount * 4
         if (afterLoad == null) showLoading(view)
         repeat(nativeAdCount) {
-            loadAds(slot)
+            loadAds(slot, params)
         }
     }
 
@@ -122,7 +125,7 @@ abstract class NativeHelper<N : INativeAd, V : View>(val parent: View) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NativeViewHolder {
             return when (viewType) {
-                TYPE_AD -> {
+                TYPE_AD      -> {
                     val adView = createAdView(parent.context)
 
                     NativeAdViewHolder(adView)

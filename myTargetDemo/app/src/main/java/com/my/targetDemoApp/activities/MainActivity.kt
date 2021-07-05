@@ -68,11 +68,12 @@ class MainActivity : AppCompatActivity() {
         mainActivityAdapter.setItems(types)
     }
 
-    private fun goBanners(slot: Int? = null, adSize: Int? = null) {
+    private fun goBanners(slot: Int? = null, adSize: Int? = null, params: String? = null) {
         val intent = Intent(this, BannersActivity::class.java)
         if (slot != null && adSize != null) {
             intent.putExtra(BannersActivity.KEY_SLOT, slot)
             intent.putExtra(BannersActivity.KEY_SIZE, adSize)
+            intent.putExtra(BannersActivity.KEY_PARAMS, params)
         }
         startActivity(intent)
     }
@@ -81,26 +82,30 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, InterstitialsActivity::class.java))
     }
 
-    private fun goNativeAd(slot: Int? = null) {
+    private fun goNativeAd(slot: Int? = null, params: String? = null) {
         val intent = Intent(this, NativeAdActivity::class.java)
         if (slot != null) {
             intent.putExtra(NativeAdActivity.KEY_SLOT, slot)
+            intent.putExtra(NativeAdActivity.KEY_PARAMS, params)
         }
         startActivity(intent)
     }
 
-    private fun goNativeBanner(slot: Int? = null) {
+    private fun goNativeBanner(slot: Int? = null, params: String? = null) {
         val intent = Intent(this, NativeBannerActivity::class.java)
         if (slot != null) {
             intent.putExtra(NativeBannerActivity.KEY_SLOT, slot)
+            intent.putExtra(NativeBannerActivity.KEY_PARAMS, params)
+
         }
         startActivity(intent)
     }
 
-    private fun goInstream(slot: Int? = null) {
+    private fun goInstream(slot: Int? = null, params: String? = null) {
         val intent = Intent(this, InstreamActivity::class.java)
         if (slot != null) {
             intent.putExtra(InstreamActivity.KEY_SLOT, slot)
+            intent.putExtra(InstreamActivity.KEY_PARAMS, params)
         }
         startActivity(intent)
     }
@@ -108,34 +113,34 @@ class MainActivity : AppCompatActivity() {
     private fun goCustom(adType: CustomAdvertisingType) {
         val slot = adType.slotId ?: return
         when (adType.adType) {
-            CustomAdvertisingType.AdType.STANDARD_320X50 -> {
-                goBanners(slot, MyTargetView.AdSize.BANNER_320x50)
+            CustomAdvertisingType.AdType.STANDARD_320X50   -> {
+                goBanners(slot, MyTargetView.AdSize.BANNER_320x50, adType.params)
             }
-            CustomAdvertisingType.AdType.STANDARD_300X250 -> {
-                goBanners(slot, MyTargetView.AdSize.BANNER_300x250)
+            CustomAdvertisingType.AdType.STANDARD_300X250  -> {
+                goBanners(slot, MyTargetView.AdSize.BANNER_300x250, adType.params)
             }
-            CustomAdvertisingType.AdType.STANDARD_728X90 -> {
-                goBanners(slot, MyTargetView.AdSize.BANNER_728x90)
+            CustomAdvertisingType.AdType.STANDARD_728X90   -> {
+                goBanners(slot, MyTargetView.AdSize.BANNER_728x90, adType.params)
             }
             CustomAdvertisingType.AdType.STANDARD_ADAPTIVE -> {
-                goBanners(slot, MyTargetView.AdSize.BANNER_ADAPTIVE)
+                goBanners(slot, MyTargetView.AdSize.BANNER_ADAPTIVE, adType.params)
             }
-            CustomAdvertisingType.AdType.NATIVE_AD -> {
-                goNativeAd(slot)
+            CustomAdvertisingType.AdType.NATIVE_AD         -> {
+                goNativeAd(slot, adType.params)
             }
-            CustomAdvertisingType.AdType.NATIVE_BANNER -> {
-                goNativeBanner(slot)
+            CustomAdvertisingType.AdType.NATIVE_BANNER     -> {
+                goNativeBanner(slot, adType.params)
             }
-            CustomAdvertisingType.AdType.INSTREAM -> {
-                goInstream(slot)
+            CustomAdvertisingType.AdType.INSTREAM          -> {
+                goInstream(slot, adType.params)
             }
-            CustomAdvertisingType.AdType.INTERSTITIAL -> {
+            CustomAdvertisingType.AdType.INTERSTITIAL      -> {
                 val helper = InterstitialHelper(binding.mainRecycler)
-                helper.init(slot, true)
+                helper.init(slot, true, adType.params)
             }
-            CustomAdvertisingType.AdType.REWARDED -> {
+            CustomAdvertisingType.AdType.REWARDED          -> {
                 val helper = RewardedHelper(binding.mainRecycler)
-                helper.init(slot, true)
+                helper.init(slot, true, adType.params)
             }
         }
     }
@@ -160,7 +165,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createListItem(adType: CustomAdvertisingType): ItemsAdapter.ListItem {
-        return ItemsAdapter.ListItem({ goCustom(adType) }, adType.name, "Slot ID ${adType.slotId}")
+        val params = adType.params
+        val paramsDescription = when {
+            !params.isNullOrEmpty() -> {
+                ", Params: $params"
+            }
+            else           -> {
+                ""
+            }
+        }
+        return ItemsAdapter.ListItem({ goCustom(adType) }, adType.name,
+                "Slot ID ${adType.slotId}$paramsDescription")
     }
 
     class TouchCallback(private val swipeListener: (position: Int) -> Unit) :
@@ -175,12 +190,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onSwiped(p0: androidx.recyclerview.widget.RecyclerView.ViewHolder, p1: Int) {
-            swipeListener.invoke(p0.adapterPosition)
+            swipeListener.invoke(p0.absoluteAdapterPosition)
         }
 
         override fun getSwipeDirs(recyclerView: androidx.recyclerview.widget.RecyclerView,
                                   viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder): Int {
-            return if (viewHolder.adapterPosition < protectedTypesSize) {
+            return if (viewHolder.absoluteAdapterPosition < protectedTypesSize) {
                 0
             }
             else {
