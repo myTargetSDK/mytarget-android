@@ -21,7 +21,7 @@ After you integrate the myTarget SDK, thousands of myTarget customers will becom
    }
    ```
 
-Integration instructions are available on our [website](https://target.my.com/help/partners/en).
+Integration instructions are available on our [website](https://target.my.com/help/partners/mob/androidsdkstart/en).
 
 Demo-app with examples of integration available in [myTargetDemo folder](https://github.com/myTargetSDK/mytarget-android/blob/master/myTargetDemo).
 
