@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 public final class MyTargetAdapterUtils
 {
-	public static final String SUPPORTED_MOPUB_VERSION = "5.17.0";
+	public static final String SUPPORTED_MOPUB_VERSION = "5.18.0";
 
 	public static void handleConsent()
 	{
