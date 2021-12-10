@@ -5,12 +5,12 @@ import com.my.targetDemoApp.R
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions
 
 class NativeScreen {
-    val adView = By.res("com.my.targetDemoApp:id/native_container")
+    val adView = By.res("com.my.targetDemoApp:id/native_ad_view")
     private val rbtVideo = R.id.rbt_video
     private val rbtCards = R.id.rbt_cards
     private val rbtStatic = R.id.rbt_none
     private val showBtn = R.id.btn_gonative
-    val banner = R.id.native_container
+    val banner = R.id.nativeads_ad_view
 
     fun showContentStreamStatic() {
         BaristaClickInteractions.clickOn(rbtStatic)
