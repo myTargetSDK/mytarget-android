@@ -63,7 +63,7 @@ class MainTest : TestBase() {
 
     @Test
     fun test_MainSdkVersion() {
-        val filter = Regex("(SDK Version: [0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{4,5})")
+        val filter = Regex("(SDK Version: [0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{4,5}\\.[0-9]{4,5})")
         val subtitle = baristaRule.activityTestRule.activity.supportActionBar?.subtitle
         assertTrue("Subtitle - $subtitle", filter.matches(subtitle!!))
     }

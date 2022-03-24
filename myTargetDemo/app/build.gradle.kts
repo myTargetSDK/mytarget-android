@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(31)
     defaultConfig {
         applicationId = "com.my.targetDemoApp"
         minSdkVersion(16)
-        targetSdkVersion(30)
+        targetSdkVersion(31)
         val ver = findVersionName()
         versionName = ver
         versionCode = convertVerToCode(ver)
@@ -55,6 +55,7 @@ dependencies {
     implementation("androidx.multidex:multidex:${AndroidX.multidex}")
 
     androidTestImplementation("junit:junit:${Test.junit}")
+    androidTestImplementation("androidx.test:core:${Test.core}")
     androidTestImplementation("androidx.test:runner:${Test.runner}")
     androidTestImplementation("androidx.test:rules:${Test.rules}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Test.espresso}")
