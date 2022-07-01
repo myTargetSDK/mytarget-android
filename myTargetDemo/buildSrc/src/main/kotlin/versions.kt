@@ -18,7 +18,7 @@ object AndroidX {
 }
 
 object Google {
-    const val exoplayer = "2.16.1"
+    const val exoplayer = "2.17.1"
     const val play = "17.1.0"
 }
 

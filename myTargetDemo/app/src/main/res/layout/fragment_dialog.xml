@@ -101,8 +101,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:inputType="number"
-                    android:maxLength="6" />
+                    android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

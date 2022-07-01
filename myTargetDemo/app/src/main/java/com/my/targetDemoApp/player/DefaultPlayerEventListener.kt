@@ -2,7 +2,7 @@ package com.my.targetDemoApp.player
 
 import com.google.android.exoplayer2.Player
 
-interface DefaultPlayerEventListener : Player.EventListener {
+interface DefaultPlayerEventListener : Player.Listener {
     override fun onSeekProcessed() {
     }
 
