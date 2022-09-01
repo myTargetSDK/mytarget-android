@@ -1,7 +1,5 @@
 package com.my.targetDemoTests.tests
 
-import android.view.LayoutInflater
-import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.GeneralLocation
 import androidx.test.espresso.action.GeneralSwipeAction
@@ -14,7 +12,6 @@ import androidx.test.espresso.intent.VerificationModes.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.facebook.testing.screenshot.Screenshot
-import com.facebook.testing.screenshot.ViewHelpers
 import com.my.targetDemoApp.R
 import com.my.targetDemoApp.activities.BannersActivity
 import com.my.targetDemoApp.activities.InstreamActivity
@@ -26,12 +23,11 @@ import com.my.targetDemoTests.screens.MainScreen
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickBack
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
+import com.schibsted.spain.barista.interaction.BaristaScrollInteractions
 import com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep
 import com.schibsted.spain.barista.rule.BaristaRule
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
-import org.hamcrest.CoreMatchers.containsString
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -41,6 +37,7 @@ class MainTest : TestBase() {
 
     @get:Rule
     var baristaRule = BaristaRule.create(MainActivity::class.java)
+    val mainScreen = MainScreen()
 
     @Before
     override fun setUp() {
@@ -70,15 +67,15 @@ class MainTest : TestBase() {
 
     @Test
     fun test_MainWithCustomUnitSnapshot() {
-        MainScreen().addUnit(slot = Slot.nativeAds)
+        mainScreen.addUnit(slot = Slot.nativeAds)
         Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
                 .record()
     }
 
     @Test
     fun test_CancelAddingNewUnitSnapshot() {
-        clickOn(MainScreen().plus)
-        clickOn(MainScreen().cancel)
+        clickOn(mainScreen.plus)
+        clickOn(mainScreen.cancel)
         Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
                 .record()
     }
@@ -98,7 +95,7 @@ class MainTest : TestBase() {
 
     @Test
     fun test_CustomStandardUnitSnapshot() {
-        MainScreen().addUnit(slot = Slot.standard320x50)
+        mainScreen.addUnit(slot = Slot.standard320x50)
         clickOn("Slot ID ${Slot.standard320x50}")
         sleep(1000)
         Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
@@ -107,7 +104,7 @@ class MainTest : TestBase() {
 
     @Test
     fun test_CustomNativeUnitSnapshot() {
-        MainScreen().addUnit(slot = Slot.nativeAds)
+        mainScreen.addUnit(slot = Slot.nativeAds)
         clickOn("Slot ID ${Slot.nativeAds}")
         sleep(1000)
         Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
@@ -116,7 +113,7 @@ class MainTest : TestBase() {
 
     @Test
     fun test_CustomInstreamUnitSnapshot() {
-        MainScreen().addUnit(slot = Slot.instream)
+        mainScreen.addUnit(slot = Slot.instream)
         clickOn("Slot ID ${Slot.instream}")
         sleep(1000)
         Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
@@ -126,7 +123,7 @@ class MainTest : TestBase() {
     @Test
     fun test_AddInterstitialStaticUnit() {
         val expectedValue = "Slot ID ${Slot.interstitialPromo}"
-        MainScreen().addUnit(slot = Slot.interstitialPromo)
+        mainScreen.addUnit(slot = Slot.interstitialPromo)
         assertDisplayed(expectedValue)
         clickOn(expectedValue)
         intended(hasComponent(InterstitialsActivity::class.java.name), times(0))
@@ -135,7 +132,7 @@ class MainTest : TestBase() {
     @Test
     fun test_AddInterstitialVideoUnit() {
         val expectedValue = "Slot ID ${Slot.interstitialVideo}"
-        MainScreen().addUnit(slot = Slot.interstitialVideo)
+        mainScreen.addUnit(slot = Slot.interstitialVideo)
         assertDisplayed(expectedValue)
         clickOn(expectedValue)
         intended(hasComponent(InterstitialsActivity::class.java.name), times(0))
@@ -144,7 +141,7 @@ class MainTest : TestBase() {
     @Test
     fun test_AddInterstitialCarouselUnit() {
         val expectedValue = "Slot ID ${Slot.interstitialCarousel}"
-        MainScreen().addUnit(slot = Slot.interstitialCarousel)
+        mainScreen.addUnit(slot = Slot.interstitialCarousel)
         assertDisplayed(expectedValue)
         clickOn(expectedValue)
         intended(hasComponent(InterstitialsActivity::class.java.name), times(0))
@@ -153,7 +150,7 @@ class MainTest : TestBase() {
     @Test
     fun test_AddNativeAdsUnit() {
         val expectedValue = "Slot ID ${Slot.nativeAds}"
-        MainScreen().addUnit(slot = Slot.nativeAds)
+        mainScreen.addUnit(slot = Slot.nativeAds)
         assertDisplayed(expectedValue)
         clickOn(expectedValue)
         intended(hasComponent(NativeAdActivity::class.java.name))
@@ -162,7 +159,7 @@ class MainTest : TestBase() {
     @Test
     fun test_AddInstreamUnit() {
         val expectedValue = "Slot ID ${Slot.instream}"
-        MainScreen().addUnit(slot = Slot.instream)
+        mainScreen.addUnit(slot = Slot.instream)
         assertDisplayed(expectedValue)
         clickOn(expectedValue)
         intended(hasComponent(InstreamActivity::class.java.name))
@@ -171,7 +168,7 @@ class MainTest : TestBase() {
     @Test
     fun test_Add320x50Unit() {
         val expectedValue = "Slot ID ${Slot.standard320x50}"
-        MainScreen().addUnit(slot = Slot.standard320x50)
+        mainScreen.addUnit(slot = Slot.standard320x50)
         assertDisplayed(expectedValue)
         clickOn(expectedValue)
         intended(hasComponent(BannersActivity::class.java.name))
@@ -180,7 +177,7 @@ class MainTest : TestBase() {
     @Test
     fun test_Add300x250Unit() {
         val expectedValue = "Slot ID ${Slot.standard300x250}"
-        MainScreen().addUnit(slot = Slot.standard300x250)
+        mainScreen.addUnit(slot = Slot.standard300x250)
         assertDisplayed(expectedValue)
         clickOn(expectedValue)
         intended(hasComponent(BannersActivity::class.java.name))
@@ -189,7 +186,7 @@ class MainTest : TestBase() {
     @Test
     fun test_Add728x90Unit() {
         val expectedValue = "Slot ID ${Slot.standard728x90}"
-        MainScreen().addUnit(slot = Slot.standard728x90)
+        mainScreen.addUnit(slot = Slot.standard728x90)
         assertDisplayed(expectedValue)
         clickOn(expectedValue)
         intended(hasComponent(BannersActivity::class.java.name))
@@ -199,7 +196,7 @@ class MainTest : TestBase() {
     fun test_AddNewUnitWithZeroSlot() {
         val badSlot = 0
         val expectedValue = "Slot ID $badSlot"
-        MainScreen().addUnit(slot = badSlot)
+        mainScreen.addUnit(slot = badSlot)
         clickOn(expectedValue)
         clickBack()
         assertDisplayed(expectedValue)
@@ -224,31 +221,32 @@ class MainTest : TestBase() {
 
     @Test
     fun test_GoToBanners() {
-        clickOn(MainScreen().banners)
+        clickOn(mainScreen.banners)
         intended(hasComponent(BannersActivity::class.java.name))
     }
 
     @Test
     fun test_GoToNativeAds() {
-        clickOn(MainScreen().native)
+        clickOn(mainScreen.native)
         intended(hasComponent(NativeAdActivity::class.java.name))
     }
 
     @Test
     fun test_GoToInterstitial() {
-        clickOn(MainScreen().interstitial)
+        clickOn(mainScreen.interstitial)
         intended(hasComponent(InterstitialsActivity::class.java.name))
     }
 
     @Test
     fun test_GoToInstream() {
-        clickOn(MainScreen().instream)
+        BaristaScrollInteractions.safelyScrollTo(mainScreen.instream)
+        clickOn(mainScreen.instream)
         intended(hasComponent(InstreamActivity::class.java.name))
     }
 
     @Test
     fun test_AddNewUnitWithEmptySlot() {
-        MainScreen().addUnitWithoutSlot()
+        mainScreen.addUnitWithoutSlot()
         Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
                 .record()
     }
