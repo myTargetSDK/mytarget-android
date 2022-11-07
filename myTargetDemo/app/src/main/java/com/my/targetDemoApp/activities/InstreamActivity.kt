@@ -25,7 +25,7 @@ import com.my.targetDemoApp.databinding.ActivityNormalInstreamBinding
 import com.my.targetDemoApp.player.DefaultPlayerEventListener
 
 class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
-        InstreamAd.InstreamAdListener {
+    InstreamAd.InstreamAdListener {
 
     companion object {
         const val KEY_SLOT = "slotId"
@@ -74,11 +74,13 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
 
     private fun initPlayer() {
         exoPlayer = SimpleExoPlayer.Builder(this)
-                .build()
+            .build()
         mediaSource = ProgressiveMediaSource.Factory(
-                DefaultDataSourceFactory(this, Util.getUserAgent(this, "myTarget")))
-                .createMediaSource(
-                        MediaItem.fromUri(Uri.parse("https://r.mradx.net/img/ED/518795.mp4")))
+            DefaultDataSourceFactory(this, Util.getUserAgent(this, "myTarget"))
+        )
+            .createMediaSource(
+                MediaItem.fromUri(Uri.parse("https://r.mradx.net/img/ED/518795.mp4"))
+            )
         exoPlayer.addListener(this)
         exoPlayer.playWhenReady = false
         viewBinding.exoplayerView.player = exoPlayer
@@ -107,8 +109,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         if (playbackState == Player.STATE_READY && playWhenReady) {
             startPreroll()
-        }
-        else if (playbackState == Player.STATE_ENDED) {
+        } else if (playbackState == Player.STATE_ENDED) {
             startPostRoll()
         }
     }
@@ -117,8 +118,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         super.onPause()
         if (currentAd != null) {
             instreamAd.pause()
-        }
-        else {
+        } else {
             exoPlayer.playWhenReady = false
         }
     }
@@ -187,6 +187,10 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         exoPlayer.playWhenReady = true
     }
 
+    override fun onBannerShouldClose()
+    {
+    }
+
     private fun startPreroll() {
         if (prerollPlayed || !loaded) {
             return
@@ -234,14 +238,20 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
 
     private fun addAdPlayer(): Boolean {
         if (instreamAd.player?.view?.parent != null) {
-            Snackbar.make(viewBinding.rootContentLayout, "Player already created",
-                    Snackbar.LENGTH_SHORT)
-                    .show()
+            Snackbar.make(
+                viewBinding.rootContentLayout, "Player already created",
+                Snackbar.LENGTH_SHORT
+            )
+                .show()
             return false
         }
-        viewBinding.videoFrame.addView(instreamAd.player?.view, 1,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT))
+        viewBinding.videoFrame.addView(
+            instreamAd.player?.view, 1,
+            ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        )
 
         return true
     }
@@ -262,10 +272,11 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         instreamAdBanner = banner
         viewBinding.tvDurationContent.text = banner?.duration?.toString() ?: getString(R.string.n_a)
         viewBinding.tvDimensionsContent.text =
-                banner?.let { "${banner.videoWidth}x${banner.videoHeight}" } ?: getString(
-                        R.string.n_a)
+            banner?.let { "${banner.videoWidth}x${banner.videoHeight}" } ?: getString(
+                R.string.n_a
+            )
         viewBinding.tvCloseDelayContent.text =
-                banner?.allowCloseDelay?.toString() ?: getString(R.string.n_a)
+            banner?.allowCloseDelay?.toString() ?: getString(R.string.n_a)
         viewBinding.tvAllowcloseContent.text = boolTextValue(banner?.allowClose)
         viewBinding.tvHaspauseContent.text = boolTextValue(banner?.allowPause)
         viewBinding.tvPositionContent.text = getString(R.string.n_a)
@@ -277,8 +288,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
     private fun showCtaButton(ctaText: String?) {
         if (ctaText == null) {
             viewBinding.btnCta.visibility = View.GONE
-        }
-        else {
+        } else {
             viewBinding.btnCta.visibility = View.VISIBLE
         }
         viewBinding.btnCta.text = ctaText
@@ -288,8 +298,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         if (b) {
             viewBinding.btnSkipBanner.visibility = View.VISIBLE
             viewBinding.btnSkip.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             viewBinding.btnSkipBanner.visibility = View.GONE
             viewBinding.btnSkip.visibility = View.GONE
         }
@@ -297,24 +306,26 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
 
     private fun processMidPoints() {
         val adGroupTimesMs = instreamAd.midPoints.map { (it * 1000).toLong() }
-                .toLongArray()
+            .toLongArray()
         viewBinding.root.findViewById<DefaultTimeBar>(R.id.exo_progress)
-                .setAdGroupTimesMs(adGroupTimesMs, BooleanArray(adGroupTimesMs.size) { true },
-                        adGroupTimesMs.size)
+            .setAdGroupTimesMs(
+                adGroupTimesMs, BooleanArray(adGroupTimesMs.size) { true },
+                adGroupTimesMs.size
+            )
 
         for (midPoint in adGroupTimesMs) {
             exoPlayer.createMessage { _, _ -> startMidroll((midPoint / 1000).toFloat()) }
-                    .setPosition(midPoint)
-                    .setLooper(Looper.getMainLooper())
-                    .send()
+                .setPosition(midPoint)
+                .setLooper(Looper.getMainLooper())
+                .send()
         }
     }
 
     private fun boolTextValue(bool: Boolean?): String {
         return when (bool) {
-            true  -> "☑"
+            true -> "☑"
             false -> "☐"
-            else  -> getString(R.string.n_a)
+            else -> getString(R.string.n_a)
         }
     }
 
