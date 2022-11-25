@@ -16,8 +16,10 @@ import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.google.android.material.snackbar.Snackbar
+import com.my.target.common.models.ImageData
 import com.my.target.instreamads.InstreamAd
 import com.my.target.instreamads.InstreamAdPlayer
+import com.my.targetDemoApp.AdChoicesMenuFactory
 import com.my.targetDemoApp.AdvertisingType
 import com.my.targetDemoApp.R
 import com.my.targetDemoApp.addParsedString
@@ -65,7 +67,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
     }
 
     private fun initAd() {
-        instreamAd = InstreamAd(slotId, this)
+        instreamAd = InstreamAd(slotId, AdChoicesMenuFactory(), this)
         instreamAd.customParams.addParsedString(params)
         instreamAd.useDefaultPlayer()
         bigPlayer = instreamAd.player
@@ -189,6 +191,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
 
     override fun onBannerShouldClose()
     {
+        instreamAd.skip()
     }
 
     private fun startPreroll() {
@@ -283,6 +286,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         viewBinding.btnPause.isEnabled = banner?.allowPause ?: true
         viewBinding.btnResume.isEnabled = banner?.allowPause ?: true
         showCtaButton(banner?.ctaText)
+        showAdChoices(banner?.adChoicesIcon, banner?.advertisingLabel)
     }
 
     private fun showCtaButton(ctaText: String?) {
@@ -332,5 +336,30 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
     private fun setStatus(process: String = "", status: String = "") {
         viewBinding.tvProcessContent.text = process
         viewBinding.tvStatusContent.text = status
+    }
+
+    fun previewAdChoices(view: View) {
+        instreamAd.handleAdChoicesClick(view.context)
+    }
+
+    private fun showAdChoices(imageData: ImageData?, advertisingLabel: String?) {
+        viewBinding.apply {
+            if(advertisingLabel.isNullOrEmpty()) {
+                tvAdvertising.visibility = View.GONE
+            }
+            else {
+                tvAdvertising.visibility = View.VISIBLE
+                tvAdvertising.text = advertisingLabel
+            }
+
+            if (imageData != null) {
+                btnAdchoices.setImageBitmap(imageData.bitmap)
+                btnAdchoices.visibility = View.VISIBLE
+            }
+            else {
+                btnAdchoices.setImageDrawable(null)
+                btnAdchoices.visibility = View.GONE
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId = "com.my.targetDemoApp"
         minSdkVersion(16)
-        targetSdkVersion(31)
+        targetSdkVersion(33)
         val ver = findVersionName()
         versionName = ver
         versionCode = convertVerToCode(ver)

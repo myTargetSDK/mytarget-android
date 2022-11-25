@@ -23,7 +23,6 @@ import com.my.targetDemoTests.screens.MainScreen
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickBack
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
-import com.schibsted.spain.barista.interaction.BaristaScrollInteractions
 import com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep
 import com.schibsted.spain.barista.rule.BaristaRule
 import junit.framework.Assert.assertEquals
@@ -239,8 +238,13 @@ class MainTest : TestBase() {
 
     @Test
     fun test_GoToInstream() {
-        BaristaScrollInteractions.safelyScrollTo(mainScreen.instream)
-        clickOn(mainScreen.instream)
+        val unitsBefore =
+            baristaRule.activityTestRule.activity.findViewById<androidx.recyclerview.widget.RecyclerView>(
+                R.id.main_recycler).adapter!!.itemCount
+
+        onView(withId(R.id.main_recycler)).perform(actionOnItemAtPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
+                unitsBefore - 1,GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER, GeneralLocation.CENTER, Press.FINGER)))
+
         intended(hasComponent(InstreamActivity::class.java.name))
     }
 

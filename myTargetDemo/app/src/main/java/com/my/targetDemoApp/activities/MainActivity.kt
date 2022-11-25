@@ -44,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         }, getString(R.string.rewarded_ads), getString(R.string.rewarded_ads_desc)))
         types.add(ItemsAdapter.ListItem({ goNativeAd() }, getString(R.string.native_ads),
                 getString(R.string.native_ads_desc)))
+        types.add(ItemsAdapter.ListItem({ goNativeAdConfiguration() }, getString(R.string.native_ads_configuration),
+                                        getString(R.string.native_ads_configuration_desc)))
         types.add(ItemsAdapter.ListItem({ goNativeBanner() }, getString(R.string.native_banner_ads),
                 getString(R.string.native_banner_ads_desc)))
         types.add(ItemsAdapter.ListItem({ goInstream() }, getString(R.string.instream_ads),
@@ -80,6 +82,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun goInterstitials() {
         startActivity(Intent(this, InterstitialsActivity::class.java))
+    }
+
+    private fun goNativeAdConfiguration(slot: Int? = null, params: String? = null) {
+        val intent = Intent(this, NativeAdConfigurationActivity::class.java)
+        if (slot != null) {
+            intent.putExtra(NativeAdConfigurationActivity.KEY_SLOT, slot)
+            intent.putExtra(NativeAdConfigurationActivity.KEY_PARAMS, params)
+        }
+        startActivity(intent)
     }
 
     private fun goNativeAd(slot: Int? = null, params: String? = null) {
@@ -127,6 +138,9 @@ class MainActivity : AppCompatActivity() {
             }
             CustomAdvertisingType.AdType.NATIVE_AD         -> {
                 goNativeAd(slot, adType.params)
+            }
+            CustomAdvertisingType.AdType.NATIVE_AD_CONFIGURATIONS -> {
+                goNativeAdConfiguration(slot, adType.params)
             }
             CustomAdvertisingType.AdType.NATIVE_BANNER     -> {
                 goNativeBanner(slot, adType.params)

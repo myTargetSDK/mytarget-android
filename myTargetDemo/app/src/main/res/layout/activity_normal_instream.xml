@@ -357,6 +357,32 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent">
 
+                <ImageButton
+                    android:id="@+id/btn_adchoices"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="#00FFFFFF"
+                    android:onClick="previewAdChoices"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_advertising" />
+
+                <TextView
+                    android:id="@+id/tv_advertising"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/button_background_onvideo"
+                    android:padding="2dp"
+                    android:text="advertising label"
+                    android:textColor="#FFFFFF"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_skip_banner"
                     android:layout_width="wrap_content"
