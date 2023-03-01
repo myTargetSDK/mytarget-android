@@ -10,6 +10,7 @@ class Slot {
         const val interstitialCarousel = 102652
         const val nativeAds = 6590
         const val instream = 9525
+        const val audio_instream = 1208427
     }
 }
 

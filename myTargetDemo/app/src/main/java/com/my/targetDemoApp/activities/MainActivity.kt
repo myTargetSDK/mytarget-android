@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
                 getString(R.string.native_banner_ads_desc)))
         types.add(ItemsAdapter.ListItem({ goInstream() }, getString(R.string.instream_ads),
                 getString(R.string.instream_ads_desc)))
+        types.add(ItemsAdapter.ListItem({ goAudioInstream() }, getString(R.string.audio_instream_ads),
+                                        getString(R.string.audio_instream_ads_desc)))
         val size = types.size
 
         mainActivityAdapter = ItemsAdapter { saver.remove(it - size) }
@@ -121,6 +123,15 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun goAudioInstream(slot: Int? = null, params: String? = null) {
+        val intent = Intent(this, AudioInstreamActivity::class.java)
+        if (slot != null) {
+            intent.putExtra(InstreamActivity.KEY_SLOT, slot)
+            intent.putExtra(InstreamActivity.KEY_PARAMS, params)
+        }
+        startActivity(intent)
+    }
+
     private fun goCustom(adType: CustomAdvertisingType) {
         val slot = adType.slotId ?: return
         when (adType.adType) {
@@ -147,6 +158,10 @@ class MainActivity : AppCompatActivity() {
             }
             CustomAdvertisingType.AdType.INSTREAM          -> {
                 goInstream(slot, adType.params)
+            }
+
+            CustomAdvertisingType.AdType.AUDIO_INSTREAM    -> {
+                goAudioInstream(slot, adType.params)
             }
             CustomAdvertisingType.AdType.INTERSTITIAL      -> {
                 val helper = InterstitialHelper(binding.mainRecycler)

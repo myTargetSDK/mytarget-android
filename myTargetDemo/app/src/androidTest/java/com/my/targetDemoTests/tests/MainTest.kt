@@ -13,11 +13,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.facebook.testing.screenshot.Screenshot
 import com.my.targetDemoApp.R
-import com.my.targetDemoApp.activities.BannersActivity
-import com.my.targetDemoApp.activities.InstreamActivity
-import com.my.targetDemoApp.activities.InterstitialsActivity
-import com.my.targetDemoApp.activities.MainActivity
-import com.my.targetDemoApp.activities.NativeAdActivity
+import com.my.targetDemoApp.activities.*
 import com.my.targetDemoTests.helpers.Slot
 import com.my.targetDemoTests.screens.MainScreen
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
@@ -240,12 +236,24 @@ class MainTest : TestBase() {
     fun test_GoToInstream() {
         val unitsBefore =
             baristaRule.activityTestRule.activity.findViewById<androidx.recyclerview.widget.RecyclerView>(
-                R.id.main_recycler).adapter!!.itemCount
+                R.id.main_recycler).adapter!!.itemCount-1
 
         onView(withId(R.id.main_recycler)).perform(actionOnItemAtPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
                 unitsBefore - 1,GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER, GeneralLocation.CENTER, Press.FINGER)))
 
         intended(hasComponent(InstreamActivity::class.java.name))
+    }
+
+    @Test
+    fun test_GoToAudioInstream() {
+        val unitsBefore =
+            baristaRule.activityTestRule.activity.findViewById<androidx.recyclerview.widget.RecyclerView>(
+                R.id.main_recycler).adapter!!.itemCount
+
+        onView(withId(R.id.main_recycler)).perform(actionOnItemAtPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
+            unitsBefore - 1,GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER, GeneralLocation.CENTER, Press.FINGER)))
+
+        intended(hasComponent(AudioInstreamActivity::class.java.name))
     }
 
     @Test

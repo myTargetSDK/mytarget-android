@@ -20,6 +20,7 @@ class MainScreen {
     private val adType728x90 = R.id.adtype_banner_728x90
     private val adTypeInterstitial = R.id.adtype_interstitial
     private val adTypeInstream = R.id.adtype_instream
+    private val adTypeAudioInstream = R.id.adtype_audio_instream
     private val adTypeNative = R.id.adtype_native
     private val slotId = R.id.editText
     private val ok = R.string.ok
@@ -35,12 +36,13 @@ class MainScreen {
             Slot.interstitialVideo,
             Slot.interstitialCarousel -> clickOn(adTypeInterstitial)
             Slot.instream -> clickOn(adTypeInstream)
+            Slot.audio_instream -> clickOn(adTypeAudioInstream)
             Slot.nativeAds -> clickOn(adTypeNative)
             else -> { clickOn(adType320x50) }
         }
         writeTo(slotId, slot.toString())
         clickOn(ok)
-        onView(withId(R.id.main_recycler)).perform(scrollToPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(7))
+        onView(withId(R.id.main_recycler)).perform(scrollToPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(8))
 
     }
 

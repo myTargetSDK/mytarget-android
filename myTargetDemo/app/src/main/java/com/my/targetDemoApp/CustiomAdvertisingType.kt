@@ -20,6 +20,7 @@ class CustomAdvertisingType(val adType: AdType, val slotId: Int?,
         NATIVE_AD,
         NATIVE_AD_CONFIGURATIONS,
         NATIVE_BANNER,
-        INSTREAM;
+        INSTREAM,
+        AUDIO_INSTREAM;
     }
 }

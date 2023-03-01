@@ -23,4 +23,5 @@ enum class AdvertisingType(val defaultSlot: Int) {
     NATIVE_BANNER(708247),
 
     INSTREAM(9525),
+    INSTREAM_AUDIO(1208427),
 }

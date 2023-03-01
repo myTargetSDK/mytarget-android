@@ -6,6 +6,7 @@
     <string name="native_ads_configuration">Native Ad configurations</string>
     <string name="native_banner_ads">Native Banner Ads</string>
     <string name="instream_ads">InStream</string>
+    <string name="audio_instream_ads">Audio InStream</string>
 
     <string name="standard_banners_desc">320x50 and 300x250 banners</string>
     <string name="interstitial_ads_desc">Fullscreen banners</string>
@@ -13,6 +14,7 @@
     <string name="native_ads_configuration_desc">Native Ad AdChoices configurations</string>
     <string name="native_banner_ads_desc">Compact advertisement inside app\'s content</string>
     <string name="instream_ads_desc">Advertisement inside video stream</string>
+    <string name="audio_instream_ads_desc">Advertisement audio inStream</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="add_ad_title">Select ad type and enter slot id.</string>
@@ -55,18 +57,21 @@
     <string name="closedelay">CloseDelay</string>
     <string name="allow_close">Allow close</string>
     <string name="has_pause">Has pause</string>
+    <string name="allow_pause">Allow pause</string>
     <string name="player_status">Player status</string>
     <string name="not_loaded">Not loaded</string>
     <string name="skip_banner">skip banner</string>
     <string name="skip_all">skip all</string>
     <string name="cta">cta</string>
     <string name="ad_video_controls">Ad video controls</string>
+    <string name="ad_audio_controls">Ad audio controls</string>
     <string name="play">play</string>
     <string name="pause">pause</string>
     <string name="resume">resume</string>
     <string name="stop">stop</string>
     <string name="preroll">preroll</string>
     <string name="pauseroll">pauseroll</string>
+    <string name="midroll">midroll</string>
     <string name="postroll">postroll</string>
     <string name="rewarded_ads">Rewarded</string>
     <string name="rewarded_ads_desc">Rewarded video banners</string>

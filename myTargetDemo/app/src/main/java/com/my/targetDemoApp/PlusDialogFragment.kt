@@ -55,6 +55,7 @@ class PlusDialogFragment(val onSave: (CustomAdvertisingType) -> Unit) : DialogFr
                         R.id.adtype_native                -> CustomAdvertisingType.AdType.NATIVE_AD
                         R.id.adtype_native_configurations -> CustomAdvertisingType.AdType.NATIVE_AD_CONFIGURATIONS
                         R.id.adtype_native_banner         -> CustomAdvertisingType.AdType.NATIVE_BANNER
+                        R.id.adtype_audio_instream        -> CustomAdvertisingType.AdType.AUDIO_INSTREAM
                         else                              -> CustomAdvertisingType.AdType.STANDARD_320X50
                     }
             val checkedAdType = CustomAdvertisingType(type, slotId, paramsText)
