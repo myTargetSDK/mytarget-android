@@ -21,13 +21,16 @@ import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickBac
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep
 import com.schibsted.spain.barista.rule.BaristaRule
+import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AllureAndroidJUnit4::class)
 class MainTest : TestBase() {
 
     @get:Rule

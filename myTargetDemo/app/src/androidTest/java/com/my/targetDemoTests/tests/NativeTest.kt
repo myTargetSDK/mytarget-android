@@ -17,10 +17,12 @@ import org.junit.Test
 import java.util.concurrent.TimeUnit
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewAssertion
+import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.runner.RunWith
 
-
+@RunWith(AllureAndroidJUnit4::class)
 class NativeTest: TestBase() {
 
     @get:Rule

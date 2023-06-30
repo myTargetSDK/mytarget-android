@@ -29,5 +29,6 @@ object Test{
     const val rules = "1.4.0"
     const val espresso = "3.3.0"
     const val barista = "2.7.0"
+    const val allure = "2.2.6"
 }
 

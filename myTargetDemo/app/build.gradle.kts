@@ -4,10 +4,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdkVersion(33)
     defaultConfig {
         applicationId = "com.my.targetDemoApp"
-        minSdkVersion(16)
+        minSdkVersion(21)
         targetSdkVersion(33)
         val ver = findVersionName()
         versionName = ver
@@ -53,6 +53,11 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:${AndroidX.navigation}")
     implementation("androidx.preference:preference-ktx:${AndroidX.preference}")
     implementation("androidx.multidex:multidex:${AndroidX.multidex}")
+
+    androidTestImplementation("io.qameta.allure:allure-kotlin-model:${Test.allure}")
+    androidTestImplementation("io.qameta.allure:allure-kotlin-commons:${Test.allure}")
+    androidTestImplementation("io.qameta.allure:allure-kotlin-junit4:${Test.allure}")
+    androidTestImplementation("io.qameta.allure:allure-kotlin-android:${Test.allure}")
 
     androidTestImplementation("junit:junit:${Test.junit}")
     androidTestImplementation("androidx.test:core:${Test.core}")

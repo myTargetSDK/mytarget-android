@@ -10,12 +10,14 @@ import com.my.targetDemoApp.activities.InterstitialsActivity
 import com.my.targetDemoTests.helpers.Callback
 import com.my.targetDemoTests.screens.InterstitialScreen
 import com.schibsted.spain.barista.rule.BaristaRule
+import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
-
+@RunWith(AllureAndroidJUnit4::class)
 class InterstitialTest: TestBase() {
 
     @get:Rule

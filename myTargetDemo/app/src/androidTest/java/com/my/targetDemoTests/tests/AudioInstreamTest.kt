@@ -7,12 +7,15 @@ import com.my.targetDemoTests.screens.AudioInstreamScreen
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep
 import com.schibsted.spain.barista.rule.BaristaRule
+import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AllureAndroidJUnit4::class)
 class AudioInstreamTest : TestBase()
 {
 
