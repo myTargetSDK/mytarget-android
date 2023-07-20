@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.my.target.ads.MyTargetView
+import com.my.target.common.models.IAdLoadingError
 import com.my.targetDemoApp.databinding.ActivitySimpleBannerBinding
 
 class SimpleBannerActivity : AppCompatActivity(), MyTargetView.MyTargetViewListener {
@@ -34,8 +35,8 @@ class SimpleBannerActivity : AppCompatActivity(), MyTargetView.MyTargetViewListe
         Log.d(TAG, "onClick() called with: p0 = $p0")
     }
 
-    override fun onNoAd(p0: String, p1: MyTargetView) {
-        Log.d(TAG, "onNoAd() called with: p0 = $p0, p1 = $p1")
+    override fun onNoAd(adLoadingError: IAdLoadingError, myTargetView: MyTargetView) {
+        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, myTargetView = $myTargetView")
         toast("onLoad")
     }
 

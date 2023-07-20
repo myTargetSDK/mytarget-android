@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.my.target.common.menu.Menu
 import com.my.target.common.menu.MenuFactory
+import com.my.target.common.models.IAdLoadingError
 import com.my.target.nativeads.AdChoicesPlacement
 import com.my.target.nativeads.NativeAd
 import com.my.target.nativeads.banners.NativePromoBanner
@@ -121,8 +122,9 @@ class NativeAdConfigurationActivity : AppCompatActivity(), NativeAd.NativeAdList
         ad.registerView(nativeAdView)
     }
 
-    override fun onNoAd(p0: String, ad: NativeAd)
+    override fun onNoAd(adLoadingError: IAdLoadingError, ad: NativeAd)
     {
+        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, ad = $ad")
         hideNative()
     }
 

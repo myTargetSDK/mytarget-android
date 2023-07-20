@@ -2,9 +2,11 @@ package com.my.targetDemoApp.activities
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.google.android.exoplayer2.ExoPlayer
+import com.my.target.common.models.IAdLoadingError
 import com.my.target.instreamads.InstreamAudioAd
 import com.my.targetDemoApp.AdChoicesMenuFactory
 import com.my.targetDemoApp.AdvertisingType
@@ -15,9 +17,9 @@ import com.my.targetDemoApp.player.InstreamAuidoAdPlayerHelper
 class AudioInstreamActivity : AppCompatActivity(),
                               InstreamAudioAd.InstreamAudioAdListener
 {
-
     companion object
     {
+        const val TAG = "AudioInstreamActivity"
         const val KEY_SLOT = "slotId"
         const val KEY_PARAMS = "params"
     }
@@ -176,8 +178,9 @@ class AudioInstreamActivity : AppCompatActivity(),
         loaded = true
     }
 
-    override fun onNoAd(p0: String, p1: InstreamAudioAd)
+    override fun onNoAd(adLoadingError: IAdLoadingError, ad: InstreamAudioAd)
     {
+        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, ad = $ad")
         setStatus(status = "No ad")
     }
 

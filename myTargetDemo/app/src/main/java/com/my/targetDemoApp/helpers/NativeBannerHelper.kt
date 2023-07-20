@@ -1,7 +1,9 @@
 package com.my.targetDemoApp.helpers
 
 import android.content.Context
+import android.util.Log
 import android.view.View
+import com.my.target.common.models.IAdLoadingError
 import com.my.target.nativeads.NativeBannerAd
 import com.my.target.nativeads.banners.NativeBanner
 import com.my.target.nativeads.factories.NativeViewsFactory
@@ -10,6 +12,11 @@ import com.my.targetDemoApp.addParsedString
 
 class NativeBannerHelper(parent: View) : NativeBannerAd.NativeBannerAdListener,
         NativeHelper<NativeBannerAd, NativeBannerAdView>(parent) {
+
+    companion object
+    {
+        const val TAG = "NativeAdHelper"
+    }
 
     override fun loadAds(slot: Int, params: String?) {
         val nativeAd = NativeBannerAd(slot, parent.context)
@@ -45,10 +52,11 @@ class NativeBannerHelper(parent: View) : NativeBannerAd.NativeBannerAdListener,
     override fun onClick(nativeAd: NativeBannerAd) {
     }
 
-    override fun onNoAd(s: String, nativeAd: NativeBannerAd) {
+    override fun onNoAd(adLoadingError: IAdLoadingError, nativeAd: NativeBannerAd) {
+        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, nativeAd = $nativeAd")
         adCalls++
         if (isLoaded()) {
-            callNoAd(s)
+            callNoAd(adLoadingError.message)
         }
     }
 

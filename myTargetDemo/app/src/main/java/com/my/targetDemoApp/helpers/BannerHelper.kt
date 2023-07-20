@@ -1,14 +1,21 @@
 package com.my.targetDemoApp.helpers
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
 import com.my.target.ads.MyTargetView
+import com.my.target.common.models.IAdLoadingError
 import com.my.targetDemoApp.R
 import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.showLoading
 
 class BannerHelper : MyTargetView.MyTargetViewListener {
+
+    companion object
+    {
+        const val TAG = "BannerHelper"
+    }
 
     var bannerView: MyTargetView? = null
 
@@ -27,9 +34,10 @@ class BannerHelper : MyTargetView.MyTargetViewListener {
     override fun onShow(p0: MyTargetView) {
     }
 
-    override fun onNoAd(p0: String, p1: MyTargetView) {
+    override fun onNoAd(adLoadingError: IAdLoadingError, myTargetView: MyTargetView) {
+        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, myTargetView = $myTargetView")
         parent?.let {
-            Snackbar.make(it, String.format(p1.context.getString(R.string.error_msg), p0),
+            Snackbar.make(it, String.format(myTargetView.context.getString(R.string.error_msg), adLoadingError.message),
                     Snackbar.LENGTH_SHORT)
                     .show()
         }

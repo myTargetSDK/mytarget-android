@@ -1,14 +1,21 @@
 package com.my.targetDemoApp.helpers
 
+import android.util.Log
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.my.target.ads.Reward
 import com.my.target.ads.RewardedAd
+import com.my.target.common.models.IAdLoadingError
 import com.my.targetDemoApp.R
 import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.showLoading
 
 class RewardedHelper(val parent: View) : RewardedAd.RewardedAdListener {
+
+    companion object
+    {
+        const val TAG = "RewardedHelper"
+    }
 
     private var rewardedAd: RewardedAd? = null
     private var showImmediatly: Boolean = false
@@ -34,8 +41,9 @@ class RewardedHelper(val parent: View) : RewardedAd.RewardedAdListener {
     override fun onDismiss(rewardedAd: RewardedAd) {
     }
 
-    override fun onNoAd(reason: String, p1: RewardedAd) {
-        val s = String.format(parent.context.getString(R.string.error_msg), reason)
+    override fun onNoAd(adLoadingError: IAdLoadingError, nativeAd: RewardedAd) {
+        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, nativeAd = $nativeAd")
+        val s = String.format(parent.context.getString(R.string.error_msg), adLoadingError.message)
         Snackbar.make(parent, s, Snackbar.LENGTH_SHORT)
                 .show()
     }

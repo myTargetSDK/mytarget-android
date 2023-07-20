@@ -16,6 +16,7 @@ import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.google.android.material.snackbar.Snackbar
+import com.my.target.common.models.IAdLoadingError
 import com.my.target.common.models.ImageData
 import com.my.target.instreamads.InstreamAd
 import com.my.target.instreamads.InstreamAdPlayer
@@ -137,7 +138,8 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         processLoadedAd(ad)
     }
 
-    override fun onNoAd(reason: String, ad: InstreamAd) {
+    override fun onNoAd(adLoadingError: IAdLoadingError, ad: InstreamAd) {
+        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, ad = $ad")
         setStatus(status = "No ad")
     }
 

@@ -1,13 +1,20 @@
 package com.my.targetDemoApp.helpers
 
+import android.util.Log
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.my.target.ads.InterstitialAd
+import com.my.target.common.models.IAdLoadingError
 import com.my.targetDemoApp.R
 import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.showLoading
 
 class InterstitialHelper(val parent: View) : InterstitialAd.InterstitialAdListener {
+
+    companion object
+    {
+        const val TAG = "InterstitialHelper"
+    }
 
     private var interstitialAd: InterstitialAd? = null
     private var showImmediatly: Boolean = false
@@ -33,8 +40,9 @@ class InterstitialHelper(val parent: View) : InterstitialAd.InterstitialAdListen
     override fun onDismiss(interstitialAd: InterstitialAd) {
     }
 
-    override fun onNoAd(reason: String, p1: InterstitialAd) {
-        val s = String.format(parent.context.getString(R.string.error_msg), reason)
+    override fun onNoAd(adLoadingError: IAdLoadingError, ad: InterstitialAd) {
+        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, ad = $ad")
+        val s = String.format(parent.context.getString(R.string.error_msg), adLoadingError.message)
         Snackbar.make(parent, s, Snackbar.LENGTH_SHORT)
                 .show()
     }
