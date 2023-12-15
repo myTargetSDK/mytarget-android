@@ -1,1 +1,1 @@
-const val SDK_VERSION = "5.18.0"
+const val SDK_VERSION = "5.20.0"

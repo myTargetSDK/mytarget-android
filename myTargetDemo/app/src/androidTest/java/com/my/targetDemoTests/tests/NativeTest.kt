@@ -8,9 +8,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import com.facebook.testing.screenshot.Screenshot
 import com.my.targetDemoApp.activities.NativeAdActivity
 import com.my.targetDemoTests.screens.NativeScreen
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
-import com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep
-import com.schibsted.spain.barista.rule.BaristaRule
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.adevinta.android.barista.interaction.BaristaSleepInteractions.sleep
+import com.adevinta.android.barista.rule.BaristaRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

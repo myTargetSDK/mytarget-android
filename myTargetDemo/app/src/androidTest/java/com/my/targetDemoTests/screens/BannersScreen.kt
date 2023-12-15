@@ -2,7 +2,7 @@ package com.my.targetDemoTests.screens
 
 import androidx.test.uiautomator.By
 import com.my.targetDemoApp.R
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 
 class BannersScreen: WebViewScreen() {
     val adView = By.res("ad_view")

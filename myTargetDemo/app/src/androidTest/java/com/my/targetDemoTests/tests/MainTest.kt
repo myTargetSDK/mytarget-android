@@ -16,11 +16,11 @@ import com.my.targetDemoApp.R
 import com.my.targetDemoApp.activities.*
 import com.my.targetDemoTests.helpers.Slot
 import com.my.targetDemoTests.screens.MainScreen
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickBack
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
-import com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep
-import com.schibsted.spain.barista.rule.BaristaRule
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickBack
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
+import com.adevinta.android.barista.interaction.BaristaSleepInteractions.sleep
+import com.adevinta.android.barista.rule.BaristaRule
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue

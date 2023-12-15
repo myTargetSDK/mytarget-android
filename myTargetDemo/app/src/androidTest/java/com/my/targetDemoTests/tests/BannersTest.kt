@@ -4,7 +4,7 @@ import androidx.test.espresso.web.sugar.Web.onWebView
 import com.facebook.testing.screenshot.Screenshot
 import com.my.targetDemoApp.activities.BannersActivity
 import com.my.targetDemoTests.screens.BannersScreen
-import com.schibsted.spain.barista.rule.BaristaRule
+import com.adevinta.android.barista.rule.BaristaRule
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import org.junit.Before
 import org.junit.Rule

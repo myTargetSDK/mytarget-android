@@ -9,7 +9,7 @@ import com.my.target.common.MyTargetActivity
 import com.my.targetDemoApp.activities.InterstitialsActivity
 import com.my.targetDemoTests.helpers.Callback
 import com.my.targetDemoTests.screens.InterstitialScreen
-import com.schibsted.spain.barista.rule.BaristaRule
+import com.adevinta.android.barista.rule.BaristaRule
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import org.junit.After
 import org.junit.Before

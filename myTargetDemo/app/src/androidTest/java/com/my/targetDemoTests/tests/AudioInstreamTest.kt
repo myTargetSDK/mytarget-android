@@ -4,9 +4,9 @@ import com.facebook.testing.screenshot.Screenshot
 import com.my.targetDemoApp.activities.AudioInstreamActivity
 import com.my.targetDemoTests.helpers.Callback
 import com.my.targetDemoTests.screens.AudioInstreamScreen
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
-import com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep
-import com.schibsted.spain.barista.rule.BaristaRule
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
+import com.adevinta.android.barista.interaction.BaristaSleepInteractions.sleep
+import com.adevinta.android.barista.rule.BaristaRule
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

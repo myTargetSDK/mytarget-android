@@ -4,11 +4,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion(33)
+    namespace = "com.my.targetDemoApp"
+
+    compileSdk = AndroidSdk.compile
     defaultConfig {
         applicationId = "com.my.targetDemoApp"
-        minSdkVersion(21)
-        targetSdkVersion(33)
+        minSdk = AndroidSdk.min
+        targetSdk = AndroidSdk.target
         val ver = findVersionName()
         versionName = ver
         versionCode = convertVerToCode(ver)
@@ -16,9 +18,9 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
     }
-    lintOptions {
-        isAbortOnError = true
-        isWarningsAsErrors = true
+    lint {
+        abortOnError = true
+        warningsAsErrors = true
         lintConfig = File("../lint.xml")
     }
     buildTypes {
@@ -31,6 +33,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
     buildFeatures {
         viewBinding = true
@@ -64,12 +69,15 @@ dependencies {
     androidTestImplementation("androidx.test:runner:${Test.runner}")
     androidTestImplementation("androidx.test:rules:${Test.rules}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Test.espresso}")
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:${Test.espresso}")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:${Test.espresso}") {
+        exclude(group = "org.checkerframework", module = "checker")
+    }
     androidTestImplementation("androidx.test.espresso:espresso-intents:${Test.espresso}")
     androidTestImplementation("androidx.test.espresso:espresso-web:${Test.espresso}")
-    androidTestImplementation("com.schibsted.spain:barista:${Test.barista}") {
+    androidTestImplementation("com.adevinta.android:barista:${Test.barista}") {
         exclude(group = "com.android.support")
         exclude(group = "org.jetbrains.kotlin")
+        exclude(group = "org.checkerframework", module = "checker")
     }
 }
 

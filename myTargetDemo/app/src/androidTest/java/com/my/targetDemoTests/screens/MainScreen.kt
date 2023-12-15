@@ -6,8 +6,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.recyclerview.widget.RecyclerView
 import com.my.targetDemoApp.R
 import com.my.targetDemoTests.helpers.Slot
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
-import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
+import com.adevinta.android.barista.interaction.BaristaEditTextInteractions.writeTo
 
 class MainScreen {
     val banners = "Banners"

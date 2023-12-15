@@ -158,6 +158,16 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         processBanner(banner)
     }
 
+    override fun onVideoMotionBannerStart(p0: InstreamAd, p1: InstreamAd.InstreamAdVideoMotionBanner)
+    {
+        //TODO("Not yet implemented")
+    }
+
+    override fun onVideoMotionBannerComplete(p0: InstreamAd, p1: InstreamAd.InstreamAdVideoMotionBanner)
+    {
+        //TODO("Not yet implemented")
+    }
+
     override fun onBannerResume(p0: InstreamAd, p1: InstreamAd.InstreamAdBanner) {
         Log.d(TAG, "onBannerResume")
     }
@@ -194,6 +204,11 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
     override fun onBannerShouldClose()
     {
         instreamAd.skip()
+    }
+
+    override fun onVideoMotionBannerShouldClose(p0: InstreamAd, p1: InstreamAd.InstreamAdVideoMotionBanner)
+    {
+        //TODO("Not yet implemented")
     }
 
     private fun startPreroll() {

@@ -6,7 +6,6 @@ allprojects {
         maven(url = "file://${rootDir}/../repository")
         google()
         mavenCentral()
-        jcenter()
         flatDir { dirs("libs") }
     }
 }
@@ -16,7 +15,6 @@ buildscript {
         maven(url = "file://${rootDir}/../repository")
         google()
         mavenCentral()
-        jcenter()
         flatDir { dirs("libs") }
     }
     dependencies {
