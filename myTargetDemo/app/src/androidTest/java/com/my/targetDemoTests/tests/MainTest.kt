@@ -1,5 +1,6 @@
 package com.my.targetDemoTests.tests
 
+import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.GeneralLocation
 import androidx.test.espresso.action.GeneralSwipeAction
@@ -11,16 +12,21 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.VerificationModes.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import com.facebook.testing.screenshot.Screenshot
-import com.my.targetDemoApp.R
-import com.my.targetDemoApp.activities.*
-import com.my.targetDemoTests.helpers.Slot
-import com.my.targetDemoTests.screens.MainScreen
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickBack
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.adevinta.android.barista.interaction.BaristaSleepInteractions.sleep
 import com.adevinta.android.barista.rule.BaristaRule
+import com.karumi.shot.ScreenshotTest
+import com.my.targetDemoApp.R
+import com.my.targetDemoApp.activities.AudioInstreamActivity
+import com.my.targetDemoApp.activities.BannersActivity
+import com.my.targetDemoApp.activities.InstreamActivity
+import com.my.targetDemoApp.activities.InterstitialsActivity
+import com.my.targetDemoApp.activities.MainActivity
+import com.my.targetDemoApp.activities.NativeAdActivity
+import com.my.targetDemoTests.helpers.Slot
+import com.my.targetDemoTests.screens.MainScreen
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -31,7 +37,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AllureAndroidJUnit4::class)
-class MainTest : TestBase() {
+class MainTest : TestBase(), ScreenshotTest
+{
 
     @get:Rule
     var baristaRule = BaristaRule.create(MainActivity::class.java)
@@ -58,24 +65,24 @@ class MainTest : TestBase() {
 
     @Test
     fun test_MainSdkVersion() {
-        val filter = Regex("(SDK Version: [0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{4,5}\\.[0-9]{4,5})")
+        val filter = Regex("(SDK Version: [0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,2})")
+        val filterForCI = Regex("(SDK Version: [0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{5,6})")
         val subtitle = baristaRule.activityTestRule.activity.supportActionBar?.subtitle
-        assertTrue("Subtitle - $subtitle", filter.matches(subtitle!!))
+        assertTrue("Subtitle - $subtitle", filter.matches(subtitle!!) or filterForCI.matches(subtitle))
     }
 
     @Test
     fun test_MainWithCustomUnitSnapshot() {
         mainScreen.addUnit(slot = Slot.nativeAds)
-        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
-                .record()
+        compareScreenshot(baristaRule.activityTestRule.activity.findViewById<View>(R.id.main_recycler))
+
     }
 
     @Test
     fun test_CancelAddingNewUnitSnapshot() {
         clickOn(mainScreen.plus)
         clickOn(mainScreen.cancel)
-        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
-                .record()
+        compareScreenshot(baristaRule.activityTestRule.activity.findViewById<View>(R.id.main_recycler))
     }
 
 // TODO: обновить тест в рамках автоматизации задачи 4060
@@ -96,8 +103,7 @@ class MainTest : TestBase() {
         mainScreen.addUnit(slot = Slot.standard320x50)
         clickOn("Slot ID ${Slot.standard320x50}")
         sleep(1000)
-        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
-                .record()
+        compareScreenshot(baristaRule.activityTestRule.activity.findViewById<View>(R.id.main_recycler))
     }
 
     @Test
@@ -105,8 +111,7 @@ class MainTest : TestBase() {
         mainScreen.addUnit(slot = Slot.nativeAds)
         clickOn("Slot ID ${Slot.nativeAds}")
         sleep(1000)
-        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
-                .record()
+        compareScreenshot(baristaRule.activityTestRule.activity.findViewById<View>(R.id.main_recycler))
     }
 
     @Test
@@ -114,8 +119,7 @@ class MainTest : TestBase() {
         mainScreen.addUnit(slot = Slot.instream)
         clickOn("Slot ID ${Slot.instream}")
         sleep(1000)
-        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
-                .record()
+        compareScreenshot(baristaRule.activityTestRule.activity.findViewById<View>(R.id.main_recycler))
     }
 
     @Test
@@ -262,7 +266,6 @@ class MainTest : TestBase() {
     @Test
     fun test_AddNewUnitWithEmptySlot() {
         mainScreen.addUnitWithoutSlot()
-        Screenshot.snap(baristaRule.activityTestRule.activity.findViewById(R.id.main_recycler))
-                .record()
+        compareScreenshot(baristaRule.activityTestRule.activity.findViewById<View>(R.id.main_recycler)!!)
     }
 }

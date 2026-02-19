@@ -15,6 +15,7 @@ class InterstitialsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityInterstitialsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySimpleWindowInsetsListener()
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

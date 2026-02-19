@@ -1,10 +1,10 @@
 package com.my.targetDemoTests.tests
 
 import androidx.test.espresso.web.sugar.Web.onWebView
-import com.facebook.testing.screenshot.Screenshot
+import com.adevinta.android.barista.rule.BaristaRule
+import com.karumi.shot.ScreenshotTest
 import com.my.targetDemoApp.activities.BannersActivity
 import com.my.targetDemoTests.screens.BannersScreen
-import com.adevinta.android.barista.rule.BaristaRule
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import org.junit.Before
 import org.junit.Rule
@@ -12,8 +12,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AllureAndroidJUnit4::class)
-class BannersTest : TestBase() {
-
+class BannersTest : TestBase(), ScreenshotTest
+{
     private val bannersScreen = BannersScreen()
 
     @get:Rule
@@ -27,8 +27,7 @@ class BannersTest : TestBase() {
 
     @Test
     fun test_BannersMenuSnapshot() {
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity)
-                .record()
+        compareScreenshot(baristaRule.activityTestRule.activity)
     }
 
     @Test

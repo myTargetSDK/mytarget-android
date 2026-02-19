@@ -17,7 +17,7 @@ After you integrate the myTarget SDK, thousands of myTarget customers will becom
    ```groovy
    dependencies {
        //... other dependences
-       implementation 'com.my.target:mytarget-sdk:5.20.0'
+       implementation 'com.my.target:mytarget-sdk:5.45.2'
    }
    ```
 
@@ -27,7 +27,7 @@ Demo-app with examples of integration available in [myTargetDemo folder](https:/
 
 ## Requirements
 
-Android 4.1
+Android 5
 
 [license-svg]: https://img.shields.io/badge/license-LGPL-lightgrey.svg
 [license-link]: https://github.com/myTargetSDK/mytarget-android/blob/master/LICENSE

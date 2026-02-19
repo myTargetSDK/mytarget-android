@@ -7,7 +7,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.my.target.common.CustomParams
 
 fun Snackbar.showLoading(): Snackbar {
-    val contentLay = this.view.findViewById<TextView>(R.id.snackbar_text).parent as ViewGroup
+    val contentLay = this.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).parent as ViewGroup
     val item = ProgressBar(this.view.context)
     contentLay.addView(item, 0)
     this.show()

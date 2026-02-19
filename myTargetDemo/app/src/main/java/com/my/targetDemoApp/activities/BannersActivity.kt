@@ -38,6 +38,7 @@ class BannersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityBannersBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        viewBinding.root.applySimpleWindowInsetsListener()
 
         setSupportActionBar(viewBinding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -160,7 +161,7 @@ class BannersActivity : AppCompatActivity() {
         bannersAdapter.notifyItemChanged(bannersAdapter.adPosition)
     }
 
-    inner class BannersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private class BannersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val adPosition = 3
 
         var adViewInside: MyTargetView? = null

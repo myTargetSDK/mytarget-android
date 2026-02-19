@@ -66,7 +66,7 @@ class InterstitialScreen : WebViewScreen() {
 
     private fun loadAndShow() {
         clickOn(loadBtn)
-        sleep(1000)
+        sleep(1500)
         clickOn(showActivityBtn)
     }
 }

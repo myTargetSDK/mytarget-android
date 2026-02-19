@@ -18,8 +18,8 @@ if [[ -z ${VERSION} ]]; then
 fi
 
 ./gradlew :app:clean
-./gradlew :app:assembleRelease --stacktrace -Psdkversion=${VERSION}
 
+./gradlew :app:assembleRelease --stacktrace -Psdkversion=${VERSION}
 if [[ "$?" != "0" ]]; then
   echo ":::::::::::::::::: BUILD FAILED ::::::::::::::::::"
   exit 1

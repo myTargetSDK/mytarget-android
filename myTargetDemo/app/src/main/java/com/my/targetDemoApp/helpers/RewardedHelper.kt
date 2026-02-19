@@ -10,7 +10,7 @@ import com.my.targetDemoApp.R
 import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.showLoading
 
-class RewardedHelper(val parent: View) : RewardedAd.RewardedAdListener {
+class RewardedHelper(val parent: View) {
 
     companion object
     {
@@ -21,36 +21,45 @@ class RewardedHelper(val parent: View) : RewardedAd.RewardedAdListener {
     private var showImmediatly: Boolean = false
     private var bar: Snackbar? = null
 
-    override fun onLoad(rewardedAd: RewardedAd) {
-        if (showImmediatly) {
-            bar?.dismiss()
-            rewardedAd.show()
-        }
-        else {
-            Snackbar.make(parent, "RewardedAd is loaded", Snackbar.LENGTH_SHORT)
+    private val demoRewardedAdListener = object : RewardedAd.RewardedAdListener {
+        override fun onLoad(rewardedAd: RewardedAd) {
+            if (showImmediatly) {
+                bar?.dismiss()
+                rewardedAd.show()
+            } else {
+                Snackbar.make(parent, "RewardedAd is loaded", Snackbar.LENGTH_SHORT)
                     .show()
+            }
         }
-    }
 
-    override fun onClick(rewardedAd: RewardedAd) {
-    }
+        override fun onClick(rewardedAd: RewardedAd) {
+            Log.d(TAG, "onClick")
+        }
 
-    override fun onDisplay(rewardedAd: RewardedAd) {
-    }
+        override fun onFailedToShow(rewardedAd: RewardedAd) {
+            Log.d(TAG, "onFailedToShow")
+        }
 
-    override fun onDismiss(rewardedAd: RewardedAd) {
-    }
+        override fun onDisplay(rewardedAd: RewardedAd) {
+            Log.d(TAG, "onDisplay")
+        }
 
-    override fun onNoAd(adLoadingError: IAdLoadingError, nativeAd: RewardedAd) {
-        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, nativeAd = $nativeAd")
-        val s = String.format(parent.context.getString(R.string.error_msg), adLoadingError.message)
-        Snackbar.make(parent, s, Snackbar.LENGTH_SHORT)
+        override fun onDismiss(rewardedAd: RewardedAd) {
+            Log.d(TAG, "onDismiss")
+        }
+
+        override fun onNoAd(adLoadingError: IAdLoadingError, rewardedAd: RewardedAd) {
+            Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, rewardedAd = $rewardedAd")
+            val s = String.format(parent.context.getString(R.string.error_msg), adLoadingError.message)
+            Snackbar.make(parent, s, Snackbar.LENGTH_SHORT)
                 .show()
-    }
+        }
 
-    override fun onReward(p0: Reward, p1: RewardedAd) {
-        Snackbar.make(parent, "Got ${p0.type} reward", Snackbar.LENGTH_SHORT)
+        override fun onReward(reward: Reward, rewardedAd: RewardedAd) {
+            Log.d(TAG, "onReward")
+            Snackbar.make(parent, "Got ${reward.type} reward", Snackbar.LENGTH_SHORT)
                 .show()
+        }
     }
 
     fun destroy() {
@@ -62,7 +71,7 @@ class RewardedHelper(val parent: View) : RewardedAd.RewardedAdListener {
         this.showImmediatly = showImmediatly
         rewardedAd = RewardedAd(slot, parent.context)
         rewardedAd?.let {
-            it.listener = this
+            it.listener = demoRewardedAdListener
             it.customParams.addParsedString(params)
             it.load()
         }

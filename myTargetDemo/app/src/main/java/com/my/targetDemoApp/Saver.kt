@@ -37,7 +37,7 @@ class Saver(context: Context) {
                 .apply()
     }
 
-    fun restore(): Collection<CustomAdvertisingType>? {
+    fun restore(): Collection<CustomAdvertisingType> {
         val types = ArrayList<CustomAdvertisingType>()
 
         val prefs = preferences.getString(TAG, DEFAULT) ?: DEFAULT

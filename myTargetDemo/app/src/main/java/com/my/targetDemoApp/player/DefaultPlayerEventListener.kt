@@ -1,11 +1,16 @@
 package com.my.targetDemoApp.player
 
-import com.google.android.exoplayer2.Player
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 
 interface DefaultPlayerEventListener : Player.Listener {
+    @UnstableApi
+    @Deprecated("Deprecated in Java")
     override fun onLoadingChanged(isLoading: Boolean) {
     }
 
+    @UnstableApi
+    @Deprecated("Deprecated in Java")
     override fun onPositionDiscontinuity(reason: Int) {
     }
 
@@ -15,6 +20,8 @@ interface DefaultPlayerEventListener : Player.Listener {
     override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
     }
 
+    @UnstableApi
+    @Deprecated("Deprecated in Java")
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
     }
 }

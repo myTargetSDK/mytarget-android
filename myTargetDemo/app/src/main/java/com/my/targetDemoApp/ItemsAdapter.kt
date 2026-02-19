@@ -1,5 +1,6 @@
 package com.my.targetDemoApp
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,7 @@ class ItemsAdapter(private val onDelete: (Int) -> Unit) :
         holder.containerViewBinding.root.setOnClickListener(null)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setItems(types: ArrayList<ListItem>) {
         adItems = types
         notifyDataSetChanged()

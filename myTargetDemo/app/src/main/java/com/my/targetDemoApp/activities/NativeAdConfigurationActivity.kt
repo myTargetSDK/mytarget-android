@@ -17,7 +17,7 @@ import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.databinding.ActivityNativeConfigurationBinding
 import com.my.targetDemoApp.helpers.AdChoicesMenuFactory
 
-class NativeAdConfigurationActivity : AppCompatActivity(), NativeAd.NativeAdListener,
+class NativeAdConfigurationActivity : AppCompatActivity(),
                                       NativeAd.NativeAdChoicesOptionListener, MenuFactory
 {
     private lateinit var binding: ActivityNativeConfigurationBinding
@@ -26,11 +26,100 @@ class NativeAdConfigurationActivity : AppCompatActivity(), NativeAd.NativeAdList
     var params: String? = null
     var nativeAdSlot = -1
 
+    val demoNativeAdListener = object : NativeAd.NativeAdListener {
+        override fun onLoad(banner: NativePromoBanner, ad: NativeAd)
+        {
+            val nativeAdView = NativeViewsFactory.getNativeAdView(this@NativeAdConfigurationActivity)
+            nativeAdView.setupView(ad.banner)
+
+            binding.apply {
+                llStatus.visibility = View.GONE
+                nativeRootContainer.visibility = View.VISIBLE
+                nativeContainer.addView(nativeAdView)
+                ibAdhcoicesIcon.setImageBitmap(ad.banner?.adChoicesIcon?.bitmap)
+            }
+
+            ad.registerView(nativeAdView)
+        }
+
+        override fun onNoAd(adLoadingError: IAdLoadingError, ad: NativeAd) {
+            Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, ad = $ad")
+            hideNative()
+        }
+
+        @Deprecated("Deprecated in SDK")
+        override fun onClick(ad: NativeAd) {
+        }
+
+        override fun onClick(clickedView: View?, ad: NativeAd) {
+            Log.d(TAG, "onClick")
+        }
+
+        override fun onShow(ad: NativeAd) {
+            Log.d(TAG, "onShow")
+        }
+
+        @Deprecated("Deprecated in myTarget SDK")
+        override fun onVideoPlay(ad: NativeAd) {
+            // Use NativeAd.NativeAdVideoListener, see below
+        }
+
+        @Deprecated("Deprecated in myTarget SDK")
+        override fun onVideoPause(ad: NativeAd) {
+            // Use NativeAd.NativeAdVideoListener, see below
+        }
+
+        @Deprecated("Deprecated in myTarget SDK")
+        override fun onVideoComplete(ad: NativeAd) {
+            // Use NativeAd.NativeAdVideoListener, see below
+        }
+    }
+
+    val demoNativeAdVideoListener = object : NativeAd.NativeAdVideoListener {
+        override fun onVideoStart(ad: NativeAd) {
+            Log.d(TAG, "demoNativeAdVideoListener")
+        }
+
+        override fun onVideoPause(ad: NativeAd) {
+            Log.d(TAG, "onVideoPause")
+        }
+
+        override fun onVideoResume(ad: NativeAd) {
+            Log.d(TAG, "onVideoResume")
+        }
+
+        override fun onVideoComplete(ad: NativeAd) {
+            Log.d(TAG, "onVideoComplete")
+        }
+
+        override fun onVideoReplay(ad: NativeAd) {
+            Log.d(TAG, "onVideoReplay")
+        }
+
+        override fun onVideoProgress(
+            position: Float, // seconds
+            actualDuration: Float, // seconds
+            ad: NativeAd
+        ) {
+            Log.d(TAG, "onVideoProgress, position=$position s, actualDuration=$actualDuration s")
+        }
+
+        override fun onVideoError(message: String, ad: NativeAd) {
+            Log.d(TAG, "onVideoError, message=$message")
+        }
+
+        override fun onVideoVolumeChanged(volume: Float, ad: NativeAd)
+        {
+            Log.d(TAG, "onVideoVolumeChanged, volume=$volume")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         binding = ActivityNativeConfigurationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySimpleWindowInsetsListener()
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -70,6 +159,9 @@ class NativeAdConfigurationActivity : AppCompatActivity(), NativeAd.NativeAdList
 
     private fun closeOverlay()
     {
+        // We must unregister ad view
+        nativeAd?.unregisterView()
+
         binding.nativeContainer.removeAllViews()
         binding.nativeRootContainer.visibility = View.GONE
         binding.llStatus.visibility = View.GONE
@@ -91,7 +183,9 @@ class NativeAdConfigurationActivity : AppCompatActivity(), NativeAd.NativeAdList
             )
 
             nativeAd?.apply {
-                listener = this@NativeAdConfigurationActivity
+                listener = demoNativeAdListener // required listener
+                nativeAdVideoListener =  demoNativeAdVideoListener // optional listener
+
                 adChoicesOptionListener = if (rbtDontUseOptionsListener.isChecked) null else this@NativeAdConfigurationActivity
                 adChoicesPlacement = if (usingCustomAdChoicesView) AdChoicesPlacement.DRAWING_MANUAL else AdChoicesPlacement.TOP_RIGHT
                 customParams.addParsedString(params)
@@ -107,52 +201,6 @@ class NativeAdConfigurationActivity : AppCompatActivity(), NativeAd.NativeAdList
         binding.llStatus.visibility = View.GONE
     }
 
-    override fun onLoad(banner: NativePromoBanner, ad: NativeAd)
-    {
-        val nativeAdView = NativeViewsFactory.getNativeAdView(this)
-        nativeAdView.setupView(ad.banner)
-
-        binding.apply {
-            llStatus.visibility = View.GONE
-            nativeRootContainer.visibility = View.VISIBLE
-            nativeContainer.addView(nativeAdView)
-            ibAdhcoicesIcon.setImageBitmap(ad.banner?.adChoicesIcon?.bitmap)
-        }
-
-        ad.registerView(nativeAdView)
-    }
-
-    override fun onNoAd(adLoadingError: IAdLoadingError, ad: NativeAd)
-    {
-        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, ad = $ad")
-        hideNative()
-    }
-
-    override fun onClick(ad: NativeAd)
-    {
-
-    }
-
-    override fun onShow(ad: NativeAd)
-    {
-
-    }
-
-    override fun onVideoPlay(ad: NativeAd)
-    {
-
-    }
-
-    override fun onVideoPause(ad: NativeAd)
-    {
-
-    }
-
-    override fun onVideoComplete(ad: NativeAd)
-    {
-
-    }
-
     override fun createMenu(): Menu
     {
         return AdChoicesMenuFactory()
@@ -160,6 +208,7 @@ class NativeAdConfigurationActivity : AppCompatActivity(), NativeAd.NativeAdList
 
     override fun onDestroy()
     {
+        // We must unregister ad view
         nativeAd?.unregisterView()
         super.onDestroy()
     }

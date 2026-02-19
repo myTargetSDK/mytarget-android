@@ -10,7 +10,7 @@ class NativeScreen {
     private val rbtCards = R.id.rbt_cards
     private val rbtStatic = R.id.rbt_none
     private val showBtn = R.id.btn_gonative
-    val banner = R.id.nativeads_ad_view
+    val banner = R.id.native_container
 
     fun showContentStreamStatic() {
         BaristaClickInteractions.clickOn(rbtStatic)

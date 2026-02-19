@@ -6,7 +6,7 @@ class CustomAdvertisingType(val adType: AdType, val slotId: Int?,
                             val params: String? = null) {
     var name = "Custom ${
         adType.toString()
-                .toLowerCase(Locale.getDefault())
+                .lowercase(Locale.getDefault())
                 .replace("_", " ")
     }"
 

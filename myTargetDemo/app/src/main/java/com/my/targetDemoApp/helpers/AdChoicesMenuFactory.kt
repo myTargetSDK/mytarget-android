@@ -11,6 +11,7 @@ class AdChoicesMenuFactory : Menu
     private var listener: Menu.Listener? = null
     private var actions = ArrayList<MenuAction>()
     private var dialog: AlertDialog? = null
+    private var aboutCompanyInfo: String? = null
 
     override fun setListener(listener: Menu.Listener?)
     {
@@ -20,6 +21,11 @@ class AdChoicesMenuFactory : Menu
     override fun addAction(action: MenuAction)
     {
         actions.add(action)
+    }
+
+    override fun addAboutCompanyInfo(aboutCompanyInfo: String)
+    {
+        this.aboutCompanyInfo = aboutCompanyInfo
     }
 
     override fun present(context: Context)

@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySimpleWindowInsetsListener()
         setSupportActionBar(binding.toolbar)
         supportActionBar?.subtitle = "SDK Version: ${MyTargetVersion.VERSION}"
         saver = Saver(this)

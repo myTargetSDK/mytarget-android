@@ -7,14 +7,15 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.ui.DefaultTimeBar
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.common.util.Util
+import androidx.media3.datasource.DefaultDataSourceFactory
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.ui.DefaultTimeBar
 import com.google.android.material.snackbar.Snackbar
 import com.my.target.common.models.IAdLoadingError
 import com.my.target.common.models.ImageData
@@ -49,13 +50,15 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
 
     private lateinit var viewBinding: ActivityNormalInstreamBinding
     private lateinit var instreamAd: InstreamAd
-    private lateinit var exoPlayer: SimpleExoPlayer
+    private lateinit var exoPlayer: ExoPlayer
     private lateinit var mediaSource: MediaSource
 
+    @UnstableApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityNormalInstreamBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        viewBinding.root.applySimpleWindowInsetsListener()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         slotId = intent.getIntExtra(KEY_SLOT, AdvertisingType.INSTREAM.defaultSlot)
@@ -75,8 +78,9 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         instreamAd.listener = this
     }
 
+    @UnstableApi
     private fun initPlayer() {
-        exoPlayer = SimpleExoPlayer.Builder(this)
+        exoPlayer = ExoPlayer.Builder(this)
             .build()
         mediaSource = ProgressiveMediaSource.Factory(
             DefaultDataSourceFactory(this, Util.getUserAgent(this, "myTarget"))
@@ -109,6 +113,8 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         viewBinding.btnCta.setOnClickListener { instreamAd.handleClick() }
     }
 
+    @UnstableApi
+    @Deprecated("Deprecated in Java")
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         if (playbackState == Player.STATE_READY && playWhenReady) {
             startPreroll()
@@ -133,6 +139,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         }
     }
 
+    @UnstableApi
     override fun onLoad(ad: InstreamAd) {
         setStatus(status = "Ad is loaded")
         processLoadedAd(ad)
@@ -147,6 +154,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         setStatus(status = "Error $reason")
     }
 
+    @UnstableApi
     override fun onBannerStart(ad: InstreamAd, banner: InstreamAd.InstreamAdBanner) {
         viewBinding.exoplayerView.hideController()
         viewBinding.exoplayerView.useController = false
@@ -158,14 +166,16 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         processBanner(banner)
     }
 
-    override fun onVideoMotionBannerStart(p0: InstreamAd, p1: InstreamAd.InstreamAdVideoMotionBanner)
-    {
-        //TODO("Not yet implemented")
+    override fun onPostViewStart() {
+        Log.d(TAG, "onPostViewStart")
     }
 
-    override fun onVideoMotionBannerComplete(p0: InstreamAd, p1: InstreamAd.InstreamAdVideoMotionBanner)
-    {
-        //TODO("Not yet implemented")
+    override fun onVideoMotionBannerStart(p0: InstreamAd, p1: InstreamAd.InstreamAdVideoMotionBanner) {
+        Log.d(TAG, "onVideoMotionBannerStart")
+    }
+
+    override fun onVideoMotionBannerComplete(p0: InstreamAd, p1: InstreamAd.InstreamAdVideoMotionBanner) {
+        Log.d(TAG, "onVideoMotionBannerComplete")
     }
 
     override fun onBannerResume(p0: InstreamAd, p1: InstreamAd.InstreamAdBanner) {
@@ -182,6 +192,10 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         setStatus(status = "Banner finished")
         processBanner()
         showSkipButton(false)
+    }
+
+    override fun onPostViewComplete() {
+        Log.d(TAG, "onPostViewComplete")
     }
 
     override fun onBannerTimeLeftChange(timeLeft: Float, duration: Float, ad: InstreamAd) {
@@ -206,9 +220,8 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         instreamAd.skip()
     }
 
-    override fun onVideoMotionBannerShouldClose(p0: InstreamAd, p1: InstreamAd.InstreamAdVideoMotionBanner)
-    {
-        //TODO("Not yet implemented")
+    override fun onVideoMotionBannerShouldClose(p0: InstreamAd, p1: InstreamAd.InstreamAdVideoMotionBanner) {
+        Log.d(TAG, "onVideoMotionBannerShouldClose")
     }
 
     private fun startPreroll() {
@@ -276,6 +289,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         return true
     }
 
+    @UnstableApi
     private fun processLoadedAd(ad: InstreamAd) {
         loaded = true
         viewBinding.tvFullscreenContent.text = boolTextValue(ad.isFullscreen)
@@ -302,7 +316,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         viewBinding.tvPositionContent.text = getString(R.string.n_a)
         viewBinding.btnPause.isEnabled = banner?.allowPause ?: true
         viewBinding.btnResume.isEnabled = banner?.allowPause ?: true
-        showCtaButton(banner?.ctaText)
+        showCtaButton(banner?.callToActionData?.buttonText)
         showAdChoices(banner?.adChoicesIcon, banner?.advertisingLabel)
     }
 
@@ -325,6 +339,7 @@ class InstreamActivity : AppCompatActivity(), DefaultPlayerEventListener,
         }
     }
 
+    @UnstableApi
     private fun processMidPoints() {
         val adGroupTimesMs = instreamAd.midPoints.map { (it * 1000).toLong() }
             .toLongArray()

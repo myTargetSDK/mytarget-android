@@ -25,6 +25,7 @@ class NativeBannerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNativeBannersBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySimpleWindowInsetsListener()
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

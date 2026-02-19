@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
+import androidx.collection.forEach
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.my.target.nativeads.INativeAd
+import com.my.target.nativeads.IAd
 import com.my.targetDemoApp.R
 import com.my.targetDemoApp.showLoading
 
-abstract class NativeHelper<N : INativeAd, V : View>(val parent: View) {
+abstract class NativeHelper<N : IAd, V : ViewGroup>(val parent: View) {
 
     val nativeList = SparseArrayCompat<N>()
     var adCalls: Int = 0
@@ -34,7 +35,7 @@ abstract class NativeHelper<N : INativeAd, V : View>(val parent: View) {
 
     abstract fun setupView(ad: N, adView: V)
 
-    abstract fun registerView(ad: N, adView: View)
+    abstract fun registerView(ad: N, adView: V)
 
     abstract fun unRegisterView(ad: N?)
 
@@ -46,6 +47,12 @@ abstract class NativeHelper<N : INativeAd, V : View>(val parent: View) {
         recyclerView.adapter = nativeAdapter
         recyclerView.addOnScrollListener(ScrollListener(layoutManager) { loadMore() })
         return recyclerView
+    }
+
+    fun unregisterAllAdViews() {
+        nativeList.forEach { _, value ->
+            value.unregisterView()
+        }
     }
 
     private fun loadMore() {
@@ -104,7 +111,7 @@ abstract class NativeHelper<N : INativeAd, V : View>(val parent: View) {
 
     abstract class NativeViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    class NativeAdViewHolder<V : View>(var adView: V) : NativeViewHolder(adView)
+    class NativeAdViewHolder<V : ViewGroup>(val adViewGroup: V) : NativeViewHolder(adViewGroup)
 
     class NativeDummyHolder(var view: View) : NativeViewHolder(view)
 
@@ -158,18 +165,20 @@ abstract class NativeHelper<N : INativeAd, V : View>(val parent: View) {
         override fun onBindViewHolder(holder: NativeViewHolder, position: Int) {
             val ad = nativeList[position] ?: return
             if (holder is NativeAdViewHolder<*>) {
-                setupView(ad, holder.adView as V)
-                registerView(ad, holder.adView)
+                @Suppress("UNCHECKED_CAST")
+                setupView(ad, holder.adViewGroup as V)
+
+                registerView(ad, holder.adViewGroup)
             }
         }
 
         override fun onViewRecycled(holder: NativeViewHolder) {
             super.onViewRecycled(holder)
-            unRegisterView(nativeList.get(holder.adapterPosition))
+            unRegisterView(nativeList.get(holder.bindingAdapterPosition))
         }
 
         override fun onFailedToRecycleView(holder: NativeViewHolder): Boolean {
-            unRegisterView(nativeList.get(holder.adapterPosition))
+            unRegisterView(nativeList.get(holder.bindingAdapterPosition))
             return super.onFailedToRecycleView(holder)
         }
     }

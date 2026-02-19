@@ -2,17 +2,20 @@ package com.my.targetDemoApp.player
 
 import android.content.Context
 import android.net.Uri
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.PlaybackException
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
+import androidx.annotation.OptIn
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.common.util.Util
+import androidx.media3.datasource.DefaultDataSourceFactory
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
 
 import com.my.target.instreamads.InstreamAudioAdPlayer
 
-class InstreamAuidoAdPlayerHelper(private val currentExoplayer: ExoPlayer, val context: Context) : InstreamAudioAdPlayer, DefaultPlayerEventListener
+@OptIn(UnstableApi::class)
+class InstreamAudioAdPlayerHelper(private val currentExoplayer: ExoPlayer, val context: Context) : InstreamAudioAdPlayer, DefaultPlayerEventListener
 {
 
     private var playerListener: InstreamAudioAdPlayer.AdPlayerListener? = null
@@ -29,6 +32,7 @@ class InstreamAuidoAdPlayerHelper(private val currentExoplayer: ExoPlayer, val c
         stopAdAudio()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int)
     {
 
@@ -113,14 +117,16 @@ class InstreamAuidoAdPlayerHelper(private val currentExoplayer: ExoPlayer, val c
 
     override fun setAdPlayerListener(adPlayerListener: InstreamAudioAdPlayer.AdPlayerListener?)
     {
-        this.playerListener = adPlayerListener;
+        this.playerListener = adPlayerListener
     }
 
+    @UnstableApi
     override fun playAdAudio(uri: Uri)
     {
         setAudioSource(uri, true)
     }
 
+    @UnstableApi
     fun setAudioSource(uri: Uri, playWhenReady: Boolean)
     {
         val mediaSource = ProgressiveMediaSource.Factory(

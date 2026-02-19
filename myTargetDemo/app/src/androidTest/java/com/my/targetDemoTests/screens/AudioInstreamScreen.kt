@@ -7,7 +7,7 @@ class AudioInstreamScreen {
      val resumeBtn = R.id.btn_resume
      val stopBtn = R.id.btn_stop
      val loadBtn = R.id.btn_load
-     val play = R.id.exo_play
+     val play = androidx.media3.ui.R.id.exo_play_pause
      val preRollBtn = R.id.btn_start_preroll
-     val video = R.id.video_frame
+     val video = R.id.exoplayer_view
 }

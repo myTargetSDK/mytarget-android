@@ -11,16 +11,20 @@ import com.my.targetDemoApp.AdvertisingType
 import com.my.targetDemoApp.R
 import com.my.targetDemoApp.databinding.ActivityNativesBinding
 import com.my.targetDemoApp.helpers.NativeAdHelper
+import androidx.core.view.isNotEmpty
+import androidx.recyclerview.widget.RecyclerView
 
 class NativeAdActivity : AppCompatActivity() {
 
     private var customBannerShowing: Boolean = false
     private lateinit var binding: ActivityNativesBinding
     private lateinit var nativeAdHelper: NativeAdHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNativesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySimpleWindowInsetsListener()
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -35,7 +39,9 @@ class NativeAdActivity : AppCompatActivity() {
             loadAndShow(customSlot, intent.getStringExtra(KEY_PARAMS))
         }
 
-        binding.btnGonative.setOnClickListener { loadAndShow(getAdType().defaultSlot, null) }
+        binding.btnGonative.setOnClickListener {
+            loadAndShow(getAdType().defaultSlot, null)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -78,6 +84,14 @@ class NativeAdActivity : AppCompatActivity() {
             finish()
         }
         else {
+            binding.nativeContainer.apply {
+                if (isNotEmpty()) {
+                    (getChildAt(0) as? RecyclerView)?.let {
+                        // We must unregister all ad views
+                        nativeAdHelper.unregisterAllAdViews()
+                    }
+                }
+            }
             binding.nativeContainer.removeAllViews()
             binding.nativeContainer.visibility = View.GONE
             binding.llStatus.visibility = View.GONE
@@ -97,14 +111,22 @@ class NativeAdActivity : AppCompatActivity() {
         binding.llStatus.visibility = View.VISIBLE
         binding.progressBar.visibility = View.VISIBLE
         binding.tvStatus.text = getString(R.string.loading)
-        nativeAdHelper.load(customSlot, params, binding.nativesRoot, { showNativeAd() }, {
-            hideNative()
-            binding.nativeContainer.visibility = View.VISIBLE
-            binding.llStatus.visibility = View.VISIBLE
-            binding.progressBar.visibility = View.GONE
-            val s = String.format(getString(R.string.error_msg), it)
-            binding.tvStatus.text = s
-        })
+        nativeAdHelper.load(
+            customSlot,
+            params,
+            view = binding.nativesRoot,
+            afterLoad = {
+                showNativeAd()
+            },
+            afterNoAd = {
+                hideNative()
+                binding.nativeContainer.visibility = View.VISIBLE
+                binding.llStatus.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+                val s = String.format(getString(R.string.error_msg), it)
+                binding.tvStatus.text = s
+            }
+        )
     }
 
     private fun hideNative() {

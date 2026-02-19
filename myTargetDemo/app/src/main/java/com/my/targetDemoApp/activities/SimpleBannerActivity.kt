@@ -19,9 +19,10 @@ class SimpleBannerActivity : AppCompatActivity(), MyTargetView.MyTargetViewListe
         super.onCreate(savedInstanceState)
         viewBinding = ActivitySimpleBannerBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        viewBinding.root.applySimpleWindowInsetsListener()
         setSupportActionBar(viewBinding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
         viewBinding.targetView.listener = this
         viewBinding.targetView.load()
     }

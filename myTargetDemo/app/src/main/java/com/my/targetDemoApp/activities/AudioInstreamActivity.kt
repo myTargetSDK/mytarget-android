@@ -5,14 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.google.android.exoplayer2.ExoPlayer
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
 import com.my.target.common.models.IAdLoadingError
 import com.my.target.instreamads.InstreamAudioAd
 import com.my.targetDemoApp.AdChoicesMenuFactory
 import com.my.targetDemoApp.AdvertisingType
 import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.databinding.ActivityAudioInstreamBinding
-import com.my.targetDemoApp.player.InstreamAuidoAdPlayerHelper
+import com.my.targetDemoApp.player.InstreamAudioAdPlayerHelper
 
 class AudioInstreamActivity : AppCompatActivity(),
                               InstreamAudioAd.InstreamAudioAdListener
@@ -34,17 +35,19 @@ class AudioInstreamActivity : AppCompatActivity(),
 
     private lateinit var viewBinding: ActivityAudioInstreamBinding
     private lateinit var instreamAd: InstreamAudioAd
-    private lateinit var instreamAudioAdPlayerHelper: InstreamAuidoAdPlayerHelper
+    private lateinit var instreamAudioAdPlayerHelper: InstreamAudioAdPlayerHelper
     private lateinit var exoPlayer: ExoPlayer
     private var currentAudioPosition: Long = 0
 
     private val audioUri = Uri.parse("https://r.mradx.net/img/E5/E8EF84.mp3")
 
+    @UnstableApi
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityAudioInstreamBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        viewBinding.root.applySimpleWindowInsetsListener()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         slotId = intent.getIntExtra(KEY_SLOT, AdvertisingType.INSTREAM_AUDIO.defaultSlot)
@@ -84,11 +87,12 @@ class AudioInstreamActivity : AppCompatActivity(),
         }
     }
 
+    @UnstableApi
     private fun initPlayer()
     {
         exoPlayer = ExoPlayer.Builder(this).build()
         exoPlayer.playWhenReady = false
-        instreamAudioAdPlayerHelper = InstreamAuidoAdPlayerHelper(exoPlayer, this)
+        instreamAudioAdPlayerHelper = InstreamAudioAdPlayerHelper(exoPlayer, this)
         instreamAudioAdPlayerHelper.setAudioSource(audioUri, false)
 
         viewBinding.exoplayerView.apply {
@@ -213,6 +217,7 @@ class AudioInstreamActivity : AppCompatActivity(),
         }
     }
 
+    @UnstableApi
     override fun onBannerComplete(ad: InstreamAudioAd, instreamAdBanner: InstreamAudioAd.InstreamAudioAdBanner)
     {
         setStatus(status = "onBannerComplete")
@@ -232,6 +237,7 @@ class AudioInstreamActivity : AppCompatActivity(),
         viewBinding.tvPositionContent.text = (duration - timeLeft).toString()
     }
 
+    @UnstableApi
     override fun onComplete(p0: String, p1: InstreamAudioAd)
     {
         setStatus(status = "onComplete")

@@ -3,27 +3,29 @@ package com.my.targetDemoTests.tests
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
-import com.facebook.testing.screenshot.Screenshot
-import com.my.targetDemoApp.activities.NativeAdActivity
-import com.my.targetDemoTests.screens.NativeScreen
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.interaction.BaristaSleepInteractions.sleep
 import com.adevinta.android.barista.rule.BaristaRule
+import com.karumi.shot.ScreenshotTest
+import com.my.targetDemoApp.activities.NativeAdActivity
+import com.my.targetDemoTests.screens.NativeScreen
+import io.qameta.allure.android.runners.AllureAndroidJUnit4
+import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.concurrent.TimeUnit
-import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.ViewAssertion
-import io.qameta.allure.android.runners.AllureAndroidJUnit4
-import org.hamcrest.CoreMatchers.*
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.runner.RunWith
+import java.util.concurrent.TimeUnit
 
 @RunWith(AllureAndroidJUnit4::class)
-class NativeTest: TestBase() {
+class NativeTest : TestBase(), ScreenshotTest
+{
 
     @get:Rule
     var baristaRule = BaristaRule.create(NativeAdActivity::class.java)
@@ -37,7 +39,7 @@ class NativeTest: TestBase() {
 
     @Test
     fun test_NativeMenuSnapshot() {
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity).record()
+        compareScreenshot(baristaRule.activityTestRule.activity)
     }
 
     @Test

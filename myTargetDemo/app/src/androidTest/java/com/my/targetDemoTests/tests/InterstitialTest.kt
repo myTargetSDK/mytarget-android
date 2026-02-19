@@ -4,12 +4,12 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.web.sugar.Web.onWebView
-import com.facebook.testing.screenshot.Screenshot
+import com.adevinta.android.barista.rule.BaristaRule
+import com.karumi.shot.ScreenshotTest
 import com.my.target.common.MyTargetActivity
 import com.my.targetDemoApp.activities.InterstitialsActivity
 import com.my.targetDemoTests.helpers.Callback
 import com.my.targetDemoTests.screens.InterstitialScreen
-import com.adevinta.android.barista.rule.BaristaRule
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import org.junit.After
 import org.junit.Before
@@ -18,7 +18,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AllureAndroidJUnit4::class)
-class InterstitialTest: TestBase() {
+class InterstitialTest : TestBase(), ScreenshotTest
+{
 
     @get:Rule
     var baristaRule = BaristaRule.create(InterstitialsActivity::class.java)
@@ -37,7 +38,7 @@ class InterstitialTest: TestBase() {
 
     @Test
     fun test_InterstitialMenuSnapshot() {
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity).record()
+        compareScreenshot(baristaRule.activityTestRule.activity)
     }
 
     @Test
@@ -101,7 +102,7 @@ class InterstitialTest: TestBase() {
         val interstitialScreen = InterstitialScreen()
         interstitialScreen.showWithoutLoad()
         device.wait(interstitialScreen.adView, timeout = 3000)
-        Screenshot.snapActivity(baristaRule.activityTestRule.activity).record()
+        compareScreenshot(baristaRule.activityTestRule.activity)
     }
 
     @Test

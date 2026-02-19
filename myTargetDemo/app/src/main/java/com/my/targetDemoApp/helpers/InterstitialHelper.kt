@@ -9,7 +9,7 @@ import com.my.targetDemoApp.R
 import com.my.targetDemoApp.addParsedString
 import com.my.targetDemoApp.showLoading
 
-class InterstitialHelper(val parent: View) : InterstitialAd.InterstitialAdListener {
+class InterstitialHelper(val parent: View) {
 
     companion object
     {
@@ -17,48 +17,81 @@ class InterstitialHelper(val parent: View) : InterstitialAd.InterstitialAdListen
     }
 
     private var interstitialAd: InterstitialAd? = null
-    private var showImmediatly: Boolean = false
+    private var showImmediately: Boolean = false
     private var bar: Snackbar? = null
 
-    override fun onLoad(interstitialAd: InterstitialAd) {
-        if (showImmediatly) {
-            bar?.dismiss()
-            interstitialAd.show()
-        }
-        else {
-            Snackbar.make(parent, "InterstitialAd is loaded", Snackbar.LENGTH_SHORT)
+    private val demoInterstitialAdListener2 = object : InterstitialAd.InterstitialAdListener2() {
+        override fun onLoad(interstitialAd: InterstitialAd) {
+            if (showImmediately) {
+                bar?.dismiss()
+                interstitialAd.show()
+            }
+            else {
+                Snackbar.make(parent, "InterstitialAd is loaded", Snackbar.LENGTH_SHORT)
                     .show()
+            }
+        }
+
+        override fun onFailedToShow(interstitialAd: InterstitialAd) {
+            Log.d(TAG, "onFailedToShow()")
+        }
+
+        override fun onDisplay(interstitialAd: InterstitialAd) {
+        }
+
+        override fun onNoAd(adLoadingError: IAdLoadingError, ad: InterstitialAd) {
+            Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, ad = $ad")
+            val s = String.format(parent.context.getString(R.string.error_msg), adLoadingError.message)
+            Snackbar.make(parent, s, Snackbar.LENGTH_SHORT)
+                .show()
+        }
+
+        override fun onClose(ad: InterstitialAd) {
+            Log.d(TAG, "onClose")
         }
     }
 
-    override fun onClick(interstitialAd: InterstitialAd) {
+    val demoInterstitialAdBannerListener = object : InterstitialAd.InterstitialAdBannerListener() {
+        override fun onClick(ad: InterstitialAd, banner: InterstitialAd.BannerInfo?) {
+            Log.d(TAG, "onClick")
+        }
+
+        override fun onImpressionTracked(ad: InterstitialAd, banner: InterstitialAd.BannerInfo?) {
+            Log.d(TAG, "onImpressionTracked")
+        }
+
+        override fun onSkip(ad: InterstitialAd, banner: InterstitialAd.BannerInfo?) {
+            Log.d(TAG, "onSkip")
+        }
     }
 
-    override fun onDisplay(interstitialAd: InterstitialAd) {
-    }
+    val demoInterstitialVideoListener = object : InterstitialAd.InterstitialVideoListener() {
+        override fun onVideoCompleted(ad: InterstitialAd, banner: InterstitialAd.BannerInfo?) {
+            Log.d(TAG, "onVideoCompleted")
+        }
 
-    override fun onDismiss(interstitialAd: InterstitialAd) {
-    }
-
-    override fun onNoAd(adLoadingError: IAdLoadingError, ad: InterstitialAd) {
-        Log.d(TAG, "onNoAd() called with: adLoadingError = $adLoadingError, ad = $ad")
-        val s = String.format(parent.context.getString(R.string.error_msg), adLoadingError.message)
-        Snackbar.make(parent, s, Snackbar.LENGTH_SHORT)
-                .show()
-    }
-
-    override fun onVideoCompleted(interstitialAd: InterstitialAd) {
+        override fun onVideoVolumeChanged(
+            ad: InterstitialAd,
+            banner: InterstitialAd.BannerInfo,
+            volume: Float
+        ) {
+            Log.d(TAG, "onVideoVolumeChanged, volume=$volume")
+        }
     }
 
     fun destroy() {
         interstitialAd?.dismiss()
     }
 
-    fun init(slot: Int, showImmediatly: Boolean = false, params: String?) {
+    fun init(slot: Int, showImmediately: Boolean = false, params: String?) {
         showLoading(parent)
-        this.showImmediatly = showImmediatly
+        this.showImmediately = showImmediately
         interstitialAd = InterstitialAd(slot, parent.context).also {
-            it.listener = this
+            it.listener2 = demoInterstitialAdListener2 // required listener
+
+            it.bannerListener = demoInterstitialAdBannerListener // optional listener
+            it.videoListener = demoInterstitialVideoListener // optional listener
+
             it.customParams.addParsedString(params)
             it.load()
         }

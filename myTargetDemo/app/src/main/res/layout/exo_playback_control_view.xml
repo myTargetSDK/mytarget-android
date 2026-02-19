@@ -58,7 +58,7 @@
             android:textStyle="bold" />
 
         <com.my.targetDemoApp.player.ExoTimeBar
-            android:id="@id/exo_progress"
+            android:id="@+id/exo_progress"
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_weight="1"
