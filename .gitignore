@@ -33,3 +33,6 @@ captures/
 
 # Screenshots
 screenshots/
+
+# macOS specific files
+.DS_Store

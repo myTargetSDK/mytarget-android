@@ -16,7 +16,7 @@ androidx-preference = "1.1.1"
 androidx-recyclerview = "1.2.1"
 com-google-android-gms-playservices-adsIdentifier = "17.1.0"
 com-google-android-material = "1.3.0"
-com-my-target-mytargetSdk = "5.45.2"
+com-my-target-mytargetSdk = "5.45.3"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
