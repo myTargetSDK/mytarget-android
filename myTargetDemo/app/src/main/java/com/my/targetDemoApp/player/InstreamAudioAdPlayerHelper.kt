@@ -11,6 +11,7 @@ import androidx.media3.common.util.Util
 import androidx.media3.datasource.DefaultDataSourceFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import com.my.target.instreamads.InstreamAudioAd
 
 import com.my.target.instreamads.InstreamAudioAdPlayer
 
@@ -120,8 +121,13 @@ class InstreamAudioAdPlayerHelper(private val currentExoplayer: ExoPlayer, val c
         this.playerListener = adPlayerListener
     }
 
-    @UnstableApi
     override fun playAdAudio(uri: Uri)
+    {
+        // deprecated, will never be called
+    }
+
+    @UnstableApi
+    override fun playAdAudio(uri: Uri, instreamAudioAdBanner: InstreamAudioAd.InstreamAudioAdBanner)
     {
         setAudioSource(uri, true)
     }

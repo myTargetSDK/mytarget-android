@@ -1,22 +1,22 @@
 [versions]
 java = "11"
-kotlin = "2.1.0"
+kotlin = "2.2.10"
 #
-android-gradle-plugin = "8.13.2"
+android-gradle-plugin = "9.2.0"
 karumi-plugin = "6.1.0"
-versions-plugin = "0.39.0"
+versions-plugin = "0.57.0"
 #
-androidx-appcompat = "1.6.1"
+androidx-appcompat = "1.7.1"
 androidx-cardview = "1.0.0"
-androidx-constraintLayout = "2.1.1"
-androidx-media3 = "1.2.1"
+androidx-constraintLayout = "2.2.2"
+androidx-media3 = "1.10.1"
 androidx-multidex = "2.0.1"
-androidx-navigation = "2.3.5"
-androidx-preference = "1.1.1"
-androidx-recyclerview = "1.2.1"
-com-google-android-gms-playservices-adsIdentifier = "17.1.0"
-com-google-android-material = "1.3.0"
-com-my-target-mytargetSdk = "5.45.3"
+androidx-navigation = "2.9.8"
+androidx-preference = "1.2.1"
+androidx-recyclerview = "1.4.0"
+com-google-android-gms-playservices-adsIdentifier = "18.3.0"
+com-google-android-material = "1.14.0"
+com-my-target-mytargetSdk = "5.51.2"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -44,7 +44,6 @@ androidx-navigation = ["androidx-navigation-fragmentKtx", "androidx-navigation-u
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 com-github-benManes-versions = { id = "com.github.ben-manes.versions", version.ref = "versions-plugin" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 # Собственные плагины проекта из build-logic
 com-my-target-android-buildTypesPlugin = { id = "com.my.target.android.buildTypesPlugin", version = "unspecified" }

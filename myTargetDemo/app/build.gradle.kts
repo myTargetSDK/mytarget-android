@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.com.android.application)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.com.my.target.android.buildTypesPlugin)
     alias(libs.plugins.com.my.target.android.compilePlugin)
     alias(libs.plugins.com.my.target.android.configPlugin)
