@@ -21,6 +21,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 dependencies {
     compileOnly(libs.buildLogic.android.gradlePlugin)
     compileOnly(libs.buildLogic.kotlin.gradlePlugin)
+    testImplementation(testLibs.junit)
+    testRuntimeOnly(libs.buildLogic.android.gradlePlugin)
 }
 
 // Тут регистрируем собственные плагины из папки build-logic

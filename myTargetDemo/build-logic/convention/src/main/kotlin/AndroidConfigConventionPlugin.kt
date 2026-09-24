@@ -52,7 +52,7 @@ class AndroidConfigConventionPlugin : Plugin<Project>
         code += split[0].toInt() * 1_000_000
         code += split[1].toInt() * 1_000
         // Сделано чтобы сборки с версией d.d.d-alpha собирались
-        split[2].takeWhile { it.isDigit() }.toInt()
+        code += split[2].takeWhile { it.isDigit() }.toInt()
         return code
     }
 }

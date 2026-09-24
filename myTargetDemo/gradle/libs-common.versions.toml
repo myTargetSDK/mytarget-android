@@ -1,5 +1,5 @@
 [versions]
-java = "11"
+java = "17"
 kotlin = "2.2.10"
 #
 android-gradle-plugin = "9.2.0"
@@ -16,7 +16,7 @@ androidx-preference = "1.2.1"
 androidx-recyclerview = "1.4.0"
 com-google-android-gms-playservices-adsIdentifier = "18.3.0"
 com-google-android-material = "1.14.0"
-com-my-target-mytargetSdk = "5.51.2"
+com-my-target-mytargetSdk = "5.52.5"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
